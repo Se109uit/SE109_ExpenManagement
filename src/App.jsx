@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Container, Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
+import { Counter } from './features/counter/counter';
 
 const LanguageSwitcher = () => {
   const { t, i18n } = useTranslation();
@@ -22,6 +23,7 @@ const App = () => {
 
   return (
     <Container>
+      <Counter className = "pb-4"></Counter>
       <LanguageSwitcher />
       <h1>{t('greeting')}</h1>
       <p>{t('description')}</p>
