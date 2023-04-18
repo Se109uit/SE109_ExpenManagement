@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { Container, Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { Counter } from './features/counter/counter';
+import {ggSignIn,fbSignIn} from './features/firebase/firebase'
+
+
 
 const LanguageSwitcher = () => {
   const { t, i18n } = useTranslation();
@@ -12,8 +15,8 @@ const LanguageSwitcher = () => {
 
   return (
     <div>
-      <Button variant="primary" onClick={() => changeLanguage('en')}>{t('english')}</Button>{' '}
-      <Button variant="secondary" onClick={() => changeLanguage('vi')}>{t('vietnamese')}</Button>
+      <Button variant="primary" onClick={() => ggSignIn()}>{t('english')}</Button>{' '}
+      <Button variant="secondary" onClick={() => fbSignIn()}>{t('vietnamese')}</Button>
     </div>
   );
 };
