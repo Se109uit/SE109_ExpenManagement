@@ -31,3 +31,6 @@ export const login = createSlice({
 export const { fb, gg, email, signUp } = login.actions;
 
 export default login.reducer;
+
+
+//test pr
