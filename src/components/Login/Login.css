@@ -1,0 +1,48 @@
+.button-login {
+    background-color: rgb(252, 107, 104);
+    color: #ffffff;
+    height: 38px;
+    border: 2px solid rgb(252, 107, 104);
+    border-radius: 5px;
+    }
+.button-login:hover {
+    background-color: #d76b6b;
+    color: rgb(230, 216, 216);
+    }
+
+.button-login-google{
+    background-color: #ffffff;
+    color: black;
+    height: 40px;
+    width: 210px;
+    border-radius: 5px;
+}
+.button-login-google:hover{
+    background-color: #d2cfcf;
+    border-radius: 5px;
+}
+.button-login-facebook{
+    background-color: #3b5998;
+    color: #ffffff;
+    height: 40px;
+    width: 210px;
+    border-radius: 5px;
+}
+.button-login-facebook:hover{
+    background-color: #3b4f7a;
+    border-radius: 5px;
+}
+.fa-gg{
+    padding-left: 5px;
+}
+
+.background-span {
+    /* background-color: rgba(244, 239, 243, 1); */
+    background-color: #ffffff;
+    font-size: medium;
+    color: gray;
+}
+.some-purple-text{
+    color: rgb(121, 26, 159);
+}
+
