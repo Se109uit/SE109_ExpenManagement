@@ -13,6 +13,8 @@ function Login() {
   const [showPassword, setShowPassword] = useState(false);
   // const history = useHistory();
 
+  console.log('Hello from ci/cd') 
+  
   function handleUsernameChange(event) {
     setUsername(event.target.value);
   }
