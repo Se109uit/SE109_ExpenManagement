@@ -1,0 +1,110 @@
+.AddSpending{
+     margin-left: 1rem;
+     padding: 1rem;
+     border-radius: 2rem;
+     display: flex;
+     flex-direction: column;
+     width: 80%;
+     height: 700px;
+     h2{
+          text-align: center;
+          font-size: 25px;
+          margin-bottom: 1.5rem;
+          margin-top: 1rem;
+     }
+     li{
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          list-style-type: none;
+          height: 37px;
+          width:350px;
+          input{
+               width: 220px;
+               border-radius: 0.5rem;
+               padding: 5px;
+          }
+          p{
+               margin-top: 7px;
+          }
+     }
+     .day_time{
+          display: flex;
+          flex-direction: row;
+          margin-top: 1.5rem;
+          .time{
+               margin-left: 2rem;
+               display: flex;
+               flex-direction: column;
+               input{
+                    text-align: center;
+                    padding-top: 7px;
+               }
+          }
+          .location{
+               margin-left: 2rem;
+               input{
+                    width:260px;
+               }
+          }
+     }
+     .many-type{
+          display: flex;
+          flex-direction: row;
+          margin-top: 1rem;
+          .type{
+               margin-left: 2rem;
+               li{
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: flex-start;
+               }
+               p{
+                    margin-right: 1rem;
+               }
+               .Select{
+                    width: 100px;
+               }
+          }
+     }
+     .friend{
+          margin-top: 1rem;
+          display: flex;
+          flex-direction: row;
+          height: auto;
+          li{
+               margin-right: 2rem;
+          }
+     }
+     .image{
+          margin-right: 6rem;
+     }
+     .input-group{
+          .custom-file{
+               background: #ffff;
+               border-radius: 0.5rem;
+               
+               button{
+                    border-radius: 5rem;
+               }
+          }
+     }
+     .note{
+          margin-top: 1.5rem;
+     }
+     .header{
+          height: 800px;
+          background: #8CF4CF;
+          border-radius: 2rem;
+          button{
+               cursor: pointer;
+               border-radius: 0.5rem;
+               margin-top: 1rem;
+               &:hover{
+                    background: #FFFF;
+                    color: black;
+               }
+          }
+     }
+}
+

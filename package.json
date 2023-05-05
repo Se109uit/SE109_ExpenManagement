@@ -11,15 +11,26 @@
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.4",
     "bootstrap": "^5.2.3",
+    "calendar": "^0.1.1",
+    "clock": "^1.0.2",
+    "firebase": "^9.21.0",
     "i18next": "^22.4.14",
     "i18next-browser-languagedetector": "^7.0.1",
     "react": "^18.2.0",
     "react-bootstrap": "^2.7.4",
+    "react-calendar": "^4.2.1",
+    "react-calendars": "^1.0.7",
+    "react-datetime-picker": "^5.0.3",
     "react-dom": "^18.2.0",
     "react-i18next": "^12.2.0",
+    "react-icons": "^4.8.0",
+    "react-menu-list": "^7.2.2",
     "react-redux": "^8.0.5",
+    "react-router": "^6.10.0",
     "react-router-dom": "^6.10.0",
-    "reactstrap": "^9.1.8"
+    "react-select": "^5.7.2",
+    "react-time-picker": "^6.0.4",
+    "reactstrap": "^9.1.9"
   },
   "devDependencies": {
     "@types/react": "^18.0.28",
