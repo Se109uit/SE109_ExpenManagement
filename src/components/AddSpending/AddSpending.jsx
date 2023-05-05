@@ -77,7 +77,7 @@ const AddSpending = () => {
           </FormGroup>
 
           <FormGroup className='location'>
-            <li ><p>Địa chỉ:</p> <input type="date" id="typeText" class="form-control" /></li>
+            <li ><p>Địa chỉ:</p> <input type="text" id="typeText" class="form-control" placeholder='Số nhà, quận.......'/></li>
           </FormGroup>
         </div>
 

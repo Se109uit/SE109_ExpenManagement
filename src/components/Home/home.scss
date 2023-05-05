@@ -1,0 +1,49 @@
+.Home{
+     padding: 2rem;
+     border-radius: 1rem;
+     display: flex;
+     flex-direction: column;
+     width: 95%;
+     height: 712px;
+     background: #ffff;
+     
+     .spending{
+          display: flex;
+          flex-direction: row;
+          .money-spending{
+               margin-right: 2rem;
+               list-style-type: none;
+               display: flex;
+               flex-direction: column;
+               width: 27%;
+               padding-top: 1rem;
+               li{
+                    border-radius: 1rem;
+                    background:#73C6B6;
+                    color: black;
+                    justify-content: space-between;
+                    display: flex;
+                    margin-bottom: 1.5rem;
+                    h3{
+                         margin: 0.5rem;
+                    }
+                    .money{
+                         border-radius: 1rem;
+                         background: #ffff;
+                         margin: 0.5rem;
+                    }
+               }
+          }
+     }
+     .react-calendar{
+          border-radius: 1rem;
+          padding: 0.5rem;
+          width: 450px;
+          max-width: 100%;
+          margin-left: 1rem;
+     }
+     .react-calendar__navigation{
+          background:#73C6B6;
+          border-radius: 1rem;
+     }
+}

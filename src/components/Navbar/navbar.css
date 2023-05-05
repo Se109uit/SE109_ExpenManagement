@@ -1,92 +1,30 @@
 .Navbar {
   width: auto;
-  border-radius: 2rem;
+  border-radius: 1rem;
   display: flex;
   flex-direction: column;
-  background: #8CF4CF;
-  width: 20%;
-  height: 700px;
+  width: 5%;
+  height: 100%;
+  align-items: center;
+  background: #73C6B6;
+  -webkit-backdrop-filter: blur(10px);
+          backdrop-filter: blur(10px);
 }
-.Navbar .user-icon {
-  display: flex;
-  flex-direction: row;
-  padding: 1rem;
-  border-radius: 2rem;
-  height: 20%;
+.Navbar .menu-items {
+  border-radius: 1rem;
+  text-align: center;
 }
-.Navbar .user-icon img {
-  width: 90px;
-  height: 80px;
-  border-radius: 100%;
-  cursor: pointer;
-}
-.Navbar .user-icon .text {
-  padding-top: 1.4rem;
-  margin-left: 0.4rem;
-}
-.Navbar .user-icon .text h2 {
-  font-size: 20px;
-  cursor: pointer;
-}
-.Navbar .nav-items {
-  border-radius: 2.5rem;
-  background: #DEF8EF;
-  height: 80%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-.Navbar .nav-items .menu-items {
-  margin-top: 1.5rem;
-}
-.Navbar .nav-items .menu-items li a {
-  text-decoration: none;
-  color: black;
-}
-.Navbar .nav-items .menu-items li {
+.Navbar .menu-items li {
   list-style-type: none;
   height: auto;
   margin: 1rem;
   cursor: pointer;
-  padding-left: 1rem;
+  text-align: center;
+  width: 47px;
+  border-radius: 0.5rem;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
 }
-.Navbar .nav-items .menu-items li:hover {
-  border-left: 3px solid black;
-  padding-left: 2rem;
-}
-.Navbar .nav-items .menu-items li:focus {
-  border-left: 3px solid black;
-  padding-left: 2rem;
-}
-.Navbar .nav-items .menu-items img {
+.Navbar .menu-items img {
   width: 40px;
-}
-.Navbar .nav-items .menu-items .title {
-  margin-left: 0.6rem;
-}
-.Navbar .nav-items .menu-items .icon {
-  margin-bottom: 2rem;
-}
-.Navbar .nav-items .menu-items .menu-items .actite_link {
-  color: blue;
-}
-.Navbar .nav-items .bottom-nav {
-  display: flex;
-  border: 2px solid black;
-  border-radius: 2rem;
-}
-.Navbar .nav-items .bottom-nav img {
-  width: 50px;
-  height: 50px;
-}
-.Navbar .nav-items .bottom-nav .text {
-  border: 2px solid black;
-  list-style-type: none;
-  padding-left: 1.2rem;
-  width: 100%;
-  border-radius: 2rem;
-  cursor: pointer;
-}
-.Navbar .nav-items .bottom-nav .text:hover {
-  background: #8CF4CF;
+  border-radius: 0.5rem;
 }/*# sourceMappingURL=navbar.css.map */
