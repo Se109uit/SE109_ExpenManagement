@@ -23,8 +23,8 @@ function Login() {
     }
 
     return (
-        <div className=''>
-            <div className='container col-12 col-md-4 col-lg-4'>
+        <div className='w-100 d-flex flex-column justify-content-center' >
+            <div className='container w-50'>
                 <div className=''>
                 <h2 className='d-flex justify-content-center mt-5'>Chào mừng trở lại!</h2>
                 <div className='d-flex justify-content-center '>Bạn đã bỏ lỡ rất nhiều thứ!</div>
@@ -56,7 +56,7 @@ function Login() {
                 </Form>
 
                 {/* Horizontal line */}
-                <div className="d-flex w-100 mt-4">
+                <div className="w-100 mt-4">
                     <hr className="my-3 w-100 border-1"/>
                     <span className="background-span position-absolute px-3 translate-middle-x background-or start-50 dark:text-white dark:bg-gray-900">
                         Hoặc tiếp tục với
