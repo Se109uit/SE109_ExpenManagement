@@ -1,0 +1,16 @@
+.img_avatar{
+    height: 150px;
+    width: 150px;
+}
+.button-logout {
+    background-color: rgb(252, 107, 104);
+    color: #ffffff;
+    height: 40px;
+    width: 240px;
+    border: 2px solid rgb(252, 107, 104);
+    border-radius: 40px;
+    }
+.button-logout:hover {
+    background-color: #d76b6b;
+    color: rgb(230, 216, 216);
+    }

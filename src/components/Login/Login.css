@@ -3,7 +3,7 @@
     color: #ffffff;
     height: 38px;
     border: 2px solid rgb(252, 107, 104);
-    border-radius: 5px;
+    border-radius: 12px;
     }
 .button-login:hover {
     background-color: #d76b6b;
@@ -34,6 +34,7 @@
 }
 .fa-gg{
     padding-left: 5px;
+    font-weight: 600;
 }
 
 .background-span {
@@ -44,5 +45,17 @@
 }
 .some-purple-text{
     color: rgb(121, 26, 159);
+}
+.mafe{
+    height: 90px;
+    width: 90px;
+}
+.hover-mafe{
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.hover-mafe:hover{
+    border:1px solid rgb(195, 192, 192);
+    border-radius: 10%;
 }
 

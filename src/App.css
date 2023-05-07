@@ -1,13 +1,7 @@
 .App{
-    display: flex;
-    flex-direction: row;
-    font-size: 15px;
-    border-radius: 1rem;
-    width: auto;
-    height: 713px;
-}
-h1, h2, h3, h4, h5, h6{
-    color: #222260;
+    font-family: 'Nunito', sans-serif;
+    font-size: clamp(1rem, 1.5vw, 1.2rem);
+    color: rgba(34, 34, 96, .6);
 }
 body{
     backdrop-filter: blur(10px);

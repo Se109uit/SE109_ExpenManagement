@@ -1,6 +1,6 @@
 import React from 'react'
 import { Container, Row} from 'reactstrap'
-import {Link, NavLink} from 'react-router-dom'
+import {Link, NavLink,Outlet} from 'react-router-dom'
 import './navbar.css'
 
 import avatarUser from '../../assets/Avatar.png'
@@ -20,7 +20,7 @@ import Logout from '../../assets/Logout.png'
 
 const nav_links = [
   {
-    path: '/home',
+    path: 'home',
     icon: <img src={Home}/>,
   },
   // {
@@ -28,15 +28,15 @@ const nav_links = [
   //   icon: <img src={Calendar}/>,
   // },
   {
-    path: '/addSpending',
+    path: 'addSpending',
     icon: <img src={addSpending}/>,
   },
   {
-    path: '/analysis',
+    path: 'analysis',
     icon: <img src={PhanTich}/>,
   },
   {
-    path: '/user',
+    path: 'user',
     icon: <img src={User}/>,
   },
 ]
@@ -62,6 +62,7 @@ const eventClose = () => btnCloseModal.addEventListener('click', closeModal)
 
 const Navbar = () => {
   return (
+    <div className='Page container-fluid'>
       <div className='Navbar'>
         {/* <div className='user-icon'>
           <img src={User}></img>
@@ -82,8 +83,11 @@ const Navbar = () => {
 
       {/* Login */}
 
-      
       </div>
+      <div className='container-fluid'>
+        <Outlet></Outlet>
+      </div>
+    </div>
   )
 }
 export default Navbar
