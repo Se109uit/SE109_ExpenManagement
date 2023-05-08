@@ -9,6 +9,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.0",
+    "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^5.11.16",
+    "@mui/material": "^5.12.3",
     "@reduxjs/toolkit": "^1.9.4",
     "bootstrap": "^5.2.3",
     "calendar": "^0.1.1",
@@ -27,6 +31,7 @@
     "react-i18next": "^12.2.0",
     "react-icons": "^4.8.0",
     "react-menu-list": "^7.2.2",
+    "react-pro-sidebar": "^1.0.0",
     "react-redux": "^8.0.5",
     "react-router": "^6.10.0",
     "react-router-dom": "^6.10.0",

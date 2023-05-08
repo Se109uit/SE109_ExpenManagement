@@ -27,6 +27,7 @@
     height: 40px;
     width: 210px;
     border-radius: 5px;
+    border-color: #3b5998;
 }
 .button-login-facebook:hover{
     background-color: #3b4f7a;
@@ -39,9 +40,9 @@
 
 .background-span {
     /* background-color: rgba(244, 239, 243, 1); */
-    background-color: #ffffff;
+    background-color: #73C6B6;
     font-size: medium;
-    color: gray;
+    color: rgb(75, 74, 74);
 }
 .some-purple-text{
     color: rgb(121, 26, 159);
@@ -55,7 +56,7 @@
     padding-right: 10px;
 }
 .hover-mafe:hover{
-    border:1px solid rgb(195, 192, 192);
+    border:1px solid #73C6B6;
     border-radius: 10%;
 }
 

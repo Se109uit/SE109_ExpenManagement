@@ -117,7 +117,7 @@ function Login() {
           <div className="d-grid gap-2 mt-4">
             <button
               type="button"
-              className="button-login-google border shadow d-flex align-items-center justify-content-center"
+              className="button-login-google shadow d-flex align-items-center justify-content-center"
               onClick={handleGGSubmit}
             >
               <img
@@ -137,7 +137,7 @@ function Login() {
           <div className="d-grid gap-2 mt-4">
             <button
               type="button"
-              className="button-login-facebook border shadow d-flex align-items-center justify-content-center"
+              className="button-login-facebook shadow d-flex align-items-center justify-content-center"
               onClick={handleFBSubmit}
             >
               <img
