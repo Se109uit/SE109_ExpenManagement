@@ -62,8 +62,8 @@ const eventClose = () => btnCloseModal.addEventListener('click', closeModal)
 
 const Navbar = () => {
   return (
-    <div className='Page container-fluid'>
-      <div className='Navbar'>
+    <div className='Page'>
+      <div className='Navbar col-2'>
         {/* <div className='user-icon'>
           <img src={User}></img>
         </div> */}
@@ -84,7 +84,7 @@ const Navbar = () => {
       {/* Login */}
 
       </div>
-      <div className='container-fluid'>
+      <div className='col'>
         <Outlet></Outlet>
       </div>
     </div>
