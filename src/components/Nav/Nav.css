@@ -1,0 +1,9 @@
+.img-nav{
+    width: 40px;
+    /* box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3); */
+    border-radius: 0.5rem;
+    margin-right: 5px;
+}
+.nav-bar{
+    border-radius: 0.5rem;
+}

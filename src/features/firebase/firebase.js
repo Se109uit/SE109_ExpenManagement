@@ -8,23 +8,31 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
+
+import { getFirestore } from "firebase/firestore";
+import { getStorage } from "firebase/storage";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyBE8pO4mJOdCygfUm3Z9ON6KYIjdRBLOAw",
-  authDomain: "face-e4951.firebaseapp.com",
-  projectId: "face-e4951",
-  storageBucket: "face-e4951.appspot.com",
-  messagingSenderId: "921149471053",
-  appId: "1:921149471053:web:2638deacf8184eaf305f04",
-  measurementId: "G-FJR7EV8YCP",
+  apiKey : "AIzaSyBE8pO4mJOdCygfUm3Z9ON6KYIjdRBLOAw" , 
+  authDomain : "face-e4951.firebaseapp.com" , 
+  databaseURL : "https://face-e4951-default-rtdb.firebaseio.com" , 
+  projectId : "face-e4951" , 
+  storageBucket : "face-e4951.appspot.com" , 
+  messagingSenderId : "921149471053" , 
+  appId : "1:921149471053:web:2638deacf8184eaf305f04" , 
+  measurementId : "G-FJR7EV8YCP" 
 };
 
 // Initialize Firebase
-export const app = initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app)
+const storage = getStorage(app)
+
+export {db, storage}
 
 export const auth = getAuth(app);
 

@@ -36,25 +36,25 @@ import AccountInfor from './components/Account/AccountInfor';
 import AppInfor from './components/Account/AppInfor';
 import Currency from './components/Account/Currency';
 import History from './components/Account/History';
-import Navbar from './components/Navbar/Navbar';
-import LandingPage from './components/LandingPage/LandingPage';
+import Nav from './components/Nav/Nav';
+import AddSpending from './components/AddSpending/AddSpending';
+import Analysis from './components/Analysis/Analysis';
 
 const router = createBrowserRouter(
     createRoutesFromElements(
         <Route path='/' element={<Rootpage/>}>
             <Route index element={<Login/>}></Route>
+            <Route path='login' element={<Login/>}/>
             <Route path='signup' element={<SignUp/>}/>
-            {/* <Route path='landingpage' element={<LandingPage/>}> */}
-                <Route index element={<Navbar/>}/>
-                <Route path='navbar' element={<Navbar/>}>
-                    <Route path='home' element={<Home/>}></Route>
-                    <Route path='user' element={<Account/>}>
-                        <Route index path='accountinfor' element={<AccountInfor/>}></Route>
-                        <Route path='appinfor' element={<AppInfor/>}></Route>
-                        <Route path='currency' element={<Currency/>}></Route>
-                        <Route path='history' element={<History/>}></Route>
-                    </Route>
-                </Route>
+            <Route path='expense' element={<Nav/>}>
+                <Route path='home' element={<Home/>}></Route>
+                <Route path='addspending' element={<AddSpending/>}></Route>
+                <Route path='analysis' element={<Analysis/>}></Route>
+                <Route path='accountinfor' element={<AccountInfor/>}></Route>
+                <Route path='history' element={<History/>}></Route>
+                <Route path='currency' element={<Currency/>}></Route>
+                <Route path='appinfor' element={<AppInfor/>}></Route>
+            </Route>
             {/* </Route> */}
 
             <Route path='*' element={<ErrorPage/>}></Route>
