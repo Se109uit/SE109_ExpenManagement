@@ -12,6 +12,7 @@ import {
   getFirestore, 
   collection, 
   getDocs,
+  addDoc,
 } from 'firebase/firestore';
 import { getStorage } from "firebase/storage";
 // TODO: Add SDKs for Firebase products that you want to use
@@ -97,8 +98,9 @@ export const fbSignIn = () =>
 export const emailSignIn = (email, password) =>
   signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
-      console.log(userCredential)
-      return userCredential;
+      const user = userCredential.user;
+      console.log(user)
+      return user;
     })
     .catch((error) => {
       console.log(error);
@@ -106,25 +108,31 @@ export const emailSignIn = (email, password) =>
       const errorMessage = error.message;
     });
 
-export const signUp = (username, email, gender, dob, password) =>
-  createUserWithEmailAndPassword(auth, email, password)
+export const avatarImg = "https://firebasestorage.googleapis.com/v0/b/spending-management-c955a.appspot.com/o/FVK7wz5aIAA25l8.jpg?alt=media&token=ddceb8f7-7cf7-4c42-a806-5d0d48ce58f5";
+
+export const signUp = (birthday, gender, username, email, password) =>
+  createUserWithEmailAndPassword (auth, email, password)
     .then((userCredential) => {
       // Signed in
       const user = userCredential.user;
 
+      console.log(userCredential.user)
+
       // Add a new document with a generated id.
       try {
-        const docRef = addDoc(collection(db, "users"), {
-            username: username,
-            email: email,
+        const docRef = addDoc(collection(db, "infotemp"), {
+            avatar: avatarImg,
+            birthday: birthday,
             gender: gender,
-            dob: dob,
-            password: password
+            money: 0,
+            name: username,
         });
         console.log("Document written with ID: ", docRef.id);
+        return user;
+
       } catch (e) {
         console.error("Error adding document: ", e);
-    }
+      }
     })
     .catch((error) => {
       const errorCode = error.code;

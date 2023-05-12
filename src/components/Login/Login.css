@@ -5,6 +5,7 @@
     font-weight: 500;
 }
 .button-login {
+    font-weight: 500;
     background-color: rgb(252, 107, 104);
     color: #ffffff;
     height: 38px;
@@ -74,4 +75,5 @@
 .form-margin{
     margin-bottom: 8rem;
 }
+
 

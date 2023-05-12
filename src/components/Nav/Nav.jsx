@@ -55,7 +55,11 @@ const Nav = () => {
                                 component={<Link to="currency" />}
                             > Tỷ giá </MenuItem>
                             <MenuItem> Thông tin </MenuItem>
-                            <MenuItem> <p className="text-danger">Đăng xuất</p> </MenuItem>
+                            <MenuItem
+                            
+                            > 
+                            <p className="text-danger">Đăng xuất</p> 
+                            </MenuItem>
                         </SubMenu>
                     </Menu>
                 </Sidebar>
