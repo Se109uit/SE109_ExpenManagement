@@ -30,7 +30,7 @@ import './Account.css'
 
 const AccountInfor = () => {
     const loginState = useSelector(selectUsers);
-    // const user = auth.currentUser;
+    const user = auth.currentUser;
     const [userData, setUserData] = useState(null);
     const [name, setName] = useState('');
     const [birthday, setBirthday] = useState(dayjs('2023-05-14'));
@@ -51,10 +51,12 @@ const AccountInfor = () => {
 
     useEffect(() => {
         console.log('loginState', loginState);
-        const user = auth.currentUser;
+        console.log('user data', user);
         const fetchUserData = async () => {
         const usr = user.uid;
         const docRef = doc(db, "infotemp", usr);
+        console.log('usr', usr)
+        console.log('docRef', docRef)
         const docSnap = await getDoc(docRef);
     
         if (docSnap.exists()) {
