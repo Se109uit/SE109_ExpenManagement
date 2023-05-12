@@ -1,9 +1,8 @@
 .AddSpending {
   padding: 1rem;
-  border-radius: 1rem;
   display: flex;
   flex-direction: column;
-  width: 95%;
+  width: 100%;
   height: 712px;
   background: #ECF0F1;
 }
@@ -19,7 +18,7 @@
   justify-content: space-between;
   list-style-type: none;
   height: 37px;
-  width: 350px;
+  width: 360px;
 }
 .AddSpending li input {
   width: 220px;
@@ -27,7 +26,12 @@
   padding: 5px;
 }
 .AddSpending li p {
-  margin-top: 7px;
+  margin-top: 5px;
+}
+.AddSpending li img {
+  width: 25px;
+  margin-right: 5px;
+  margin-bottom: 5px;
 }
 .AddSpending .day_time {
   display: flex;
@@ -60,7 +64,7 @@
 .AddSpending .many-type .type li {
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
+  justify-content: space-between;
 }
 .AddSpending .many-type .type p {
   margin-right: 1rem;
@@ -76,9 +80,11 @@
 }
 .AddSpending .friend li {
   margin-right: 2rem;
+  display: flex;
+  flex-direction: row;
 }
 .AddSpending .image {
-  margin-right: 6rem;
+  margin-right: 6.5rem;
 }
 .AddSpending .input-group .custom-file {
   background: white;

@@ -1,3 +1,9 @@
+.greeting-log{
+    font-weight: 400;
+}
+.weight-label{
+    font-weight: 500;
+}
 .button-login {
     background-color: rgb(252, 107, 104);
     color: #ffffff;
@@ -40,7 +46,7 @@
 
 .background-span {
     /* background-color: rgba(244, 239, 243, 1); */
-    background-color: #73C6B6;
+    background-color: #f6fefc;
     font-size: medium;
     color: rgb(75, 74, 74);
 }
@@ -54,9 +60,18 @@
 .hover-mafe{
     padding-left: 10px;
     padding-right: 10px;
+    border-radius: 10%;
 }
 .hover-mafe:hover{
-    border:1px solid #73C6B6;
+    border:1px solid #202423;
     border-radius: 10%;
+}
+.hover-mafe::selection{
+    background-color: #202423;
+    color: #ffffff;
+}
+
+.form-margin{
+    margin-bottom: 8rem;
 }
 

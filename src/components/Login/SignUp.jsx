@@ -1,19 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Form, FormControl, InputGroup, Button } from 'react-bootstrap';
 import './Login.css'
 import { useNavigate, Link } from 'react-router-dom';
 import DatePicker from '../DatePicker/DatePicker';
+import { useDispatch } from 'react-redux';
+
+import { Female } from '@mui/icons-material';
 
 
-function Login() {
+function SignUp() {
+    const dispatch = useDispatch();
     const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
+    const [gender, setGender] = useState('');
     const [password, setPassword] = useState('');
+    const [dob, setDob] = useState('');
     const [showPassword, setShowPassword] = useState(false);
+    const [selectedGender, setSelectedGender] = useState(null);
+    const [selectedMale, setSelectedMale] = useState(false);    
+    const [selectedFemale, setSelectedFemale] = useState(false);
 
-    // const history = useHistory();
     function handleEmailSubmit(event) {
         event.preventDefault();
-        dispatch(email({ username, password }));
     }
 
     function handleUsernameChange(event) {
@@ -24,35 +32,60 @@ function Login() {
         setPassword(event.target.value);
     }
 
+    function handleSelectedMale(event) {
+        setSelectedGender('male');
+        setSelectedMale(true);
+        setSelectedFemale(false);
+    }
+
+    function handleSelectedFemale(event) {
+        selectedGender('female');
+        setSelectedFemale(true);
+        setSelectedMale(false);
+    }
+
     function handleSubmit(event) {
         event.preventDefault();
+        // dispatch(regiser({ username, password }));
     }
 
     const [value, onChange] = useState(new Date());
 
     return (
-        <div className=''>
+        <div className='form-margin'>
+            <h2 className='d-flex justify-content-center mt-5'>Chào người dùng mới!</h2>
             <div className='container col-12 col-md-3 col-lg-3'>
                 <div className=''>
-                <h2 className='d-flex justify-content-center mt-5'>Chào người dùng mới!</h2>
-                <div className='d-flex justify-content-center '>Chào mừng bạn đến với ứng dụng</div>
+                <div className='d-flex justify-content-center greeting-log'>Chào mừng bạn đến với ứng dụng</div>
                 </div>
 
                 {/* Login form */}
                 <Form className='pt-5'>
                 <Form.Group className="mb-3" controlId="formBasicText">
-                    {/* <Form.Label>Một mã bộ máy:</Form.Label> */}
+                    <Form.Label>
+                    <div className="weight-label">
+                        Họ tên
+                    </div>
+                    </Form.Label>
                     <Form.Control type="text" placeholder="Họ Tên" className='py-2' />
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formBasicEmail">
-                    {/* <Form.Label>Địa chỉ Email:</Form.Label> */}
+                    <Form.Label>
+                    <div className="weight-label">
+                        Email
+                    </div>
+                    </Form.Label>
                     <Form.Control type="email" placeholder="Email" className='py-2' />
                 </Form.Group>
 
                 <div className='d-flex justify-content-around mb-3'>
                     {/* Male */}
-                    <div className='d-grid gap-2 hover-mafe'>
+                    <div 
+                        className='d-grid gap-2 hover-mafe' 
+                        onClick={()=> {handleSelectedMale}}
+                        style={selectedMale? {border: '1px solid #000'}: {}}
+                    >
                         <div className=''>
                             <p className='text-center'>Nam</p>
                         </div>
@@ -60,7 +93,11 @@ function Login() {
                     </div>
 
                     {/* FeMale */}
-                    <div className='d-grid gap-2 hover-mafe'>
+                    <div 
+                        className='d-grid gap-2 hover-mafe'
+                        onClick={()=> {handleSelectedFemale()}}
+                        style={selectedFemale? {border: '1px solid #000'}: {}}
+                    >
                         <div className=''>
                             <p className='text-center'>Nữ</p>
                         </div>
@@ -69,12 +106,21 @@ function Login() {
                 </div>
 
                 {/* Date time picker */}
-                <Form.Group className="mb-3" controlId="formDatePicker">
+                <Form.Group className="mb-3" controlId="formDatePicker" >
+                    <Form.Label>
+                    <div className="weight-label">
+                        Ngày sinh
+                    </div>
+                    </Form.Label>
                     <DatePicker className="w-full"></DatePicker>
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formBasicPassword">
-                    {/* <Form.Label>Mật khẩu:</Form.Label> */}
+                    <Form.Label>
+                    <div className="weight-label">
+                        Mật khẩu
+                    </div>
+                    </Form.Label>
                     <InputGroup>
                         <Form.Control
                         placeholder="Mật khẩu"
@@ -99,7 +145,11 @@ function Login() {
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formBasicConfirmPassword">
-                    {/* <Form.Label>Xác nhận mật khẩu:</Form.Label> */}
+                <Form.Label>
+                    <div className="weight-label">
+                        Xác nhận mật khẩu
+                    </div>
+                    </Form.Label>
                     <InputGroup>
                         <Form.Control
                         placeholder="Xác nhận mật khẩu"
@@ -124,7 +174,7 @@ function Login() {
                 </Form.Group>
 
                 <div className='d-grid gap-2'>
-                    <button type="submit" className="button-login border-1 shadow">
+                    <button onClick={handleSubmit} type="submit" className="button-login border-1 shadow">
                         Đăng ký
                     </button>
                 </div>
@@ -141,4 +191,4 @@ function Login() {
     );
 }
 
-export default Login;
+export default SignUp;

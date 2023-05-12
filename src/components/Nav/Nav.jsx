@@ -18,8 +18,8 @@ const Nav = () => {
 
     return (
         <div id="app" style={({ height: "100vh" }, { display: "flex" })}>
-            <div className='col-2' style={{ height: "100vh" }}>
-                <Sidebar style={{ height: "100vh" }}> 
+            <div className='nav-bar col-2' style={{ height: "100vh", width: 'auto' }}>
+                <Sidebar className="side-bar" style={{ height: "100vh" }}>
                     <Menu>
                         <MenuItem
                         icon={<MenuOutlinedIcon />}
@@ -31,13 +31,13 @@ const Nav = () => {
                         {" "}
                         </MenuItem>
                         <MenuItem 
+                            icon={<img className="img-nav" src={Home}/>}
+                            component={<Link to="home" />}
+                            > Trang chủ </MenuItem>
+                        <MenuItem 
                             icon={<img className="img-nav" src={addSpending}/>}
                             component={<Link to="addSpending" />}
                         > Thêm chi tiêu </MenuItem>
-                        <MenuItem 
-                            icon={<img className="img-nav" src={Home}/>}
-                            component={<Link to="home" />}
-                            > Nhà chính </MenuItem>
                         <MenuItem 
                             icon={<img className="img-nav" src={PhanTich}/>}
                             component={<Link to="analysis" />}
