@@ -39,6 +39,7 @@ import History from './components/Account/History';
 import Nav from './components/Nav/Nav';
 import AddSpending from './components/AddSpending/AddSpending';
 import Analysis from './components/Analysis/Analysis';
+import ForgotPassword from './components/ForgotPassword/ForgotPassword';
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -55,6 +56,8 @@ const router = createBrowserRouter(
                 <Route path='currency' element={<Currency/>}></Route>
                 <Route path='appinfor' element={<AppInfor/>}></Route>
             </Route>
+
+            <Route path='forgotpassword' element={<ForgotPassword/>}></Route>
             {/* </Route> */}
 
             <Route path='*' element={<ErrorPage/>}></Route>

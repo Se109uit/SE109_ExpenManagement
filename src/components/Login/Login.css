@@ -54,9 +54,14 @@
 .hover-mafe{
     padding-left: 10px;
     padding-right: 10px;
+    border-radius: 10%;
 }
 .hover-mafe:hover{
-    border:1px solid #73C6B6;
+    border:1px solid #202423;
     border-radius: 10%;
+}
+.hover-mafe::selection{
+    background-color: #202423;
+    color: #ffffff;
 }
 

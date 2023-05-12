@@ -8,6 +8,11 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
+import { 
+  getFirestore, 
+  collection, 
+  getDocs,
+} from 'firebase/firestore';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -26,7 +31,10 @@ const firebaseConfig = {
 // Initialize Firebase
 export const app = initializeApp(firebaseConfig);
 
+export const db = getFirestore(app);
 export const auth = getAuth(app);
+
+export default auth;
 
 const ggProvider = new GoogleAuthProvider();
 const fbProvider = new FacebookAuthProvider();
@@ -95,15 +103,29 @@ export const emailSignIn = (email, password) =>
       const errorMessage = error.message;
     });
 
-export const signUp = () =>
+export const signUp = (username, email, gender, dob, password) =>
   createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       // Signed in
       const user = userCredential.user;
-      // ...
+
+      // Add a new document with a generated id.
+      try {
+        const docRef = addDoc(collection(db, "users"), {
+            username: username,
+            email: email,
+            gender: gender,
+            dob: dob,
+            password: password
+        });
+        console.log("Document written with ID: ", docRef.id);
+      } catch (e) {
+        console.error("Error adding document: ", e);
+    }
     })
     .catch((error) => {
       const errorCode = error.code;
       const errorMessage = error.message;
       // ..
+      console.log(error.message);
     });

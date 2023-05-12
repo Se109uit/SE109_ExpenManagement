@@ -1,19 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Form, FormControl, InputGroup, Button } from 'react-bootstrap';
 import './Login.css'
 import { useNavigate, Link } from 'react-router-dom';
 import DatePicker from '../DatePicker/DatePicker';
+import { useDispatch } from 'react-redux';
+
+import { Female } from '@mui/icons-material';
 
 
-function Login() {
+function SignUp() {
+    const dispatch = useDispatch();
     const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
+    const [gender, setGender] = useState('');
     const [password, setPassword] = useState('');
+    const [dob, setDob] = useState('');
     const [showPassword, setShowPassword] = useState(false);
+    const [selectedGender, setSelectedGender] = useState(null);
+    const [selectedMale, setSelectedMale] = useState(false);    
+    const [selectedFemale, setSelectedFemale] = useState(false);
 
-    // const history = useHistory();
     function handleEmailSubmit(event) {
         event.preventDefault();
-        dispatch(email({ username, password }));
     }
 
     function handleUsernameChange(event) {
@@ -24,8 +32,21 @@ function Login() {
         setPassword(event.target.value);
     }
 
+    function handleSelectedMale(event) {
+        setSelectedGender('male');
+        setSelectedMale(true);
+        setSelectedFemale(false);
+    }
+
+    function handleSelectedFemale(event) {
+        selectedGender('female');
+        setSelectedFemale(true);
+        setSelectedMale(false);
+    }
+
     function handleSubmit(event) {
         event.preventDefault();
+        // dispatch(regiser({ username, password }));
     }
 
     const [value, onChange] = useState(new Date());
@@ -52,7 +73,11 @@ function Login() {
 
                 <div className='d-flex justify-content-around mb-3'>
                     {/* Male */}
-                    <div className='d-grid gap-2 hover-mafe'>
+                    <div 
+                        className='d-grid gap-2 hover-mafe' 
+                        onClick={()=> {handleSelectedMale}}
+                        style={selectedMale? {border: '1px solid #000'}: {}}
+                    >
                         <div className=''>
                             <p className='text-center'>Nam</p>
                         </div>
@@ -60,7 +85,11 @@ function Login() {
                     </div>
 
                     {/* FeMale */}
-                    <div className='d-grid gap-2 hover-mafe'>
+                    <div 
+                        className='d-grid gap-2 hover-mafe'
+                        onClick={()=> {handleSelectedFemale()}}
+                        style={selectedFemale? {border: '1px solid #000'}: {}}
+                    >
                         <div className=''>
                             <p className='text-center'>Nữ</p>
                         </div>
@@ -69,7 +98,7 @@ function Login() {
                 </div>
 
                 {/* Date time picker */}
-                <Form.Group className="mb-3" controlId="formDatePicker">
+                <Form.Group className="mb-3" controlId="formDatePicker" >
                     <DatePicker className="w-full"></DatePicker>
                 </Form.Group>
 
@@ -124,7 +153,7 @@ function Login() {
                 </Form.Group>
 
                 <div className='d-grid gap-2'>
-                    <button type="submit" className="button-login border-1 shadow">
+                    <button onClick={handleSubmit} type="submit" className="button-login border-1 shadow">
                         Đăng ký
                     </button>
                 </div>
@@ -141,4 +170,4 @@ function Login() {
     );
 }
 
-export default Login;
+export default SignUp;
