@@ -19,7 +19,7 @@ const Nav = () => {
     return (
         <div id="app" style={({ height: "100vh" }, { display: "flex" })}>
             <div className='nav-bar col-2' style={{ height: "100vh", width: 'auto' }}>
-                <Sidebar className="side-bar" style={{ height: "100vh" }}> 
+                <Sidebar className="side-bar" style={{ height: "100vh" }}>
                     <Menu>
                         <MenuItem
                         icon={<MenuOutlinedIcon />}
@@ -37,7 +37,7 @@ const Nav = () => {
                         <MenuItem 
                             icon={<img className="img-nav" src={addSpending}/>}
                             component={<Link to="addSpending" />}
-                            > Thêm chi tiêu </MenuItem>
+                        > Thêm chi tiêu </MenuItem>
                         <MenuItem 
                             icon={<img className="img-nav" src={PhanTich}/>}
                             component={<Link to="analysis" />}

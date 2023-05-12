@@ -1,16 +1,21 @@
 import React, { useState } from "react";
 // import { useHistory } from 'react-router-dom';
 import { Form, FormControl, InputGroup, Button } from 'react-bootstrap';
-import "./Login.css";
 import { useSelector, useDispatch } from "react-redux";
 import { email,fb,gg } from "../../features/firebase/firebaseSlice";
 import { useNavigate, Link } from 'react-router-dom';
 
+import "./Login.css";
+
 function Login() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [errorEmail, setErrorEmail] = useState();
+  const [errorPassword, setErrorPassword] = useState();
+  const [validated, setValidated] = useState(false);
   // const history = useHistory();
 
   console.log('Hello from ci/cd') 
@@ -22,9 +27,42 @@ function Login() {
   function handlePasswordChange(event) {
     setPassword(event.target.value);
   }
+
   function handleEmailSubmit(event) {
-    event.preventDefault();
-    dispatch(email({ username, password }));
+    // event.preventDefault();
+    // const form = event.currentTarget;
+    // if (form.checkValidity() === false) {
+      event.preventDefault();
+      event.stopPropagation();
+      if (username === "" && password === "") {
+        setErrorEmail('Vui lòng nhập email');
+        setErrorPassword('Vui lòng nhập mật khẩu');
+        return;
+      }
+      else if (password === "" && username !== "") {
+        setErrorPassword('Vui lòng nhập mật khẩu');
+        setErrorEmail('');
+        return;
+      }
+      else if (username === "" && password !== "") {
+        setErrorEmail('Vui lòng nhập email');
+        setErrorPassword('');
+        return;
+      }
+      else {
+        console.log(username, password);
+        dispatch(email({ username, password })).then( res => {
+          if (!res.error)
+            navigate('expense/accountinfor');
+          else {
+            setErrorEmail('Email không tồn tại');
+            setErrorPassword('Mật khẩu không đúng');
+          }
+        });
+      }
+    // }
+
+    // setValidated(true);
   }
 
   function handleFBSubmit(event) {
@@ -37,15 +75,14 @@ function Login() {
     dispatch(gg());
   }
 
-
   return (
-    <div className="">
+    <div className="form-margin">
       <div className="container col-12 col-md-4 col-lg-4">
         <div className="">
           <h2 className="d-flex justify-content-center mt-5">
             Chào mừng trở lại!
           </h2>
-          <div className="d-flex justify-content-center ">
+          <div className="d-flex justify-content-center greeting-log">
             Bạn đã bỏ lỡ rất nhiều thứ!
           </div>
         </div>
@@ -53,23 +90,36 @@ function Login() {
         {/* Login form */}
         <Form className="pt-5">
           <Form.Group className="mb-3" controlId="formBasicEmail">
-            {/* <Form.Label>Địa chỉ Email:</Form.Label> */}
+            <Form.Label>
+              <div className="weight-label">
+                Địa chỉ email
+              </div>
+              </Form.Label>
             <Form.Control
-              type="email"
+              required type="email"
               placeholder="Email"
               className="py-2"
               onChange={handleUsernameChange}
             />
+            <Form.Control.Feedback type="invalid">
+              Hãy nhập một email chính xác
+            </Form.Control.Feedback>
           </Form.Group>
+          {errorEmail && <p className="error">{errorEmail}</p>}
 
-          <Form.Group className="mb-3" controlId="formBasicPassword">
-                    {/* <Form.Label>Mật khẩu:</Form.Label> */}
-                    <InputGroup className="py-2">
+          <Form.Label>
+            <div className="weight-label">
+              Mật khẩu
+            </div>
+            </Form.Label>
+          <Form.Group className="mb-2" controlId="formBasicPassword">
+                    <InputGroup className="">
                         <Form.Control
                         placeholder="Mật khẩu"
                         aria-label="Password"
                         type={showPassword ? "text" : "password"}
                         aria-describedby="basic-addon1"
+                        onChange={handlePasswordChange}
                         />
                         <InputGroup.Text id="basic-addon1" className='bg-white' onClick={() => setShowPassword(!showPassword)}>
                             {showPassword ? (
@@ -85,13 +135,18 @@ function Login() {
                             }
                         </InputGroup.Text>
                     </InputGroup>
+                  </Form.Group>
+                    {errorPassword && <p className="error">{errorPassword}</p>}
 
                     <Form.Text>
-                    <div className='mt-2 d-flex justify-content-end'>
-                        <a href="/forgot-password" className='some-purple-text text-decoration-none font-weight-bold'>Quên mật khẩu?</a>
+                    <div className='mb-3 d-flex justify-content-end'>
+                        <Link 
+                        to='forgotpassword'
+                        className='some-purple-text text-decoration-none'
+                        >Quên mật khẩu?</Link>
                     </div>
                     </Form.Text>
-                </Form.Group>
+
 
           <div className="d-grid gap-2">
             <button
@@ -99,7 +154,7 @@ function Login() {
               className="button-login border-1 shadow"
               onClick={handleEmailSubmit}
             >
-              Đăng Nhập
+              Đăng nhập
             </button>
           </div>
         </Form>
@@ -117,7 +172,7 @@ function Login() {
           <div className="d-grid gap-2 mt-4">
             <button
               type="button"
-              className="button-login-google border shadow d-flex align-items-center justify-content-center"
+              className="button-login-google shadow d-flex align-items-center justify-content-center"
               onClick={handleGGSubmit}
             >
               <img
@@ -137,7 +192,7 @@ function Login() {
           <div className="d-grid gap-2 mt-4">
             <button
               type="button"
-              className="button-login-facebook border shadow d-flex align-items-center justify-content-center"
+              className="button-login-facebook shadow d-flex align-items-center justify-content-center"
               onClick={handleFBSubmit}
             >
               <img
