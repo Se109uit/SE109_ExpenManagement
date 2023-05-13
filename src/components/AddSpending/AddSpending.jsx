@@ -127,10 +127,10 @@ import React, {useState, useEffect} from 'react'
                 /></li>
   
             <li><p className='image'>Ảnh:</p> 
-            <div class="input-group mb-3">
-              <div class="custom-file">
-                <label class="custom-file-label" for="inputGroupFile02" aria-describedby="inputGroupFileAddon02"></label>
-                <input type="file" class="custom-file-input" id="file"
+            <div className="input-group mb-3">
+              <div className="custom-file">
+                <label className="custom-file-label" htmlFor="inputGroupFile02" aria-describedby="inputGroupFileAddon02"></label>
+                <input type="file" className="custom-file-input" id="file"
                 onChange={(e) => setFile(e.target.files[0])}
                 />
               </div>
