@@ -73,7 +73,7 @@ import React, {useState, useEffect} from 'react'
                 <div>
                   <p><span><img src={money}/></span>Nhập số tiền:</p>
                 </div>
-                <input type="text" id="typeText" class="form-control" placeholder='100.000' value={many}
+                <input type="text" id="typeText" className="form-control" placeholder='100.000' value={many}
                   onChange={(e) => setMany(e.target.value)}
                 />
               </li>
@@ -93,21 +93,21 @@ import React, {useState, useEffect} from 'react'
   
           <div className='day_time'>
             <FormGroup className='day'>
-              <li><p><span><img src={Date}/></span>Ngày:</p> <input type="date" id="typeText" class="form-control" value={date}
+              <li><p><span><img src={Date}/></span>Ngày:</p> <input type="date" id="typeText" className="form-control" value={date}
               onChange={(e) => setDate(e.target.value)}
               /></li>
             </FormGroup>
   
             <FormGroup className='time'>
-              <li class=''>
+              <li className=''>
                 <p><span><img src={Time}/></span>Thời gian:</p> 
-                <input type="time" id="typeText" class="form-control" value={time}
+                <input type="time" id="typeText" className="form-control" value={time}
                 onChange={(e) => setTime(e.target.value)}
                 /></li>
             </FormGroup>
   
             <FormGroup className='location'>
-              <li ><p><span><img src={Location}/></span>Địa chỉ:</p> <input type="text" id="typeText" class="form-control" placeholder='Số nhà, quận.......' value={location}
+              <li ><p><span><img src={Location}/></span>Địa chỉ:</p> <input type="text" id="typeText" className="form-control" placeholder='Số nhà, quận.......' value={location}
               onChange={(e) => setLocation(e.target.value)}
               /></li>
             </FormGroup>
@@ -122,10 +122,10 @@ import React, {useState, useEffect} from 'react'
                 /></li>
   
             <li><p className='image'>Ảnh:</p> 
-            <div class="input-group mb-3">
-              <div class="custom-file">
-                <label class="custom-file-label" for="inputGroupFile02" aria-describedby="inputGroupFileAddon02"></label>
-                <input type="file" class="custom-file-input" id="file"
+            <div className="input-group mb-3">
+              <div className="custom-file">
+                <label className="custom-file-label" htmlFor="inputGroupFile02" aria-describedby="inputGroupFileAddon02"></label>
+                <input type="file" className="custom-file-input" id="file"
                 />
               </div>
             </div>
@@ -135,10 +135,10 @@ import React, {useState, useEffect} from 'react'
           
   
           <div className='note'>
-            <textarea class="form-control" id="textAreaExample" rows="6" placeholder='Ghi chú' value={note}
+            <textarea className="form-control" id="textAreaExample" rows="6" placeholder='Ghi chú' value={note}
             onChange={(e) => setNote(e.target.value)}></textarea>
           </div>
-          <button class="btn btn-primary">Thêm chi tiêu</button>
+          <button className="btn btn-primary">Thêm chi tiêu</button>
         </Form>
         </div>
       </div>
