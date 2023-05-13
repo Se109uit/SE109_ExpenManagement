@@ -7,8 +7,9 @@ import React, {useState, useEffect} from 'react'
   import { db , storage } from '../../features/firebase/firebase'
   import { collection, addDoc } from 'firebase/firestore'
   
-  import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
-  
+  import { getStorage, ref, uploadBytes} from 'firebase/storage'
+  import { v4 } from 'uuid'
+
   import money from '../../assets/money.png'
   import Type from '../../assets/Type.png'
   import Date from '../../assets/Date.png'
@@ -30,7 +31,7 @@ import React, {useState, useEffect} from 'react'
     const [note, setNote] = useState("");
   
   
-    const [file, setFile] = useState("");
+    const [file, setFile] = useState(null);
   
     const handleSubmit = async (e) => {
       e.preventDefault();
@@ -52,6 +53,10 @@ import React, {useState, useEffect} from 'react'
           setMyfriend(""),
           setType(""),
           setNote("")
+          const imageRef = ref(storage, `spending-web/${file.name + v4()}`)
+          uploadBytes(imageRef, file).then(() => {
+            alert("Thêm chi tiêu thành công")
+          })
         }
         else{
           alert('Nhập đầy đủ những thông tin cần thiết')
@@ -122,10 +127,11 @@ import React, {useState, useEffect} from 'react'
                 /></li>
   
             <li><p className='image'>Ảnh:</p> 
-            <div className="input-group mb-3">
-              <div className="custom-file">
-                <label className="custom-file-label" htmlFor="inputGroupFile02" aria-describedby="inputGroupFileAddon02"></label>
-                <input type="file" className="custom-file-input" id="file"
+            <div class="input-group mb-3">
+              <div class="custom-file">
+                <label class="custom-file-label" for="inputGroupFile02" aria-describedby="inputGroupFileAddon02"></label>
+                <input type="file" class="custom-file-input" id="file"
+                onChange={(e) => setFile(e.target.files[0])}
                 />
               </div>
             </div>

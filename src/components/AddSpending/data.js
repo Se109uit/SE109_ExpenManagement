@@ -13,9 +13,9 @@ export const options = [
      { value: '10', label: 'Thể thao' },
    ];
  
-  export const friend = [
-     { value: '1', label: 'Nguyễn Như Từ' },
-     { value: '2', label: 'Nguyễn Thanh Sang' },
-     { value: '3', label: 'Lê Khoa' },
-     { value: '4', label: 'Nguyễn Dương Trung Hiếu' },
-   ];
+export const friend = [
+    { value: '1', label: 'Nguyễn Như Từ' },
+    { value: '2', label: 'Nguyễn Thanh Sang' },
+    { value: '3', label: 'Lê Nguyễn Minh Khoa' },
+    { value: '4', label: 'Nguyễn Dương Trung Hiếu' },
+  ];
