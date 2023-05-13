@@ -1,11 +1,11 @@
 .App{
-    font-family: cursive;
+    font-family: 'Montserrat', sans-serif;
     font-size: clamp(2rem, 6vw, 2.4rem);
     color: rgba(34, 34, 96, .6);
 }
 body{
     backdrop-filter: blur(10px);
-    font-family: cursive;
+    font-family: 'Montserrat';
     font-size:medium;
     /* background-image: url('src/assets/home-01.jpg'); */
     /* background: #4d5d58; */
