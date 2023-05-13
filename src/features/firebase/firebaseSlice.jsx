@@ -2,9 +2,9 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 import {  emailSignIn ,fbSignIn, ggSignIn, signUp } from "./firebase";
+
 const initialState = {
   user: null,
-  password: null,
   isLogin:false,
 };
   
@@ -20,8 +20,8 @@ export const gg =createAsyncThunk('users/logingg', async () => {
   const em = ggSignIn()
   return em;
 }); 
-export const signup =createAsyncThunk('users/signup', async ({username, password}) => {
-  const em = signUp(username, password)
+export const signup =createAsyncThunk('users/signup', async ({birthday, gender, username, email, password}) => {
+  const em = signUp(birthday, gender, username, email, password)
   return em;
 });
 export const login = createSlice({
@@ -31,7 +31,6 @@ export const login = createSlice({
     builder
       .addCase(email.fulfilled, (state ,action) => {
         state.user = action.payload.user
-        state.password = action.payload.password
         state.isLogin = true
       })
       .addCase(fb.fulfilled, (state ,action) => {
@@ -39,6 +38,10 @@ export const login = createSlice({
         state.isLogin = true
       })
       .addCase(gg.fulfilled, (state ,action) => {
+        state.user = action.payload.user
+        state.isLogin = true
+      })
+      .addCase(signup.fulfilled, (state ,action) => {
         state.user = action.payload.user
         state.isLogin = true
       })
@@ -61,12 +64,13 @@ export const login = createSlice({
   //   regiser: (state, action) => {
   //     state.isLogin=true
 
-  //     state.user = signUp(
+  //     const re = signUp(
   //       action.payload.username, 
   //       action.payload.email, 
   //       action.payload.gender, 
   //       action.payload.dob, 
   //       action.payload.password);
+  //     state.user = re;
   //   },
   // },
 });

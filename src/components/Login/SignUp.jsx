@@ -1,55 +1,87 @@
 import React, { useState, useEffect } from 'react';
 import { Form, FormControl, InputGroup, Button } from 'react-bootstrap';
 import './Login.css'
-import { useNavigate, Link } from 'react-router-dom';
-import DatePicker from '../DatePicker/DatePicker';
+import { useNavigate, Link} from 'react-router-dom';
+// import DatePicker from '../DatePicker/DatePicker';
 import { useDispatch } from 'react-redux';
-
-import { Female } from '@mui/icons-material';
-
+import { signup } from "../../features/firebase/firebaseSlice";
+import { DatePicker } from '@mui/x-date-pickers';
+import dayjs from 'dayjs';
+// import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+// import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 function SignUp() {
     const dispatch = useDispatch();
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
-    const [gender, setGender] = useState('');
+    const [gender, setGender] = useState(true);
     const [password, setPassword] = useState('');
-    const [dob, setDob] = useState('');
+    const [dob, setDob] = useState(dayjs('2022-04-17'));
     const [showPassword, setShowPassword] = useState(false);
-    const [selectedGender, setSelectedGender] = useState(null);
-    const [selectedMale, setSelectedMale] = useState(false);    
-    const [selectedFemale, setSelectedFemale] = useState(false);
+    const [ConfirmPassword, setConfirmPassword] = useState(false);
+    const [errorEmail, setErrorEmail] = useState();
+    const [errorPassword, setErrorPassword] = useState();
 
-    function handleEmailSubmit(event) {
-        event.preventDefault();
-    }
+    const [validated, setValidated] = useState(false);
+
+    const navigate = useNavigate();
+
 
     function handleUsernameChange(event) {
         setUsername(event.target.value);
     }
 
+    function handleEmailChange(event) {
+        setEmail(event.target.value);
+    }   
+
+    // function handleDobChange(event) {
+    //     setDob(event.target.value).then(
+    //         (dob) => setValue(dob)
+    //     )
+    // }
+
     function handlePasswordChange(event) {
         setPassword(event.target.value);
     }
 
-    function handleSelectedMale(event) {
-        setSelectedGender('male');
-        setSelectedMale(true);
-        setSelectedFemale(false);
+    function handleConfirmPasswordChange(event) {
+        setConfirmPassword(event.target.value);
     }
 
-    function handleSelectedFemale(event) {
-        selectedGender('female');
-        setSelectedFemale(true);
-        setSelectedMale(false);
+    function handleGenderChange(event) {
+        if (event.target.value === 'Nam')
+            setGender(true);
+        else
+        setGender(false);
     }
 
     function handleSubmit(event) {
         event.preventDefault();
-        // dispatch(regiser({ username, password }));
-    }
+        event.stopPropagation();
+        const form = event.currentTarget;
+        if (form.checkValidity()) {
 
-    const [value, onChange] = useState(new Date());
+            {
+                // const birthday = dob.toLocaleDateString('en-GB');
+                const birthday = dob.format('DD/MM/YYYY');
+                console.log(birthday, gender, username, email, password)
+
+                dispatch(signup({birthday, gender, username, email, password})).then( res => {
+                    if (!res.error)
+                        navigate('/expense/accountinfor');
+                    else {
+                        setErrorEmail('Email không tồn tại');
+                        setErrorPassword('Mật khẩu không đúng');
+                        }
+                    });
+            }
+        }
+        else{
+        setValidated(true);
+        }
+        
+    }
 
     return (
         <div className='form-margin'>
@@ -60,15 +92,25 @@ function SignUp() {
                 </div>
 
                 {/* Login form */}
-                <Form className='pt-5'>
+                <Form className='pt-5' noValidate validated={validated} onSubmit={handleSubmit}>
                 <Form.Group className="mb-3" controlId="formBasicText">
                     <Form.Label>
                     <div className="weight-label">
                         Họ tên
                     </div>
                     </Form.Label>
-                    <Form.Control type="text" placeholder="Họ Tên" className='py-2' />
+                    <Form.Control 
+                    type="text" 
+                    placeholder="Họ Tên" 
+                    className='py-2' 
+                    onChange={handleUsernameChange}
+                    required
+                    />
+                    <Form.Control.Feedback type="invalid">
+                        Hãy nhập tên
+                    </Form.Control.Feedback>
                 </Form.Group>
+
 
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                     <Form.Label>
@@ -76,43 +118,51 @@ function SignUp() {
                         Email
                     </div>
                     </Form.Label>
-                    <Form.Control type="email" placeholder="Email" className='py-2' />
+                    <Form.Control 
+                    type="email" 
+                    placeholder="Email" 
+                    className='py-2'
+                    onChange={handleEmailChange}
+                    required
+                    />
+                    <Form.Control.Feedback type="invalid">
+                        Hãy nhập email
+                    </Form.Control.Feedback>
                 </Form.Group>
 
-                <div className='d-flex justify-content-around mb-3'>
-                    {/* Male */}
-                    <div 
-                        className='d-grid gap-2 hover-mafe' 
-                        onClick={()=> {handleSelectedMale}}
-                        style={selectedMale? {border: '1px solid #000'}: {}}
-                    >
-                        <div className=''>
-                            <p className='text-center'>Nam</p>
-                        </div>
-                        <img src="src/assets/male.png" className="mafe" alt="" />
+                {/* Gender */}
+                <Form.Group className="mb-3" controlId="formBasicEmail">
+                    <Form.Label>
+                    <div className="weight-label">
+                        Giới tính
                     </div>
-
-                    {/* FeMale */}
-                    <div 
-                        className='d-grid gap-2 hover-mafe'
-                        onClick={()=> {handleSelectedFemale()}}
-                        style={selectedFemale? {border: '1px solid #000'}: {}}
+                    </Form.Label>
+                    <Form.Select 
+                    aria-label="Default select example" 
+                    className='py-2'
+                    onChange={handleGenderChange}
                     >
-                        <div className=''>
-                            <p className='text-center'>Nữ</p>
-                        </div>
-                        <img src="src/assets/female.png" className="mafe" alt="" />
-                    </div>
-                </div>
+                    <option value="Nam">Nam</option>
+                    <option value="Nữ">Nữ</option>
+                    </Form.Select>
+                </Form.Group>
 
                 {/* Date time picker */}
                 <Form.Group className="mb-3" controlId="formDatePicker" >
-                    <Form.Label>
+                    {/* <Form.Label>
                     <div className="weight-label">
                         Ngày sinh
                     </div>
-                    </Form.Label>
-                    <DatePicker className="w-full"></DatePicker>
+                    </Form.Label> */}
+                    <InputGroup id="basic-addon1" className='bg-white date-signup pt-2'>
+                    <DatePicker
+                    label="Ngày sinh"
+                    value={dob}
+                    onChange={(newValue) => setDob(newValue)}
+                    // renderInput={(params) => <TextField {...params} />}
+                    slotProps={{ textField: { variant: 'outlined' } }}
+                    />
+                    </InputGroup>
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formBasicPassword">
@@ -127,6 +177,8 @@ function SignUp() {
                         aria-label="Password"
                         type={showPassword ? "text" : "password"}
                         aria-describedby="basic-addon1"
+                        onChange={handlePasswordChange}
+                        required
                         />
                         <InputGroup.Text id="basic-addon1" className='bg-white' onClick={() => setShowPassword(!showPassword)}>
                             {showPassword ? (
@@ -142,6 +194,9 @@ function SignUp() {
                             }
                         </InputGroup.Text>
                     </InputGroup>
+                    <Form.Control.Feedback type="invalid">
+                        Hãy nhập mật khẩu
+                    </Form.Control.Feedback>
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formBasicConfirmPassword">
@@ -156,6 +211,8 @@ function SignUp() {
                         aria-label="Password"
                         type={showPassword ? "text" : "password"}
                         aria-describedby="basic-addon1"
+                        onChange={handleConfirmPasswordChange}
+                        required
                         />
                         <InputGroup.Text id="basic-addon1" className='bg-white' onClick={() => setShowPassword(!showPassword)}>
                             {showPassword ? (
@@ -171,10 +228,13 @@ function SignUp() {
                             }
                         </InputGroup.Text>
                     </InputGroup>
+                    <Form.Control.Feedback type="invalid">
+                        Hãy nhập mật khẩu xác nhận
+                    </Form.Control.Feedback>
                 </Form.Group>
 
                 <div className='d-grid gap-2'>
-                    <button onClick={handleSubmit} type="submit" className="button-login border-1 shadow">
+                    <button type="submit" className="button-login border-1 shadow">
                         Đăng ký
                     </button>
                 </div>

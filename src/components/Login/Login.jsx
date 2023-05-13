@@ -29,11 +29,11 @@ function Login() {
   }
 
   function handleEmailSubmit(event) {
-    // event.preventDefault();
+    event.preventDefault();
     // const form = event.currentTarget;
-    // if (form.checkValidity() === false) {
-      event.preventDefault();
-      event.stopPropagation();
+    // if (form.checkValidity()) {
+    //   event.preventDefault();
+    //   event.stopPropagation();
       if (username === "" && password === "") {
         setErrorEmail('Vui lòng nhập email');
         setErrorPassword('Vui lòng nhập mật khẩu');
@@ -88,7 +88,7 @@ function Login() {
         </div>
 
         {/* Login form */}
-        <Form className="pt-5">
+        <Form className="pt-5" validated={validated} onSubmit={handleEmailSubmit}>
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>
               <div className="weight-label">
@@ -96,7 +96,8 @@ function Login() {
               </div>
               </Form.Label>
             <Form.Control
-              required type="email"
+              required 
+              type="email"
               placeholder="Email"
               className="py-2"
               onChange={handleUsernameChange}
@@ -120,6 +121,7 @@ function Login() {
                         type={showPassword ? "text" : "password"}
                         aria-describedby="basic-addon1"
                         onChange={handlePasswordChange}
+                        required
                         />
                         <InputGroup.Text id="basic-addon1" className='bg-white' onClick={() => setShowPassword(!showPassword)}>
                             {showPassword ? (
@@ -152,7 +154,6 @@ function Login() {
             <button
               type="submit"
               className="button-login border-1 shadow"
-              onClick={handleEmailSubmit}
             >
               Đăng nhập
             </button>
