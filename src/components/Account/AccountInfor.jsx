@@ -72,6 +72,7 @@ const AccountInfor = () => {
   return (
     <div className='mt-4'>
       <Box className='row justify-content-center'>
+        <h3 className='my-2'>Thông tin người dùng:</h3>
         <Box className='col-md-3'>
           {/* Avatar */}
           <Box className='d-flex align-items-center flex-column mt-3'>
@@ -135,8 +136,13 @@ const AccountInfor = () => {
         </Box>
       </Box>
       {/* Button */}
-      <Box className='d-flex justify-content-center'>
+      <Box className='d-flex justify-content-center mb-4'>
         <button className='button-logout'>Lưu</button>
+      </Box>
+      <hr />
+      <h3 className='my-2'>Xuất CSV:</h3>
+      <Box className="mx-3 text-center">
+        <Button variant="contained">Xuất CSV</Button>
       </Box>
     </div>
   );

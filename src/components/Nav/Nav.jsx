@@ -50,11 +50,9 @@ const Nav = () => {
                             <MenuItem
                                 component={<Link to="history" />}
                             > Lịch sử </MenuItem>
-                            <MenuItem> Xuất CSV </MenuItem>
                             <MenuItem
                                 component={<Link to="currency" />}
                             > Tỷ giá </MenuItem>
-                            <MenuItem> Thông tin </MenuItem>
                             <MenuItem
                             
                             > 
