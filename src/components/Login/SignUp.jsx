@@ -4,7 +4,7 @@ import './Login.css'
 import { useNavigate, Link} from 'react-router-dom';
 // import DatePicker from '../DatePicker/DatePicker';
 import { useDispatch } from 'react-redux';
-import { signup } from "../../features/firebase/firebaseSlice";
+import { regiser } from "../../features/firebase/firebaseSlice";
 import { DatePicker } from '@mui/x-date-pickers';
 import dayjs from 'dayjs';
 // import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -67,7 +67,7 @@ function SignUp() {
                 const birthday = dob.format('DD/MM/YYYY');
                 console.log(birthday, gender, username, email, password)
 
-                dispatch(signup({birthday, gender, username, email, password})).then( res => {
+                dispatch(regiser({birthday, gender, username, email, password})).then( res => {
                     if (!res.error)
                         navigate('/expense/accountinfor');
                     else {

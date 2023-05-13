@@ -31,7 +31,7 @@ function Login() {
   function handleEmailSubmit(event) {
     event.preventDefault();
     // const form = event.currentTarget;
-    // if (form.checkValidity() === false) {
+    // if (form.checkValidity()) {
     //   event.preventDefault();
     //   event.stopPropagation();
       if (username === "" && password === "") {
