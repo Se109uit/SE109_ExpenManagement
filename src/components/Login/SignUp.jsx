@@ -154,7 +154,7 @@ function SignUp() {
                         Ngày sinh
                     </div>
                     </Form.Label> */}
-                    <InputGroup id="basic-addon1" className='bg-white date-signup pt-2'>
+                    <InputGroup id="basic-addon1" className='date-signup pt-2'>
                     <DatePicker
                     label="Ngày sinh"
                     value={dob}
