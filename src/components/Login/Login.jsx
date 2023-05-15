@@ -51,7 +51,7 @@ function Login() {
       }
       else {
         console.log(username, password);
-        dispatch(email({ username, password })).then( res => {
+        dispatch(email({ username: username, password: password })).then( res => {
           if (!res.error)
             navigate('expense/accountinfor');
           else {

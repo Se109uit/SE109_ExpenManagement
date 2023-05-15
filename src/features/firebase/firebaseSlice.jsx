@@ -30,7 +30,7 @@ export const login = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(email.fulfilled, (state ,action) => {
-        const userInfor = action.payload.username
+        const userInfor = action.payload.user
         console.log(userInfor)
         state.user = userInfor
         state.isLogin = true
