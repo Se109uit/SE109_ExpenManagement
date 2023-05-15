@@ -53,7 +53,7 @@ export const ggSignIn = () =>
       const user = result.user;
       // IdP data available using getAdditionalUserInfo(result)
       console.log(user)
-      return user;
+      return user.uid;
       // ...
     })
     .catch((error) => {
@@ -78,7 +78,7 @@ export const fbSignIn = () =>
       const credential = FacebookAuthProvider.credentialFromResult(result);
       const accessToken = credential.accessToken;
       console.log(user)
-      return user;
+      return user.uid;
       // IdP data available using getAdditionalUserInfo(result)
       // ...
     })
@@ -99,8 +99,7 @@ export const emailSignIn = (email, password) =>
   signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       const user = userCredential.user;
-      console.log(user)
-      return user;
+      return user.uid;
     })
     .catch((error) => {
       console.log(error);
@@ -132,6 +131,7 @@ export const signUp = (birthday, gender, username, email, password) =>
       } catch (e) {
         console.error("Error adding document: ", e);
       }
+      return user.uid;
     })
     .catch((error) => {
       const errorCode = error.code;

@@ -2,6 +2,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 import {  emailSignIn ,fbSignIn, ggSignIn, signUp } from "./firebase";
+import { red } from '@mui/material/colors';
 
 const initialState = {
   user: null,
@@ -30,24 +31,31 @@ export const login = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(email.fulfilled, (state ,action) => {
-        const userInfor = action.payload.user
-        console.log(userInfor)
+        const userInfor = action.payload
+        console.log( 'userInfor', userInfor)
         state.user = userInfor
         state.isLogin = true
       })
       .addCase(fb.fulfilled, (state ,action) => {
-        state.user = action.payload.user
+        state.user = action.payload
         state.isLogin = true
       })
       .addCase(gg.fulfilled, (state ,action) => {
-        state.user = action.payload.user
+        state.user = action.payload
         state.isLogin = true
       })
       .addCase(signup.fulfilled, (state ,action) => {
-        state.user = action.payload.user
+        state.user = action.payload
         state.isLogin = true
       })
-    }
+      },
+    reducers: {
+      logout: (state) => {
+        state.user = null
+        state.isLogin = false
+      }
+    },
+
   // reducers: {
   //   fb: (state) => {
   //     state.isLogin=true
@@ -79,6 +87,9 @@ export const login = createSlice({
 
 // Action creators are generated for each case reducer function
 // export const { fb, gg, email, regiser } = login.actions;
+
+export const logout = login.actions.logout;
+
 export const selectUsers = (state) => state.login;
 
 export default login.reducer;
