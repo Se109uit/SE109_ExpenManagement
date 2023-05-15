@@ -115,20 +115,19 @@ export const signUp = (birthday, gender, username, email, password) =>
     .then((userCredential) => {
       // Signed in
       const user = userCredential.user;
+      const uuid = user.uid.toString();
 
       console.log(userCredential.user)
 
       // Add a new document with a generated id.
       try {
-        const docRef = addDoc(collection(db, "infotemp"), {
+        setDoc(doc(db, "infotemp", "LA", uuid), {
             avatar: avatarImg,
             birthday: birthday,
             gender: gender,
             money: 0,
             name: username,
         });
-        console.log("Document written with ID: ", docRef.id);
-        return user;
 
       } catch (e) {
         console.error("Error adding document: ", e);
