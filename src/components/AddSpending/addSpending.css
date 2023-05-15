@@ -1,0 +1,113 @@
+.AddSpending {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 712px;
+  background: #ECF0F1;
+}
+.AddSpending h2 {
+  text-align: center;
+  font-size: 25px;
+  margin-bottom: 1.5rem;
+  margin-top: 1rem;
+}
+.AddSpending li {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  list-style-type: none;
+  height: 37px;
+  width: 360px;
+}
+.AddSpending li input {
+  width: 220px;
+  border-radius: 0.5rem;
+  padding: 5px;
+}
+.AddSpending li p {
+  margin-top: 5px;
+}
+.AddSpending li img {
+  width: 25px;
+  margin-right: 5px;
+  margin-bottom: 5px;
+}
+.AddSpending .day_time {
+  display: flex;
+  flex-direction: row;
+  margin-top: 1.5rem;
+}
+.AddSpending .day_time .time {
+  margin-left: 2rem;
+  display: flex;
+  flex-direction: column;
+}
+.AddSpending .day_time .time input {
+  text-align: center;
+  padding-top: 7px;
+}
+.AddSpending .day_time .location {
+  margin-left: 2rem;
+}
+.AddSpending .day_time .location input {
+  width: 260px;
+}
+.AddSpending .many-type {
+  display: flex;
+  flex-direction: row;
+  margin-top: 1rem;
+}
+.AddSpending .many-type .type {
+  margin-left: 2rem;
+}
+.AddSpending .many-type .type li {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.AddSpending .many-type .type p {
+  margin-right: 1rem;
+}
+.AddSpending .many-type .type .Select {
+  width: 100px;
+}
+.AddSpending .friend {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: row;
+  height: auto;
+}
+.AddSpending .friend li {
+  margin-right: 2rem;
+  display: flex;
+  flex-direction: row;
+}
+.AddSpending .image {
+  margin-right: 6.5rem;
+}
+.AddSpending .input-group .custom-file {
+  background: white;
+  border-radius: 0.5rem;
+}
+.AddSpending .input-group .custom-file button {
+  border-radius: 5rem;
+}
+.AddSpending .note {
+  margin-top: 1.5rem;
+}
+.AddSpending .header {
+  height: 800px;
+  background: white;
+  border-radius: 2rem;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+}
+.AddSpending .header button {
+  cursor: pointer;
+  border-radius: 0.5rem;
+  margin-top: 1rem;
+}
+.AddSpending .header button:hover {
+  background: white;
+  color: black;
+}/*# sourceMappingURL=addSpending.css.map */

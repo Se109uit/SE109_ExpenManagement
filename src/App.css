@@ -1,12 +1,13 @@
 .App{
-    font-family: 'Nunito', sans-serif;
-    font-size: clamp(1rem, 1.5vw, 1.2rem);
+    font-family: 'Montserrat', sans-serif;
+    font-size: clamp(2rem, 6vw, 2.4rem);
     color: rgba(34, 34, 96, .6);
 }
-h1, h2, h3, h4, h5, h6{
-    color: #222260;
-}
 body{
-    background-color: rgba(244, 239, 243, 1);
-    backdrop-filter: blur(4.5px);
+    backdrop-filter: blur(10px);
+    font-family: 'Montserrat';
+    font-size:medium;
+    /* background-image: url('src/assets/home-01.jpg'); */
+    /* background: #4d5d58; */
+    background: #f6fefc;
 }

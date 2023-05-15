@@ -1,9 +1,16 @@
+.greeting-log{
+    font-weight: 400;
+}
+.weight-label{
+    font-weight: 500;
+}
 .button-login {
+    font-weight: 500;
     background-color: rgb(252, 107, 104);
     color: #ffffff;
     height: 38px;
     border: 2px solid rgb(252, 107, 104);
-    border-radius: 5px;
+    border-radius: 12px;
     }
 .button-login:hover {
     background-color: #d76b6b;
@@ -27,6 +34,7 @@
     height: 40px;
     width: 210px;
     border-radius: 5px;
+    border-color: #3b5998;
 }
 .button-login-facebook:hover{
     background-color: #3b4f7a;
@@ -34,15 +42,38 @@
 }
 .fa-gg{
     padding-left: 5px;
+    font-weight: 600;
 }
 
 .background-span {
     /* background-color: rgba(244, 239, 243, 1); */
-    background-color: #ffffff;
+    background-color: #f6fefc;
     font-size: medium;
-    color: gray;
+    color: rgb(75, 74, 74);
 }
 .some-purple-text{
     color: rgb(121, 26, 159);
 }
+.mafe{
+    height: 90px;
+    width: 90px;
+}
+.hover-mafe{
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 10%;
+}
+.hover-mafe:hover{
+    border:1px solid #202423;
+    border-radius: 10%;
+}
+.hover-mafe::selection{
+    background-color: #202423;
+    color: #ffffff;
+}
+
+.form-margin{
+    margin-bottom: 8rem;
+}
+
 
