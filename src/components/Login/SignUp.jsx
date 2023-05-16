@@ -16,7 +16,8 @@ function SignUp() {
     const [email, setEmail] = useState('');
     const [gender, setGender] = useState(true);
     const [password, setPassword] = useState('');
-    const [dob, setDob] = useState(dayjs('2022-04-17'));
+    const date = new Date();
+    const [dob, setDob] = useState(dayjs(date.toISOString().split('T')[0]));
     const [showPassword, setShowPassword] = useState(false);
     const [ConfirmPassword, setConfirmPassword] = useState(false);
     const [errorEmail, setErrorEmail] = useState();

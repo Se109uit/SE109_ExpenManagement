@@ -50,23 +50,23 @@ const AccountInfor = () => {
     }
 
     useEffect(() => {
+      const showInfor = async () => {
         console.log('loginState', loginState);
         console.log('user data', user);
-        const fetchUserData = async () => {
         const usr = user.uid;
         const docRef = doc(db, "infotemp", usr);
-        console.log('usr', usr)
-        console.log('docRef', docRef)
         const docSnap = await getDoc(docRef);
-    
+        
         if (docSnap.exists()) {
             setUserData(docSnap.data());
+            setName(docSnap.data().name);
+            console.log("Document data:", docSnap.data().name);
         } else {
             console.log("No such document!");
         }
-        };
+      }
 
-    fetchUserData();
+      return () => {showInfor()};
   }, [userData]);
 
   return (
@@ -94,7 +94,7 @@ const AccountInfor = () => {
             label="Tên" 
             variant="outlined" 
             fullWidth
-            defaultValue={userData?.name}
+            defaultValue={name}
             onChange={handleNameChange}
             />
           </Box>

@@ -12,6 +12,8 @@ import {
   getFirestore, 
   collection, 
   getDocs,
+  setDoc,
+  doc,
   addDoc,
 } from 'firebase/firestore';
 import { getStorage } from "firebase/storage";
@@ -99,7 +101,8 @@ export const emailSignIn = (email, password) =>
   signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       const user = userCredential.user;
-      return user.uid;
+      const uuid = user.uid.toString();
+      return {uuid, password};
     })
     .catch((error) => {
       console.log(error);
@@ -120,7 +123,7 @@ export const signUp = (birthday, gender, username, email, password) =>
 
       // Add a new document with a generated id.
       try {
-        setDoc(doc(db, "infotemp", "LA", uuid), {
+        setDoc(doc(db, "infotemp", uuid), {
             avatar: avatarImg,
             birthday: birthday,
             gender: gender,
@@ -131,7 +134,7 @@ export const signUp = (birthday, gender, username, email, password) =>
       } catch (e) {
         console.error("Error adding document: ", e);
       }
-      return user.uid;
+      return {uuid, password};
     })
     .catch((error) => {
       const errorCode = error.code;
