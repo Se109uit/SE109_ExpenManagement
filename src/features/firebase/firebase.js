@@ -42,6 +42,7 @@ export const auth = getAuth(app);
 export const storage = getStorage(app)
 
 export default auth;
+export const USER_COLLECTION = "infotemp";
 
 const ggProvider = new GoogleAuthProvider();
 const fbProvider = new FacebookAuthProvider();
@@ -126,7 +127,7 @@ export const signUp = (birthday, gender, username, email, password) =>
 
       // Add a new document with a generated id.
       try {
-        setDoc(doc(db, "infotemp", uuid), {
+        setDoc(doc(db, USER_COLLECTION, uuid), {
             avatar: avatarImg,
             birthday: birthday,
             gender: gender,
