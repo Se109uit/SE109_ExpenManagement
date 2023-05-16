@@ -57,6 +57,9 @@ const Nav = () => {
                             <MenuItem
                                 component={<Link to="accountinfor" />}
                             > Tài khoản</MenuItem>
+                            <MenuItem
+                                component={<Link to="resetpassword" />}
+                            > Đổi mật khẩu</MenuItem>
                             <MenuItem> Ngôn ngữ </MenuItem>
                             <MenuItem
                                 component={<Link to="history" />}

@@ -24,8 +24,8 @@ import {
     EmailAuthProvider,
     deleteUser
 } from 'firebase/auth';
-import { collection, doc, getDoc } from "firebase/firestore"; 
-import {auth, db} from '../../features/firebase/firebase';
+import { collection, doc, getDoc, updateDoc } from "firebase/firestore"; 
+import {auth, db, USER_COLLECTION} from '../../features/firebase/firebase';
 
 import './Account.css'
 
@@ -59,7 +59,7 @@ const AccountInfor = () => {
 
     const showInfor = async () => {
       const usr = user.uid;
-      const docRef = doc(db, "infotemp", usr);
+      const docRef = doc(db, USER_COLLECTION, usr);
       const docSnap = await getDoc(docRef);
       
       if (docSnap.exists()) {
@@ -77,10 +77,30 @@ const AccountInfor = () => {
       }
     }
 
+    const updateInformation = async () => {
+      const usr = user.uid;
+      const docRef = doc(db, USER_COLLECTION, usr);
+
+      const dob = birthday.format('DD/MM/YYYY');
+      
+      await updateDoc(docRef, {
+        name: name,
+        birthday: dob,
+        gender: gender,
+        money: money
+      });
+
+      window.alert('Cập nhật thông tin thành công!');
+    }
+
     useEffect(() => {
       console.log('user', user);
       {showInfor()};
   }, [loginState]);
+
+    function handleUpdate() {
+      updateInformation();
+    }
 
   return (
     <div className='mt-4'>
@@ -167,7 +187,7 @@ const AccountInfor = () => {
       </Box>
       {/* Button */}
       <Box className='d-flex justify-content-center mb-4'>
-        <button className='button-logout'>Lưu</button>
+        <button className='button-logout' onClick={handleUpdate}>Lưu</button>
       </Box>
       <hr />
       <h3 className='my-2'>Xuất CSV:</h3>
