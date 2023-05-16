@@ -7,6 +7,7 @@ import {
   FacebookAuthProvider,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  signOut,
 } from "firebase/auth";
 import { 
   getFirestore, 
@@ -108,6 +109,8 @@ export const emailSignIn = (email, password) =>
       console.log(error);
       const errorCode = error.code;
       const errorMessage = error.message;
+
+      window.alert("Đăng nhập thất bại!");
     });
 
 export const avatarImg = "https://firebasestorage.googleapis.com/v0/b/spending-management-c955a.appspot.com/o/FVK7wz5aIAA25l8.jpg?alt=media&token=ddceb8f7-7cf7-4c42-a806-5d0d48ce58f5";
@@ -141,4 +144,17 @@ export const signUp = (birthday, gender, username, email, password) =>
       const errorMessage = error.message;
       // ..
       console.log(error.message);
+
+      window.alert("Đăng ký thất bại!");
+      return null;
     });
+
+export const logOut = () =>{
+  signOut(auth).then(() => {
+    // Sign-out successful.
+    console.log("Sign-out successful.");
+  }).catch((error) => {
+    // An error happened.
+    console.log(error);
+  });
+}

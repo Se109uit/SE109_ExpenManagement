@@ -1,8 +1,9 @@
   // import { createSlice } from "@reduxjs/toolkit";
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
-import {  emailSignIn ,fbSignIn, ggSignIn, signUp } from "./firebase";
+import {  emailSignIn ,fbSignIn, ggSignIn, signUp, logOut } from "./firebase";
 import { red } from '@mui/material/colors';
+import { use } from 'i18next';
 
 const initialState = {
   user: null,
@@ -25,6 +26,10 @@ export const signup =createAsyncThunk('users/signup', async ({birthday, gender, 
   const em = signUp(birthday, gender, username, email, password)
   return em;
 });
+export const signout =createAsyncThunk('users/signout', async () => {
+  const em = logOut()
+  return em;
+});
 export const login = createSlice({
   name: "login",
   initialState,
@@ -32,29 +37,44 @@ export const login = createSlice({
     builder
       .addCase(email.fulfilled, (state ,action) => {
         const userInfor = action.payload
-        console.log( 'userInfor', userInfor)
         state.user = userInfor
-        state.isLogin = true
+        if(state.user){
+          state.isLogin = true
+        }
+        else {
+          state.isLogin = false
+        }
       })
       .addCase(fb.fulfilled, (state ,action) => {
         state.user = action.payload
-        state.isLogin = true
+        if(state.user){
+          state.isLogin = true
+        }
+        else
+          state.isLogin = false
       })
       .addCase(gg.fulfilled, (state ,action) => {
         state.user = action.payload
-        state.isLogin = true
+        if(state.user){
+          state.isLogin = true
+        }
+        else
+          state.isLogin = false
       })
       .addCase(signup.fulfilled, (state ,action) => {
-        state.user = action.payload
-        state.isLogin = true
+        const userInfor = action.payload
+        state.user = userInfor
+        if(state.user){
+          state.isLogin = true
+        }
+        else
+          state.isLogin = false
       })
-      },
-    reducers: {
-      logout: (state) => {
+      .addCase(signout.fulfilled, (state ,action) => {
         state.user = null
         state.isLogin = false
-      }
-    },
+      })
+      },
 
   // reducers: {
   //   fb: (state) => {
@@ -87,8 +107,6 @@ export const login = createSlice({
 
 // Action creators are generated for each case reducer function
 // export const { fb, gg, email, regiser } = login.actions;
-
-export const logout = login.actions.logout;
 
 export const selectUsers = (state) => state.login;
 

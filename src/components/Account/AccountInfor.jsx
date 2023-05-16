@@ -13,6 +13,7 @@ import dayjs from 'dayjs';
 
 import { useSelector } from 'react-redux';
 import { selectUsers } from '../../features/firebase/firebaseSlice';
+
 import { 
     updateProfile, 
     updateEmail, 
@@ -32,10 +33,12 @@ const AccountInfor = () => {
     const loginState = useSelector(selectUsers);
     const user = auth.currentUser;
     const [userData, setUserData] = useState(null);
-    const [name, setName] = useState('');
+    const [name, setName] = useState('a');
     const [birthday, setBirthday] = useState(dayjs('2023-05-14'));
     const [gender, setGender] = useState('');
-    const [money, setMoney] = useState('');
+    const [money, setMoney] = useState(1);
+    const [avatar, setAvatar] = useState('/src/assets/female.png');
+    const [img, setImg] = useState(null);
 
     function handleNameChange(event) {
         setName(event.target.value);
@@ -46,28 +49,38 @@ const AccountInfor = () => {
     }
 
     function handleMoneyChange(event) {
-        setMoney(event.target.value);
+      const onlyNums = event.target.value.replace(/[^0-9]/g, '');
+      setMoney(onlyNums);
+    }
+
+    const handleAvatarChange = async (event) => {
+      setImg(URL.createObjectURL(event.target.files[0]));
+    }
+
+    const showInfor = async () => {
+      const usr = user.uid;
+      const docRef = doc(db, "infotemp", usr);
+      const docSnap = await getDoc(docRef);
+      
+      if (docSnap.exists()) {
+          setUserData(docSnap.data());
+          setName(docSnap.data().name);
+          const aBirthday = dayjs(docSnap.data().birthday);
+          setBirthday(aBirthday);
+          const aMoney = docSnap.data().money.toString();
+          setMoney(aMoney);
+          setGender(docSnap.data().gender);
+          console.log("Document data:", docSnap.data());
+          setAvatar(docSnap.data().avatar);
+      } else {
+          console.log("No such document!");
+      }
     }
 
     useEffect(() => {
-      const showInfor = async () => {
-        console.log('loginState', loginState);
-        console.log('user data', user);
-        const usr = user.uid;
-        const docRef = doc(db, "infotemp", usr);
-        const docSnap = await getDoc(docRef);
-        
-        if (docSnap.exists()) {
-            setUserData(docSnap.data());
-            setName(docSnap.data().name);
-            console.log("Document data:", docSnap.data().name);
-        } else {
-            console.log("No such document!");
-        }
-      }
-
-      return () => {showInfor()};
-  }, [userData]);
+      console.log('user', user);
+      {showInfor()};
+  }, [loginState]);
 
   return (
     <div className='mt-4'>
@@ -78,10 +91,16 @@ const AccountInfor = () => {
           <Box className='d-flex align-items-center flex-column mt-3'>
             <img
               className="img_avatar img-fluid rounded-circle shadow-4-strong"
-              alt="Responsive image"
-              src="/src/assets/female.png"
+              alt={name}
+              src={avatar}
             />
-            <Button className='my-2' variant="contained" startIcon={<AddIcon />}>
+            <Button 
+            type="file"
+            className='my-2' 
+            variant="contained" 
+            startIcon={<AddIcon />}
+            onClick={(event) => {handleAvatarChange(event)}}
+            >
               Thay đổi ảnh
             </Button>
           </Box>
@@ -90,12 +109,17 @@ const AccountInfor = () => {
           {/* User information */}
           <Box className='my-3 t-box'>
             <TextField 
+            InputLabelProps={{ shrink: true }}
+            required
+            hiddenLabel
             id="standard-basic" 
             label="Tên" 
             variant="outlined" 
             fullWidth
-            defaultValue={name}
+            value={name}
             onChange={handleNameChange}
+            helperText={name ? "" : "Thiếu tên."}
+            error={name ? false : true}
             />
           </Box>
           <Box className='my-3'>
@@ -125,12 +149,18 @@ const AccountInfor = () => {
           </Box>
             <Box className='my-3 t-box'>
                 <TextField 
+                input="text"
+                InputLabelProps={{ shrink: true, inputMode: 'numeric', pattern: '[0-9]*' }}
+                required
+                hiddenLabel
                 id="standard-basic" 
                 label="Tiền hàng tháng" 
                 variant="outlined" 
                 fullWidth
-                defaultValue={userData?.money}
+                value={money}
                 onChange={handleMoneyChange}
+                helperText={money ? "" : "Thiếu số tiền hàng tháng."}
+                error={money ? false : true}
                 />
             </Box>
         </Box>

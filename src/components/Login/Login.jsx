@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 // import { useHistory } from 'react-router-dom';
 import { Form, FormControl, InputGroup, Button } from 'react-bootstrap';
 import { useSelector, useDispatch } from "react-redux";
@@ -9,6 +9,7 @@ import "./Login.css";
 
 function Login() {
   const dispatch = useDispatch();
+  const loginState = useSelector((state) => state.login.isLogin);
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -50,14 +51,21 @@ function Login() {
         return;
       }
       else {
-        dispatch(email({ username: username, password: password })).then( res => {
-          if (!res.error)
-            navigate('expense/accountinfor');
-          else {
-            setErrorEmail('Email không tồn tại');
-            setErrorPassword('Mật khẩu không đúng');
-          }
-        });
+        dispatch(email({ username: username, password: password }))
+        // .then( res => {
+        //   if (!res.error) {
+        //     if (loginState)
+        //     navigate('expense/accountinfor');
+        //       else {
+        //         setErrorEmail('Email không tồn tại hoặc mật khẩu không đúng');
+        //         setErrorPassword('');
+        //       }
+        //     }
+        //   else {
+        //     setErrorEmail('Email không tồn tại hoặc mật khẩu không đúng');
+        //     setErrorPassword('');
+        //   }
+        // });
       }
     // }
 

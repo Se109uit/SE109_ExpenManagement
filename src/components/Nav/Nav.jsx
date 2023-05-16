@@ -1,8 +1,12 @@
-import { Outlet, Link } from "react-router-dom";
+import React, {useEffect} from 'react'
+import { Outlet, Link, useNavigate } from "react-router-dom";
 import { Sidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
 import { useProSidebar } from "react-pro-sidebar";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
+
+import {useDispatch, useSelector} from 'react-redux'
+import {signout} from '../../features/firebase/firebaseSlice'
 
 import Home from '../../assets/Home.png'
 import User from '../../assets/User.png'
@@ -14,7 +18,14 @@ import Logout from '../../assets/Logout.png'
 import './Nav.css';
 
 const Nav = () => {
+    const navigate = useNavigate();
     const { collapseSidebar} = useProSidebar();
+    const dispatch = useDispatch();
+    const loginState = useSelector((state) => state.login.isLogin);
+
+    function handleLogout ()  {
+        dispatch(signout());
+    }
 
     return (
         <div id="app" style={({ height: "100vh" }, { display: "flex" })}>
@@ -54,7 +65,7 @@ const Nav = () => {
                                 component={<Link to="currency" />}
                             > Tỷ giá </MenuItem>
                             <MenuItem
-                            
+                                onClick={() => handleLogout()}
                             > 
                             <p className="text-danger">Đăng xuất</p> 
                             </MenuItem>
