@@ -84,7 +84,7 @@ function Login() {
 
   return (
     <div className="form-margin">
-      <div className="container col-12 col-md-4 col-lg-4">
+      <div className="container col-12 col-md-6 col-lg-4">
         <div className="">
           <h2 className="d-flex justify-content-center mt-5">
             Chào mừng trở lại!
@@ -175,8 +175,8 @@ function Login() {
           </span>
         </div>
 
-        {/* Login with Google */}
         <div className="d-flex justify-content-between">
+          {/* Login with Google */}
           <div className="d-grid gap-2 mt-4">
             <button
               type="button"

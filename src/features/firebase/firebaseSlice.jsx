@@ -8,6 +8,7 @@ import { use } from 'i18next';
 const initialState = {
   user: null,
   isLogin:false,
+  status: null,
 };
   
 export const email =createAsyncThunk('users/login', async ({username, password}) => {
@@ -37,29 +38,37 @@ export const login = createSlice({
     builder
       .addCase(email.fulfilled, (state ,action) => {
         const userInfor = action.payload
-        state.user = userInfor
+        state.user = userInfor;
         if(state.user){
           state.isLogin = true
         }
         else {
           state.isLogin = false
         }
+        state.status = "email";
       })
       .addCase(fb.fulfilled, (state ,action) => {
-        state.user = action.payload
+        const userInfor = action.payload
+        state.user = userInfor
         if(state.user){
           state.isLogin = true
         }
         else
           state.isLogin = false
+
+        state.status = "fb";
       })
       .addCase(gg.fulfilled, (state ,action) => {
-        state.user = action.payload
+        const userInfor = action.payload
+        state.user = userInfor
+        console.log("user", state.user)
         if(state.user){
           state.isLogin = true
         }
         else
           state.isLogin = false
+
+        state.status = "gg";
       })
       .addCase(signup.fulfilled, (state ,action) => {
         const userInfor = action.payload
@@ -69,6 +78,8 @@ export const login = createSlice({
         }
         else
           state.isLogin = false
+
+        state.status = "email";
       })
       .addCase(signout.fulfilled, (state ,action) => {
         state.user = null
@@ -108,7 +119,7 @@ export const login = createSlice({
 // Action creators are generated for each case reducer function
 // export const { fb, gg, email, regiser } = login.actions;
 
-export const selectUsers = (state) => state.login;
+export const selectUsers = (state) => state.login.user;
 
 export default login.reducer;
 

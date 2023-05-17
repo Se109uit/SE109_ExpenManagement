@@ -8,6 +8,8 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
+  setPersistence,
+  browserSessionPersistence, 
 } from "firebase/auth";
 import { 
   getFirestore, 
@@ -48,28 +50,34 @@ const ggProvider = new GoogleAuthProvider();
 const fbProvider = new FacebookAuthProvider();
 
 export const ggSignIn = () =>
-  signInWithPopup(auth, ggProvider)
-    .then((result) => {
-      // This gives you a Google Access Token. You can use it to access the Google API.
-      const credential = GoogleAuthProvider.credentialFromResult(result);
-      const token = credential.accessToken;
-      // The signed-in user info.
-      const user = result.user;
-      // IdP data available using getAdditionalUserInfo(result)
-      console.log(user)
-      return user.uid;
-      // ...
-    })
-    .catch((error) => {
-      // Handle Errors here.
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      // The email of the user's account used.
-      const email = error.customData.email;
-      // The AuthCredential type that was used.
-      const credential = GoogleAuthProvider.credentialFromError(error);
-      // ...
-    });
+  // setPersistence(auth, browserSessionPersistence)
+  // .then(() => {
+    // const uuid = null;
+    signInWithPopup(auth, ggProvider)
+      .then((result) => {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const token = credential.accessToken;
+        // The signed-in user info.
+        const user = result.user;
+        // IdP data available using getAdditionalUserInfo(result)
+        console.log(user)
+        const uuid = user.uid.toString();
+        // ...
+        return uuid;
+      })
+      .catch((error) => {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // The email of the user's account used.
+        const email = error.customData.email;
+        // The AuthCredential type that was used.
+        const credential = GoogleAuthProvider.credentialFromError(error);
+        // ...
+      });
+      // return uuid;
+  // })
 
 export const fbSignIn = () =>
   signInWithPopup(auth, fbProvider)
@@ -82,7 +90,8 @@ export const fbSignIn = () =>
       const credential = FacebookAuthProvider.credentialFromResult(result);
       const accessToken = credential.accessToken;
       console.log(user)
-      return user.uid;
+      const uuid = user.uid.toString();
+      return uuid;
       // IdP data available using getAdditionalUserInfo(result)
       // ...
     })
@@ -104,7 +113,7 @@ export const emailSignIn = (email, password) =>
     .then((userCredential) => {
       const user = userCredential.user;
       const uuid = user.uid.toString();
-      return {uuid, password};
+      return uuid
     })
     .catch((error) => {
       console.log(error);

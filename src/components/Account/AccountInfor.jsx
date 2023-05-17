@@ -24,8 +24,10 @@ import {
     EmailAuthProvider,
     deleteUser
 } from 'firebase/auth';
-import { collection, doc, getDoc, updateDoc } from "firebase/firestore"; 
-import {auth, db, USER_COLLECTION} from '../../features/firebase/firebase';
+import { collection, doc, getDoc, updateDoc, setDoc } from "firebase/firestore"; 
+import { v4 } from 'uuid';
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import {auth, db, USER_COLLECTION, avatarImg} from '../../features/firebase/firebase';
 
 import './Account.css'
 
@@ -39,6 +41,31 @@ const AccountInfor = () => {
     const [money, setMoney] = useState(1);
     const [avatar, setAvatar] = useState('/src/assets/female.png');
     const [img, setImg] = useState(null);
+    const [selectedFile, setSelectedFile] = useState(null);
+
+    let imageUrl = null;
+
+    const handleFileChange = (event) => {
+      setSelectedFile(event.target.files[0]);
+    };
+
+    const handleUpload = async () => {
+      if (selectedFile) {
+        const storageRef = ref(getStorage(), `images/${selectedFile.name}`);
+        await uploadBytes(storageRef, selectedFile);
+        imageUrl = await getDownloadURL(storageRef);
+      }
+      else {
+        imageUrl = avatarImg;
+      }
+      await updateDoc(doc(db, USER_COLLECTION, user.uid), {
+        avatar: imageUrl,
+      }).then(
+        setAvatar(imageUrl),
+        window.alert("Cập nhật ảnh đại diện thành công")
+      )
+    };
+
 
     function handleNameChange(event) {
         setName(event.target.value);
@@ -51,10 +78,6 @@ const AccountInfor = () => {
     function handleMoneyChange(event) {
       const onlyNums = event.target.value.replace(/[^0-9]/g, '');
       setMoney(onlyNums);
-    }
-
-    const handleAvatarChange = async (event) => {
-      setImg(URL.createObjectURL(event.target.files[0]));
     }
 
     const showInfor = async () => {
@@ -72,7 +95,22 @@ const AccountInfor = () => {
           setGender(docSnap.data().gender);
           console.log("Document data:", docSnap.data());
           setAvatar(docSnap.data().avatar);
-      } else {
+      } else if (user !== null) {
+          try {
+            setDoc(doc(db, USER_COLLECTION, usr), {
+                avatar: avatarImg,
+                birthday: '2023-05-14',
+                gender: true,
+                money: 0,
+                name: user.displayName,
+            });
+            showInfor();
+    
+          } catch (e) {
+            console.error("Error adding document: ", e);
+          }
+      }
+      else{
           console.log("No such document!");
       }
     }
@@ -114,15 +152,27 @@ const AccountInfor = () => {
               alt={name}
               src={avatar}
             />
+            <Box className='text-center' sx={{width: 300, overflow: 'hidden'}}>
+            <input
+              accept="image/*"
+              id="contained-button-file"
+              multiple
+              type="file"
+              onChange={handleFileChange}
+              alt='avatar'
+              className='py-2'
+            />
             <Button 
             type="file"
             className='my-2' 
             variant="contained" 
             startIcon={<AddIcon />}
-            onClick={(event) => {handleAvatarChange(event)}}
+            onClick={handleUpload}
             >
               Thay đổi ảnh
             </Button>
+            </Box>
+
           </Box>
         </Box>
         <Box className='col-md-6'>

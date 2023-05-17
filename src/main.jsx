@@ -5,6 +5,7 @@ import { store } from './store'
 import { Provider } from 'react-redux'
 import { ProSidebarProvider } from 'react-pro-sidebar';
 // import { PersistGate } from 'redux-persist/integration/react'
+// import { persistor } from './store'
 
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
