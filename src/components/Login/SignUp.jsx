@@ -3,20 +3,23 @@ import { Form, FormControl, InputGroup, Button } from 'react-bootstrap';
 import './Login.css'
 import { useNavigate, Link} from 'react-router-dom';
 // import DatePicker from '../DatePicker/DatePicker';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { signup } from "../../features/firebase/firebaseSlice";
 import { DatePicker } from '@mui/x-date-pickers';
 import dayjs from 'dayjs';
+import { use } from 'i18next';
 // import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 // import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 function SignUp() {
     const dispatch = useDispatch();
+    const loginState = useSelector((state) => state.login.isLogin);
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [gender, setGender] = useState(true);
     const [password, setPassword] = useState('');
-    const [dob, setDob] = useState(dayjs('2022-04-17'));
+    const date = new Date();
+    const [dob, setDob] = useState(dayjs(date.toISOString().split('T')[0]));
     const [showPassword, setShowPassword] = useState(false);
     const [ConfirmPassword, setConfirmPassword] = useState(false);
     const [errorEmail, setErrorEmail] = useState();
@@ -67,14 +70,21 @@ function SignUp() {
                 const birthday = dob.format('DD/MM/YYYY');
                 console.log(birthday, gender, username, email, password)
 
-                dispatch(signup({birthday, gender, username, email, password})).then( res => {
-                    if (!res.error)
-                        navigate('/expense/accountinfor');
-                    else {
-                        setErrorEmail('Email không tồn tại');
-                        setErrorPassword('Mật khẩu không đúng');
-                        }
-                    });
+                dispatch(signup({birthday, gender, username, email, password}))
+                // .then( res => {
+                //     if (!res.error){
+                //         if (loginState)
+                //         {
+                //             navigate('/expense/accountinfor');
+                //         }
+                //         else {
+                //             setErrorEmail('Tài khoản đã tồn tại');
+                //         }
+                //     }
+                //     else {
+                //         setErrorEmail('Tài khoản đã tồn tại');
+                //         }
+                //     });
             }
         }
         else{

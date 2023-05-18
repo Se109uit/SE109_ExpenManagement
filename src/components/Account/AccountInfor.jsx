@@ -13,6 +13,7 @@ import dayjs from 'dayjs';
 
 import { useSelector } from 'react-redux';
 import { selectUsers } from '../../features/firebase/firebaseSlice';
+
 import { 
     updateProfile, 
     updateEmail, 
@@ -23,8 +24,10 @@ import {
     EmailAuthProvider,
     deleteUser
 } from 'firebase/auth';
-import { collection, doc, getDoc } from "firebase/firestore"; 
-import {auth, db} from '../../features/firebase/firebase';
+import { collection, doc, getDoc, updateDoc, setDoc } from "firebase/firestore"; 
+import { v4 } from 'uuid';
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import {auth, db, USER_COLLECTION, avatarImg} from '../../features/firebase/firebase';
 
 import './Account.css'
 
@@ -32,10 +35,37 @@ const AccountInfor = () => {
     const loginState = useSelector(selectUsers);
     const user = auth.currentUser;
     const [userData, setUserData] = useState(null);
-    const [name, setName] = useState('');
+    const [name, setName] = useState('a');
     const [birthday, setBirthday] = useState(dayjs('2023-05-14'));
     const [gender, setGender] = useState('');
-    const [money, setMoney] = useState('');
+    const [money, setMoney] = useState(1);
+    const [avatar, setAvatar] = useState('/src/assets/female.png');
+    const [img, setImg] = useState(null);
+    const [selectedFile, setSelectedFile] = useState(null);
+
+    let imageUrl = null;
+
+    const handleFileChange = (event) => {
+      setSelectedFile(event.target.files[0]);
+    };
+
+    const handleUpload = async () => {
+      if (selectedFile) {
+        const storageRef = ref(getStorage(), `images/${selectedFile.name}`);
+        await uploadBytes(storageRef, selectedFile);
+        imageUrl = await getDownloadURL(storageRef);
+      }
+      else {
+        imageUrl = avatarImg;
+      }
+      await updateDoc(doc(db, USER_COLLECTION, user.uid), {
+        avatar: imageUrl,
+      }).then(
+        setAvatar(imageUrl),
+        window.alert("Cập nhật ảnh đại diện thành công")
+      )
+    };
+
 
     function handleNameChange(event) {
         setName(event.target.value);
@@ -46,28 +76,69 @@ const AccountInfor = () => {
     }
 
     function handleMoneyChange(event) {
-        setMoney(event.target.value);
+      const onlyNums = event.target.value.replace(/[^0-9]/g, '');
+      setMoney(onlyNums);
+    }
+
+    const showInfor = async () => {
+      const usr = user.uid;
+      const docRef = doc(db, USER_COLLECTION, usr);
+      const docSnap = await getDoc(docRef);
+      
+      if (docSnap.exists()) {
+          setUserData(docSnap.data());
+          setName(docSnap.data().name);
+          const aBirthday = dayjs(docSnap.data().birthday);
+          setBirthday(aBirthday);
+          const aMoney = docSnap.data().money.toString();
+          setMoney(aMoney);
+          setGender(docSnap.data().gender);
+          console.log("Document data:", docSnap.data());
+          setAvatar(docSnap.data().avatar);
+      } else if (user !== null) {
+          try {
+            setDoc(doc(db, USER_COLLECTION, usr), {
+                avatar: avatarImg,
+                birthday: '2023-05-14',
+                gender: true,
+                money: 0,
+                name: user.displayName,
+            });
+            showInfor();
+    
+          } catch (e) {
+            console.error("Error adding document: ", e);
+          }
+      }
+      else{
+          console.log("No such document!");
+      }
+    }
+
+    const updateInformation = async () => {
+      const usr = user.uid;
+      const docRef = doc(db, USER_COLLECTION, usr);
+
+      const dob = birthday.format('DD/MM/YYYY');
+      
+      await updateDoc(docRef, {
+        name: name,
+        birthday: dob,
+        gender: gender,
+        money: money
+      });
+
+      window.alert('Cập nhật thông tin thành công!');
     }
 
     useEffect(() => {
-        console.log('loginState', loginState);
-        console.log('user data', user);
-        const fetchUserData = async () => {
-        const usr = user.uid;
-        const docRef = doc(db, "infotemp", usr);
-        console.log('usr', usr)
-        console.log('docRef', docRef)
-        const docSnap = await getDoc(docRef);
-    
-        if (docSnap.exists()) {
-            setUserData(docSnap.data());
-        } else {
-            console.log("No such document!");
-        }
-        };
+      console.log('user', user);
+      {showInfor()};
+  }, [loginState]);
 
-    fetchUserData();
-  }, [userData]);
+    function handleUpdate() {
+      updateInformation();
+    }
 
   return (
     <div className='mt-4'>
@@ -78,24 +149,47 @@ const AccountInfor = () => {
           <Box className='d-flex align-items-center flex-column mt-3'>
             <img
               className="img_avatar img-fluid rounded-circle shadow-4-strong"
-              alt="Responsive image"
-              src="/src/assets/female.png"
+              alt={name}
+              src={avatar}
             />
-            <Button className='my-2' variant="contained" startIcon={<AddIcon />}>
+            <Box className='text-center' sx={{width: 300, overflow: 'hidden'}}>
+            <input
+              accept="image/*"
+              id="contained-button-file"
+              multiple
+              type="file"
+              onChange={handleFileChange}
+              alt='avatar'
+              className='py-2'
+            />
+            <Button 
+            type="file"
+            className='my-2' 
+            variant="contained" 
+            startIcon={<AddIcon />}
+            onClick={handleUpload}
+            >
               Thay đổi ảnh
             </Button>
+            </Box>
+
           </Box>
         </Box>
         <Box className='col-md-6'>
           {/* User information */}
           <Box className='my-3 t-box'>
             <TextField 
+            InputLabelProps={{ shrink: true }}
+            required
+            hiddenLabel
             id="standard-basic" 
             label="Tên" 
             variant="outlined" 
             fullWidth
-            defaultValue={userData?.name}
+            value={name}
             onChange={handleNameChange}
+            helperText={name ? "" : "Thiếu tên."}
+            error={name ? false : true}
             />
           </Box>
           <Box className='my-3'>
@@ -125,19 +219,25 @@ const AccountInfor = () => {
           </Box>
             <Box className='my-3 t-box'>
                 <TextField 
+                input="text"
+                InputLabelProps={{ shrink: true, inputMode: 'numeric', pattern: '[0-9]*' }}
+                required
+                hiddenLabel
                 id="standard-basic" 
                 label="Tiền hàng tháng" 
                 variant="outlined" 
                 fullWidth
-                defaultValue={userData?.money}
+                value={money}
                 onChange={handleMoneyChange}
+                helperText={money ? "" : "Thiếu số tiền hàng tháng."}
+                error={money ? false : true}
                 />
             </Box>
         </Box>
       </Box>
       {/* Button */}
       <Box className='d-flex justify-content-center mb-4'>
-        <button className='button-logout'>Lưu</button>
+        <button className='button-logout' onClick={handleUpdate}>Lưu</button>
       </Box>
       <hr />
       <h3 className='my-2'>Xuất CSV:</h3>

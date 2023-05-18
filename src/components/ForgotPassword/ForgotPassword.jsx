@@ -32,8 +32,21 @@ function ForgotPassword() {
         }
     }
 
+    function handleReturn(e) {
+        e.preventDefault();
+        navigate('/');
+    }
+
   return (
-    <Form className='container mt-5'>
+    <Form className='container mt-5 forgot-pass'>
+      <div className="">
+          <h2 className="d-flex justify-content-center mt-5">
+            Bạn quên mật khẩu?
+          </h2>
+          <div className="d-flex justify-content-center greeting-log mb-4">
+            Hãy nhập vào email đã đăng ký
+          </div>
+        </div>
       <Form.Group controlId="formBasicEmail" onChange={handleEmailChange}>
         <Form.Label className="form-label">Địa chỉ mail</Form.Label>
         <Form.Control type="email" placeholder="Nhập email" />
@@ -51,6 +64,10 @@ function ForgotPassword() {
       >
         Gửi
       </Button>
+
+      <div className="d-flex justify-content-center mt-3">
+        <a className="text-decoration-none back-login" onClick={handleReturn}>Quay lại đăng nhập</a>
+      </div>
     </Form>
   );
 }

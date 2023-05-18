@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 // import { useHistory } from 'react-router-dom';
 import { Form, FormControl, InputGroup, Button } from 'react-bootstrap';
 import { useSelector, useDispatch } from "react-redux";
@@ -9,6 +9,7 @@ import "./Login.css";
 
 function Login() {
   const dispatch = useDispatch();
+  const loginState = useSelector((state) => state.login.isLogin);
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -50,15 +51,21 @@ function Login() {
         return;
       }
       else {
-        console.log(username, password);
-        dispatch(email({ username, password })).then( res => {
-          if (!res.error)
-            navigate('expense/accountinfor');
-          else {
-            setErrorEmail('Email không tồn tại');
-            setErrorPassword('Mật khẩu không đúng');
-          }
-        });
+        dispatch(email({ username: username, password: password }))
+        // .then( res => {
+        //   if (!res.error) {
+        //     if (loginState)
+        //     navigate('expense/accountinfor');
+        //       else {
+        //         setErrorEmail('Email không tồn tại hoặc mật khẩu không đúng');
+        //         setErrorPassword('');
+        //       }
+        //     }
+        //   else {
+        //     setErrorEmail('Email không tồn tại hoặc mật khẩu không đúng');
+        //     setErrorPassword('');
+        //   }
+        // });
       }
     // }
 
@@ -77,7 +84,7 @@ function Login() {
 
   return (
     <div className="form-margin">
-      <div className="container col-12 col-md-4 col-lg-4">
+      <div className="container col-12 col-md-6 col-lg-4">
         <div className="">
           <h2 className="d-flex justify-content-center mt-5">
             Chào mừng trở lại!
@@ -168,8 +175,8 @@ function Login() {
           </span>
         </div>
 
-        {/* Login with Google */}
         <div className="d-flex justify-content-between">
+          {/* Login with Google */}
           <div className="d-grid gap-2 mt-4">
             <button
               type="button"

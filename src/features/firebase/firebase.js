@@ -7,11 +7,16 @@ import {
   FacebookAuthProvider,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  signOut,
+  setPersistence,
+  browserSessionPersistence, 
 } from "firebase/auth";
 import { 
   getFirestore, 
   collection, 
   getDocs,
+  setDoc,
+  doc,
   addDoc,
 } from 'firebase/firestore';
 import { getStorage } from "firebase/storage";
@@ -39,33 +44,40 @@ export const auth = getAuth(app);
 export const storage = getStorage(app)
 
 export default auth;
+export const USER_COLLECTION = "infotemp";
 
 const ggProvider = new GoogleAuthProvider();
 const fbProvider = new FacebookAuthProvider();
 
 export const ggSignIn = () =>
-  signInWithPopup(auth, ggProvider)
-    .then((result) => {
-      // This gives you a Google Access Token. You can use it to access the Google API.
-      const credential = GoogleAuthProvider.credentialFromResult(result);
-      const token = credential.accessToken;
-      // The signed-in user info.
-      const user = result.user;
-      // IdP data available using getAdditionalUserInfo(result)
-      console.log(user)
-      return user;
-      // ...
-    })
-    .catch((error) => {
-      // Handle Errors here.
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      // The email of the user's account used.
-      const email = error.customData.email;
-      // The AuthCredential type that was used.
-      const credential = GoogleAuthProvider.credentialFromError(error);
-      // ...
-    });
+  // setPersistence(auth, browserSessionPersistence)
+  // .then(() => {
+    // const uuid = null;
+    signInWithPopup(auth, ggProvider)
+      .then((result) => {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const token = credential.accessToken;
+        // The signed-in user info.
+        const user = result.user;
+        // IdP data available using getAdditionalUserInfo(result)
+        console.log(user)
+        const uuid = user.uid.toString();
+        // ...
+        return uuid;
+      })
+      .catch((error) => {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // The email of the user's account used.
+        const email = error.customData.email;
+        // The AuthCredential type that was used.
+        const credential = GoogleAuthProvider.credentialFromError(error);
+        // ...
+      });
+      // return uuid;
+  // })
 
 export const fbSignIn = () =>
   signInWithPopup(auth, fbProvider)
@@ -78,7 +90,8 @@ export const fbSignIn = () =>
       const credential = FacebookAuthProvider.credentialFromResult(result);
       const accessToken = credential.accessToken;
       console.log(user)
-      return user;
+      const uuid = user.uid.toString();
+      return uuid;
       // IdP data available using getAdditionalUserInfo(result)
       // ...
     })
@@ -99,13 +112,15 @@ export const emailSignIn = (email, password) =>
   signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       const user = userCredential.user;
-      console.log(user)
-      return user;
+      const uuid = user.uid.toString();
+      return uuid
     })
     .catch((error) => {
       console.log(error);
       const errorCode = error.code;
       const errorMessage = error.message;
+
+      window.alert("Đăng nhập thất bại!");
     });
 
 export const avatarImg = "https://firebasestorage.googleapis.com/v0/b/spending-management-c955a.appspot.com/o/FVK7wz5aIAA25l8.jpg?alt=media&token=ddceb8f7-7cf7-4c42-a806-5d0d48ce58f5";
@@ -115,28 +130,41 @@ export const signUp = (birthday, gender, username, email, password) =>
     .then((userCredential) => {
       // Signed in
       const user = userCredential.user;
+      const uuid = user.uid.toString();
 
       console.log(userCredential.user)
 
       // Add a new document with a generated id.
       try {
-        const docRef = addDoc(collection(db, "infotemp"), {
+        setDoc(doc(db, USER_COLLECTION, uuid), {
             avatar: avatarImg,
             birthday: birthday,
             gender: gender,
             money: 0,
             name: username,
         });
-        console.log("Document written with ID: ", docRef.id);
-        return user;
 
       } catch (e) {
         console.error("Error adding document: ", e);
       }
+      return {uuid, password};
     })
     .catch((error) => {
       const errorCode = error.code;
       const errorMessage = error.message;
       // ..
       console.log(error.message);
+
+      window.alert("Đăng ký thất bại!");
+      return null;
     });
+
+export const logOut = () =>{
+  signOut(auth).then(() => {
+    // Sign-out successful.
+    console.log("Sign-out successful.");
+  }).catch((error) => {
+    // An error happened.
+    console.log(error);
+  });
+}

@@ -76,4 +76,44 @@
     margin-bottom: 8rem;
 }
 
-
+@media screen and (max-width: 1364px) {
+    .button-login-google {
+      width: 140px;
+    }
+    .button-login-facebook {
+      width: 140px;
+    }
+  }
+@media screen and (max-width: 954px) {
+.button-login-google {
+    width: 210px;
+}
+.button-login-facebook {
+    width: 210px;
+}
+}
+@media screen and (max-width: 894px) {
+    .button-login-google {
+        width: 180px;
+    }
+    .button-login-facebook {
+        width: 180px;
+    }
+    }
+@media screen and (max-width: 758px) {
+.button-login-google {
+    width: 210px;
+}
+.button-login-facebook {
+    width: 210px;
+}
+}
+@media screen and (max-width: 434px) {
+    .button-login-google {
+        width: 140px;
+    }
+    .button-login-facebook {
+        width: 140px;
+    }
+    }
+    
