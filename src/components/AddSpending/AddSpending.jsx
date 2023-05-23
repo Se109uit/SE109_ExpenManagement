@@ -2,7 +2,8 @@ import React, {useState, useEffect} from 'react'
   import {Form, FormGroup} from 'reactstrap'
   import Select from 'react-select'
   import './addSpending.css'
-  
+  import { useNavigate } from 'react-router-dom'
+
   import { options, friend } from './data'
   import { db , storage } from '../../features/firebase/firebase'
   import { collection, addDoc } from 'firebase/firestore'
@@ -17,10 +18,9 @@ import React, {useState, useEffect} from 'react'
   import Time from '../../assets/Time.png'
   import Friend from '../../assets/Friend.png'
 
-  
-  
   const AddSpending = () => {
     // const [selectedOption, setSelectedOption] = useState(null);
+    const navigate = useNavigate()
   
     const [many, setMany] = useState("");
     const [date, setDate] = useState("");
