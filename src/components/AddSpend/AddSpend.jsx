@@ -86,7 +86,7 @@ function AddSpend() {
     // Add spending to Firebase
     let imageRef = null;
     let url = null;
-    const datetime = dayjs(date).format('YYYY-MM-DDTHH:mm:ss');
+    const datetime = dayjs(date).toDate();
     if (file !== null) {
       imageRef = ref(storage, `spending-web/${file.name + v4()}`)
       const result2 = await uploadBytes(imageRef, file).then(async () => {
@@ -97,7 +97,7 @@ function AddSpend() {
     }
     try {
       console.log("submit", money, datetime, location, myfriend, type, note, uuid, url);
-      const result = await addDoc(collection(db, "spending-web"), {
+      const result = await addDoc(collection(db, SPEND_COLLECTION), {
         money,
         datetime,
         location,

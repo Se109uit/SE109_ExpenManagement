@@ -44,8 +44,8 @@ export const auth = getAuth(app);
 export const storage = getStorage(app)
 
 export default auth;
-export const USER_COLLECTION = "infotemp";
-export const SPEND_COLLECTION = "spendingtemp";
+export const USER_COLLECTION = "info";
+export const SPEND_COLLECTION = "spending";
 export const DATA_COLLECTION = "datatemp";
 
 const ggProvider = new GoogleAuthProvider();
