@@ -9,7 +9,7 @@ export const options = [
      { value: '6', label: 'Taxi' },
      { value: '7', label: 'Thú cưng' },
      { value: '8', label: 'Trò chơi điện tử' },
-     { value: '9', label: 'Điện thoại' },
+     { value: '9', label: 'Điện thoại' },  
      { value: '10', label: 'Thể thao' },
    ];
  

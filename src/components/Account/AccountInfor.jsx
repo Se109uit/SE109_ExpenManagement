@@ -11,134 +11,149 @@ import Select from '@mui/material/Select';
 import { DatePicker } from '@mui/x-date-pickers';
 import dayjs from 'dayjs';
 
-import { useSelector } from 'react-redux';
-import { selectUsers } from '../../features/firebase/firebaseSlice';
+import { useSelector, useDispatch } from 'react-redux';
+import { selectUsers, signout } from '../../features/firebase/firebaseSlice';
+import { lang } from '../../features/language/languageSlice';
 
-import { 
-    updateProfile, 
-    updateEmail, 
-    onAuthStateChanged, 
-    signOut, 
-    reauthenticateWithCredential,
-    sendEmailVerification,
-    EmailAuthProvider,
-    deleteUser
+import {
+  updateProfile,
+  updateEmail,
+  onAuthStateChanged,
+  signOut,
+  reauthenticateWithCredential,
+  sendEmailVerification,
+  EmailAuthProvider,
+  deleteUser
 } from 'firebase/auth';
-import { collection, doc, getDoc, updateDoc, setDoc } from "firebase/firestore"; 
+import { collection, doc, getDoc, updateDoc, setDoc } from "firebase/firestore";
 import { v4 } from 'uuid';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import {auth, db, USER_COLLECTION, avatarImg} from '../../features/firebase/firebase';
+import { auth, db, USER_COLLECTION, avatarImg } from '../../features/firebase/firebase';
 
 import './Account.css'
 
 const AccountInfor = () => {
-    const loginState = useSelector(selectUsers);
-    const user = auth.currentUser;
-    const [userData, setUserData] = useState(null);
-    const [name, setName] = useState('a');
-    const [birthday, setBirthday] = useState(dayjs('2023-05-14'));
-    const [gender, setGender] = useState('');
-    const [money, setMoney] = useState(1);
-    const [avatar, setAvatar] = useState('/src/assets/female.png');
-    const [img, setImg] = useState(null);
-    const [selectedFile, setSelectedFile] = useState(null);
+  const loginState = useSelector(selectUsers);
+  const uid = useSelector((state) => state.login.user);
+  const language = useSelector((state) => state.language.choose);
+  const dispatch = useDispatch();
+  const user = auth.currentUser;
+  const [userData, setUserData] = useState(null);
+  const [name, setName] = useState('a');
+  const [birthday, setBirthday] = useState(dayjs('2023-05-14'));
+  const [gender, setGender] = useState('');
+  const [money, setMoney] = useState(1);
+  const [avatar, setAvatar] = useState('/src/assets/female.png');
+  const [img, setImg] = useState(null);
+  const [selectedFile, setSelectedFile] = useState(null);
 
-    let imageUrl = null;
+  const formattedMoney = money.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+  const integerMoney = parseInt(formattedMoney.replace(/,/g, ''), 10);
 
-    const handleFileChange = (event) => {
-      setSelectedFile(event.target.files[0]);
-    };
+  let imageUrl = null;
 
-    const handleUpload = async () => {
-      if (selectedFile) {
-        const storageRef = ref(getStorage(), `images/${selectedFile.name}`);
-        await uploadBytes(storageRef, selectedFile);
-        imageUrl = await getDownloadURL(storageRef);
+  const handleFileChange = (event) => {
+    setSelectedFile(event.target.files[0]);
+  };
+
+  const handleUpload = async () => {
+    if (selectedFile) {
+      const storageRef = ref(getStorage(), `images/${selectedFile.name}`);
+      await uploadBytes(storageRef, selectedFile);
+      imageUrl = await getDownloadURL(storageRef);
+    }
+    else {
+      imageUrl = avatarImg;
+    }
+    await updateDoc(doc(db, USER_COLLECTION, user.uid), {
+      avatar: imageUrl,
+    }).then(
+      setAvatar(imageUrl),
+      window.alert("Cập nhật ảnh đại diện thành công")
+    )
+  };
+
+
+  function handleNameChange(event) {
+    setName(event.target.value);
+  }
+
+  function handleGenderChange(event) {
+    setGender(event.target.value);
+  }
+
+  function handleMoneyChange(event) {
+    const onlyNums = event.target.value.replace(/[^0-9]/g, '');
+    setMoney(onlyNums);
+  }
+
+  const showInfor = async () => {
+    const docRef = doc(db, USER_COLLECTION, uid);
+    getDoc(docRef).then(async (docSnap) => {
+      if (docSnap.exists()) {
+        setUserData(docSnap.data());
+        setName(docSnap.data().name);
+        const aBirthday = dayjs(docSnap.data().birthday);
+        setBirthday(aBirthday);
+        const aMoney = docSnap.data().money.toString();
+        setMoney(aMoney);
+        setGender(docSnap.data().gender);
+        console.log("Document data:", docSnap.data());
+        setAvatar(docSnap.data().avatar);
+      } else if (user !== null && docSnap.exists() === false) {
+        try {
+          setDoc(doc(db, USER_COLLECTION, uid), {
+            avatar: avatarImg,
+            birthday: '2023-05-14',
+            gender: true,
+            money: 0,
+            name: user.displayName,
+          });
+        } catch (e) {
+          console.error("Error adding document: ", e);
+        }
       }
       else {
-        imageUrl = avatarImg;
+        console.log("No such document!");
       }
-      await updateDoc(doc(db, USER_COLLECTION, user.uid), {
-        avatar: imageUrl,
-      }).then(
-        setAvatar(imageUrl),
-        window.alert("Cập nhật ảnh đại diện thành công")
-      )
-    };
+    });
 
 
-    function handleNameChange(event) {
-        setName(event.target.value);
-    }
+  }
 
-    function handleGenderChange(event) {
-        setGender(event.target.value);
-    }
+  const updateInformation = async () => {
+    const usr = user.uid;
+    const docRef = doc(db, USER_COLLECTION, usr);
 
-    function handleMoneyChange(event) {
-      const onlyNums = event.target.value.replace(/[^0-9]/g, '');
-      setMoney(onlyNums);
-    }
+    const dob = birthday.format('DD/MM/YYYY');
 
-    const showInfor = async () => {
-      const usr = user.uid;
-      const docRef = doc(db, USER_COLLECTION, usr);
-      const docSnap = await getDoc(docRef);
-      
-      if (docSnap.exists()) {
-          setUserData(docSnap.data());
-          setName(docSnap.data().name);
-          const aBirthday = dayjs(docSnap.data().birthday);
-          setBirthday(aBirthday);
-          const aMoney = docSnap.data().money.toString();
-          setMoney(aMoney);
-          setGender(docSnap.data().gender);
-          console.log("Document data:", docSnap.data());
-          setAvatar(docSnap.data().avatar);
-      } else if (user !== null) {
-          try {
-            setDoc(doc(db, USER_COLLECTION, usr), {
-                avatar: avatarImg,
-                birthday: '2023-05-14',
-                gender: true,
-                money: 0,
-                name: user.displayName,
-            });
-            showInfor();
-    
-          } catch (e) {
-            console.error("Error adding document: ", e);
-          }
+    await updateDoc(docRef, {
+      name: name,
+      birthday: dob,
+      gender: gender,
+      money: money
+    });
+
+    window.alert('Cập nhật thông tin thành công!');
+  }
+
+  function handleLanguageChange(event) {
+    dispatch(lang(event.target.value));
+  }
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        showInfor();
+      } else {
+        dispatch(signout());
       }
-      else{
-          console.log("No such document!");
-      }
-    }
-
-    const updateInformation = async () => {
-      const usr = user.uid;
-      const docRef = doc(db, USER_COLLECTION, usr);
-
-      const dob = birthday.format('DD/MM/YYYY');
-      
-      await updateDoc(docRef, {
-        name: name,
-        birthday: dob,
-        gender: gender,
-        money: money
-      });
-
-      window.alert('Cập nhật thông tin thành công!');
-    }
-
-    useEffect(() => {
-      console.log('user', user);
-      {showInfor()};
+    });
   }, [loginState]);
 
-    function handleUpdate() {
-      updateInformation();
-    }
+  function handleUpdate() {
+    updateInformation();
+  }
 
   return (
     <div className='mt-4'>
@@ -152,25 +167,25 @@ const AccountInfor = () => {
               alt={name}
               src={avatar}
             />
-            <Box className='text-center' sx={{width: 300, overflow: 'hidden'}}>
-            <input
-              accept="image/*"
-              id="contained-button-file"
-              multiple
-              type="file"
-              onChange={handleFileChange}
-              alt='avatar'
-              className='py-2'
-            />
-            <Button 
-            type="file"
-            className='my-2' 
-            variant="contained" 
-            startIcon={<AddIcon />}
-            onClick={handleUpload}
-            >
-              Thay đổi ảnh
-            </Button>
+            <Box className='text-center' sx={{ width: 300, overflow: 'hidden' }}>
+              <input
+                accept="image/*"
+                id="imageUpload"
+                multiple
+                type="file"
+                onChange={handleFileChange}
+                alt='avatar'
+                className='py-2'
+              />
+              <Button
+                type="file"
+                className='my-2'
+                variant="contained"
+                startIcon={<AddIcon />}
+                onClick={handleUpload}
+              >
+                Thay đổi ảnh
+              </Button>
             </Box>
 
           </Box>
@@ -178,61 +193,61 @@ const AccountInfor = () => {
         <Box className='col-md-6'>
           {/* User information */}
           <Box className='my-3 t-box'>
-            <TextField 
-            InputLabelProps={{ shrink: true }}
-            required
-            hiddenLabel
-            id="standard-basic" 
-            label="Tên" 
-            variant="outlined" 
-            fullWidth
-            value={name}
-            onChange={handleNameChange}
-            helperText={name ? "" : "Thiếu tên."}
-            error={name ? false : true}
+            <TextField
+              InputLabelProps={{ shrink: true }}
+              required
+              hiddenLabel
+              id="name-input"
+              label="Tên"
+              variant="outlined"
+              fullWidth
+              value={name}
+              onChange={handleNameChange}
+              helperText={name ? "" : "Thiếu tên."}
+              error={name ? false : true}
             />
           </Box>
           <Box className='my-3'>
             {/* <p className='form-control'>{userData?.birthday}</p> */}
             <DatePicker
-                label="Ngày sinh"
-                value={birthday}
-                onChange={(newValue) => setBirthday(newValue)}
-                slotProps={{ textField: { variant: 'outlined' } }}
+              label="Ngày sinh"
+              value={birthday}
+              onChange={(newValue) => setBirthday(newValue)}
+              slotProps={{ textField: { variant: 'outlined' } }}
             />
           </Box>
           <Box className='my-3 w-box'>
             {/* <p className='form-control'>{userData?.gender}</p> */}
             <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">Giới tính</InputLabel>
-                <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={gender}
-                    label="ngày sinh"
-                    onChange={handleGenderChange}
-                >
-                    <MenuItem value={true}>Nam</MenuItem>
-                    <MenuItem value={false}>Nữ</MenuItem>
-                </Select>
+              <InputLabel id="demo-simple-select-label">Giới tính</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="gender-select"
+                value={gender}
+                label="ngày sinh"
+                onChange={handleGenderChange}
+              >
+                <MenuItem value={true}>Nam</MenuItem>
+                <MenuItem value={false}>Nữ</MenuItem>
+              </Select>
             </FormControl>
           </Box>
-            <Box className='my-3 t-box'>
-                <TextField 
-                input="text"
-                InputLabelProps={{ shrink: true, inputMode: 'numeric', pattern: '[0-9]*' }}
-                required
-                hiddenLabel
-                id="standard-basic" 
-                label="Tiền hàng tháng" 
-                variant="outlined" 
-                fullWidth
-                value={money}
-                onChange={handleMoneyChange}
-                helperText={money ? "" : "Thiếu số tiền hàng tháng."}
-                error={money ? false : true}
-                />
-            </Box>
+          <Box className='my-3 t-box'>
+            <TextField
+              input="text"
+              InputLabelProps={{ shrink: true, inputMode: 'numeric', pattern: '[0-9]*' }}
+              required
+              hiddenLabel
+              id="standard-basic"
+              label="Tiền hàng tháng"
+              variant="outlined"
+              fullWidth
+              value={money}
+              onChange={handleMoneyChange}
+              helperText={money ? "" : "Thiếu số tiền hàng tháng."}
+              error={money ? false : true}
+            />
+          </Box>
         </Box>
       </Box>
       {/* Button */}
@@ -243,6 +258,23 @@ const AccountInfor = () => {
       <h3 className='my-2'>Xuất CSV:</h3>
       <Box className="mx-3 text-center">
         <Button variant="contained">Xuất CSV</Button>
+      </Box>
+      <hr />
+      <h3 className='my-2'>Ngôn ngữ:</h3>
+      <Box className="mx-3 text-center">
+        <FormControl>
+          <InputLabel id="language-label" sx={{ fontFamily: "Montserrat", fontWeight: "bold" }}>Ngôn ngữ</InputLabel>
+          <Select
+            labelId="language-label"
+            id="language-select"
+            value={language}
+            label="Ngôn ngữ."
+            onChange={handleLanguageChange}
+          >
+            <MenuItem value="vi">Tiếng việt</MenuItem>
+            <MenuItem value="en">English</MenuItem>
+          </Select>
+        </FormControl>
       </Box>
     </div>
   );

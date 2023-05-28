@@ -1,0 +1,20 @@
+.currency-input {
+    border: 1px solid rgba(0, 0, 0, 0.23);
+    border-radius: 4px;
+    padding: 14px 12px;
+    font-size: 1rem;
+    line-height: 1.5;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    width: 100%;
+    margin: 1 1 1 1;
+  }
+
+  .currency-input:hover {
+    border-color: #1e456c;
+  }
+  
+  .currency-input:focus {
+    outline: none;
+    border-color: #1e456c;
+    box-shadow: 0 0 0 0.1rem rgba(12, 42, 140, 0.25);
+  }
