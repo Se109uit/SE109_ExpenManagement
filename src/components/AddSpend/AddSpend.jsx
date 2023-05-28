@@ -79,8 +79,7 @@ function AddSpend() {
 
   async function handleSpendSubmit (event) {
     event.preventDefault();
-    console.log("submit");
-    // Save the spending information to Firebase
+    // Checking
     if (money == "" || type == "") {
       return;
     }
@@ -90,8 +89,11 @@ function AddSpend() {
     const datetime = dayjs(date).format('YYYY-MM-DDTHH:mm:ss');
     if (file !== null) {
       imageRef = ref(storage, `spending-web/${file.name + v4()}`)
-      const result2 = uploadBytes(imageRef, file)
-      url = await getDownloadURL(imageRef);
+      const result2 = await uploadBytes(imageRef, file).then(async () => {
+        if (imageRef !== null) {
+          url = await getDownloadURL(imageRef);
+        }
+      })
     }
     try {
       console.log("submit", money, datetime, location, myfriend, type, note, uuid, url);
