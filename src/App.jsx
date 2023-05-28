@@ -6,6 +6,10 @@ import {
     RouterProvider,
 } from "react-router-dom";
 
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { zhCN, viVN, enUS } from '@mui/material/locale';
+import { useSelector } from 'react-redux';
+
 import Rootpage from './components/RootPage/RootPage';
 import Login from './components/Login/Login';
 import SignUp from './components/Login/SignUp';
@@ -48,8 +52,19 @@ const router = createBrowserRouter(
 );
 
 const AppRouter = () => {
+    const language = useSelector((state) => state.language.choose);
+
+    const theme = createTheme(
+        {
+        // customize the theme based on the language
+        },
+        language === 'vi' ? viVN : language === 'zh' ? zhCN : enUS,
+    );
+
     return(
+    <ThemeProvider theme={theme}>
         <RouterProvider router={router}/>
+    </ThemeProvider>
     )
 }
 

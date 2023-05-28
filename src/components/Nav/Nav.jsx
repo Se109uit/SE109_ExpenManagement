@@ -7,6 +7,7 @@ import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 
 import {useDispatch, useSelector} from 'react-redux'
 import {signout} from '../../features/firebase/firebaseSlice'
+import {openadd} from '../../features/spend/spendSlice'
 
 import Home from '../../assets/Home.png'
 import User from '../../assets/User.png'
@@ -46,10 +47,6 @@ const Nav = () => {
                             component={<Link to="home" />}
                             > Trang chủ </MenuItem>
                         <MenuItem 
-                            icon={<img className="img-nav" src={addSpending}/>}
-                            component={<Link to="addSpending" />}
-                        > Thêm chi tiêu </MenuItem>
-                        <MenuItem 
                             icon={<img className="img-nav" src={PhanTich}/>}
                             component={<Link to="analysis" />}
                         > Thống kê </MenuItem>
@@ -60,7 +57,7 @@ const Nav = () => {
                             <MenuItem
                                 component={<Link to="resetpassword" />}
                             > Đổi mật khẩu</MenuItem>
-                            <MenuItem> Ngôn ngữ </MenuItem>
+                            {/* <MenuItem> Ngôn ngữ </MenuItem> */}
                             <MenuItem
                                 component={<Link to="history" />}
                             > Lịch sử </MenuItem>
@@ -70,9 +67,15 @@ const Nav = () => {
                             <MenuItem
                                 onClick={() => handleLogout()}
                             > 
+                            <div className='p-2'></div>
                             <p className="text-danger">Đăng xuất</p> 
                             </MenuItem>
                         </SubMenu>
+                        <MenuItem 
+                            icon={<img className="img-nav" src={addSpending}/>}
+                            onClick={() => dispatch(openadd())}
+                            // component={<Link to="addSpending" />}
+                        > Thêm chi tiêu </MenuItem>
                     </Menu>
                 </Sidebar>
             </div>

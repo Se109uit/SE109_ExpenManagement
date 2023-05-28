@@ -11,7 +11,9 @@ import {
 } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import counterReducer from './features/counter/counterSlice'
+import addspendReducer from './features/spend/spendSlice'
 import loginReducer from './features/firebase/firebaseSlice'
+import languageSlice from './features/language/languageSlice';
 const persistConfig = {
   key: 'name',
   version: 1.1,
@@ -21,6 +23,8 @@ const persistConfig = {
 
 export const rootReducer = combineReducers({
   counter: counterReducer,
+  spend: addspendReducer,
+  language: languageSlice,
   login: loginReducer
 })
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -37,6 +41,13 @@ export const store = configureStore({
 });
 
 export const persistor = persistStore(store);
+
+// Reset the data
+// persistor.purge().then(() => {
+//   console.log('Data reset successful');
+// }).catch(() => {
+//   console.log('Data reset failed');
+// });
 
 // export const store = configureStore({
 //   reducer: {

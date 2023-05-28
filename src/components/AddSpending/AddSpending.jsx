@@ -2,10 +2,12 @@ import React, {useState, useEffect} from 'react'
   import {Form, FormGroup} from 'reactstrap'
   import Select from 'react-select'
   import './addSpending.css'
-  
+  import { useNavigate } from 'react-router-dom'
+
   import { options, friend } from './data'
-  import { db , storage } from '../../features/firebase/firebase'
-  import { collection, addDoc } from 'firebase/firestore'
+  import { useSelector, useDispatch } from 'react-redux';
+  import { db , storage, auth, DATA_COLLECTION } from '../../features/firebase/firebase'
+  import { collection, addDoc, setDoc, doc, updateDoc } from 'firebase/firestore'
   
   import { getStorage, ref, uploadBytes} from 'firebase/storage'
   import { v4 } from 'uuid'
@@ -17,10 +19,11 @@ import React, {useState, useEffect} from 'react'
   import Time from '../../assets/Time.png'
   import Friend from '../../assets/Friend.png'
 
-  
-  
   const AddSpending = () => {
     // const [selectedOption, setSelectedOption] = useState(null);
+    const navigate = useNavigate();
+    const user = auth.currentUser;
+    const uuid = user.uid;
   
     const [many, setMany] = useState("");
     const [date, setDate] = useState("");
@@ -32,12 +35,21 @@ import React, {useState, useEffect} from 'react'
   
   
     const [file, setFile] = useState(null);
+
+    const handleDate = (e) => {
+      setDate(e.target.value)
+      // let month = date.getMonth() + 1;
+      // let year = date.getFullYear();
+      // let formattedDate = month + "_" + year;
+      // console.log(formattedDate);
+    }
   
     const handleSubmit = async (e) => {
       e.preventDefault();
+      let result;
       try{
         if (many !== "" && date !== "" && time !== "" && type !== "") {
-          await addDoc(collection(db, "spending-web"), {
+          result = await addDoc(collection(db, "spending-web"), {
            many,
            date,
            time,
@@ -45,18 +57,20 @@ import React, {useState, useEffect} from 'react'
            myfriend,
            type,
            note,
-          });
-          setMany("");
-          setDate("")
-          setTime("")
-          setLocation("")
-          setMyfriend(""),
-          setType(""),
-          setNote("")
-          const imageRef = ref(storage, `spending-web/${file.name + v4()}`)
-          uploadBytes(imageRef, file).then(() => {
-            alert("Thêm chi tiêu thành công")
+           uuid,
           })
+          const imageRef = ref(storage, `spending-web/${file.name + v4()}`)
+          const result2 = uploadBytes(imageRef, file).then(() => {
+            alert("Thêm chi tiêu thành công")
+            setFile(null)
+          })
+            setMany("");
+            setDate("")
+            setTime("")
+            setLocation("")
+            setMyfriend(""),
+            setType(""),
+            setNote("")
         }
         else{
           alert('Nhập đầy đủ những thông tin cần thiết')
@@ -99,7 +113,7 @@ import React, {useState, useEffect} from 'react'
           <div className='day_time'>
             <FormGroup className='day'>
               <li><p><span><img src={Date}/></span>Ngày:</p> <input type="date" id="typeText" className="form-control" value={date}
-              onChange={(e) => setDate(e.target.value)}
+              onChange={handleDate}
               /></li>
             </FormGroup>
   
