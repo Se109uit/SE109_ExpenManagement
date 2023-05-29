@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { db , storage, auth, DATA_COLLECTION } from '../../features/firebase/firebase'
+import { db , storage, auth, DATA_COLLECTION, SPEND_COLLECTION } from '../../features/firebase/firebase'
 import { collection, addDoc, setDoc, doc, updateDoc, getDoc, getDocs, query, where } from 'firebase/firestore'
 
 import { getStorage, ref, uploadBytes} from 'firebase/storage'
@@ -9,8 +9,8 @@ import { useSelector, useDispatch } from 'react-redux';
 
 const History = () => {
     const user = auth.currentUser;
-    const h = async () => {
-        const docRef = collection(db, "spending-web");
+    const getAllSpending = async () => {
+        const docRef = collection(db, SPEND_COLLECTION);
         const q = query(docRef, where("uuid", "==", user.uid));
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
@@ -20,7 +20,7 @@ const History = () => {
     }
     return (
         <div>
-            <button onClick={h}>button</button>
+            <button onClick={getAllSpending}>button</button>
         </div>
     )
 }

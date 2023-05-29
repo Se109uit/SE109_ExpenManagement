@@ -77,6 +77,9 @@ export const ggSignIn = () =>
         // The AuthCredential type that was used.
         const credential = GoogleAuthProvider.credentialFromError(error);
         // ...
+        if (errorCode === 'auth/account-exists-with-different-credential') {
+          window.alert("Đã có tài khoản! Vui lòng đăng nhập bằng tài khoản khác ở phía trên!");
+        }
       });
       // return uuid;
   // })
@@ -96,6 +99,7 @@ export const fbSignIn = () =>
       return uuid;
       // IdP data available using getAdditionalUserInfo(result)
       // ...
+
     })
     .catch((error) => {
       console.log(error);
@@ -106,8 +110,10 @@ export const fbSignIn = () =>
       const email = error.customData.email;
       // The AuthCredential type that was used.
       const credential = FacebookAuthProvider.credentialFromError(error);
-
       // ...
+      if (errorCode === 'auth/account-exists-with-different-credential') {
+        window.alert("Đã có tài khoản! Vui lòng đăng nhập bằng tài khoản khác ở phía trên!");
+      }
     });
 
 export const emailSignIn = (email, password) =>
@@ -118,11 +124,12 @@ export const emailSignIn = (email, password) =>
       return uuid
     })
     .catch((error) => {
-      console.log(error);
-      const errorCode = error.code;
-      const errorMessage = error.message;
-
-      window.alert("Đăng nhập thất bại!");
+      if (error.code === 'auth/user-not-found') {
+        window.alert("Tài khoản không tồn tại!");
+      }
+      if (error.code === 'auth/wrong-password') {
+        window.alert("Sai mật khẩu!");
+      }
     });
 
 export const avatarImg = "https://firebasestorage.googleapis.com/v0/b/spending-management-c955a.appspot.com/o/FVK7wz5aIAA25l8.jpg?alt=media&token=ddceb8f7-7cf7-4c42-a806-5d0d48ce58f5";
@@ -146,18 +153,27 @@ export const signUp = (birthday, gender, username, email, password) =>
             name: username,
         });
 
+        console.log("Document successfully written!");
+
       } catch (e) {
         console.error("Error adding document: ", e);
       }
-      return {uuid, password};
+      return uuid;
     })
     .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      // ..
-      console.log(error.message);
+      // const errorCode = error.code;
+      // const errorMessage = error.message;
+      // console.log(error.message);
 
-      window.alert("Đăng ký thất bại!");
+      if (error.code === 'auth/email-already-in-use') {
+        window.alert("Email đã được sử dụng!");
+      }
+      else if (error.code === 'auth/invalid-email') {
+        window.alert("Email không hợp lệ!");
+      }
+      else if (error.code === 'auth/weak-password') {
+        window.alert("Mật khẩu phải có ít nhất 6 ký tự!");
+      }
       return null;
     });
 

@@ -35,16 +35,15 @@ import './Account.css'
 const AccountInfor = () => {
   const loginState = useSelector(selectUsers);
   const uid = useSelector((state) => state.login.user);
+  const user = auth.currentUser;
+  let uuid = null;
   const language = useSelector((state) => state.language.choose);
   const dispatch = useDispatch();
-  const user = auth.currentUser;
-  const [userData, setUserData] = useState(null);
   const [name, setName] = useState('a');
   const [birthday, setBirthday] = useState(dayjs('2023-05-14'));
   const [gender, setGender] = useState('');
   const [money, setMoney] = useState(1);
   const [avatar, setAvatar] = useState('/src/assets/female.png');
-  const [img, setImg] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
 
   const formattedMoney = money.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
@@ -88,12 +87,12 @@ const AccountInfor = () => {
   }
 
   const showInfor = async () => {
-    const docRef = doc(db, USER_COLLECTION, uid);
+    const docRef = doc(db, USER_COLLECTION, uuid);
     getDoc(docRef).then(async (docSnap) => {
       if (docSnap.exists()) {
-        setUserData(docSnap.data());
         setName(docSnap.data().name);
-        const aBirthday = dayjs(docSnap.data().birthday);
+        const aBirthday = dayjs(docSnap.data().birthday, 'DD/MM/YYYY');
+        console.log('bt', aBirthday);
         setBirthday(aBirthday);
         const aMoney = docSnap.data().money.toString();
         setMoney(aMoney);
@@ -144,6 +143,8 @@ const AccountInfor = () => {
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
+        uuid = user.uid;
+        console.log('user signed in', user);
         showInfor();
       } else {
         dispatch(signout());
@@ -214,6 +215,7 @@ const AccountInfor = () => {
               value={birthday}
               onChange={(newValue) => setBirthday(newValue)}
               slotProps={{ textField: { variant: 'outlined' } }}
+              format="DD/MM/YYYY"
             />
           </Box>
           <Box className='my-3 w-box'>

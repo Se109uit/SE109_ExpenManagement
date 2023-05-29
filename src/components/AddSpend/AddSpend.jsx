@@ -25,11 +25,13 @@ function AddSpend() {
     const [spend, setSpend] = useState({ title: '', amount: 0 });
     const uuid = useSelector(state => state.login.user);
 
-    const [money, setMoney] = useState("100000");
+    const [money, setMoney] = useState(null);
+    const [moneyError, setMoneyError] = useState(false);
     const [date, setDate] = useState(dayjs('2022-04-17T15:30'));
     // const [time, setTime] = useState(dayjs('2022-04-17T15:30'));
     const [location, setLocation] = useState("");
     const [myfriend, setMyfriend] = useState("");
+    const [friends, setFriends] = useState([]);
     const [type, setType] = useState(1);
     const [note, setNote] = useState("");
     const [file, setFile] = useState(null);
@@ -80,7 +82,8 @@ function AddSpend() {
   async function handleSpendSubmit (event) {
     event.preventDefault();
     // Checking
-    if (money == "" || type == "") {
+    if (money === null) {
+      setMoneyError(true);
       return;
     }
     // Add spending to Firebase
@@ -120,7 +123,7 @@ function AddSpend() {
     <>
       <Dialog open={openState} onClose={handleClose}>
         <DialogTitle>Thêm chi tiêu</DialogTitle>
-        <DialogContent>
+        <DialogContent sx={{ marginBottom: 1 }}>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 {/* Money */}
                 <label htmlFor="">Nhập số tiền:</label>
@@ -134,6 +137,7 @@ function AddSpend() {
                 intlConfig={{ locale: 'vi-VN', currency: 'VND' }}
                 className='currency-input'
                 />
+                {moneyError && <p style={{ color: 'red' }}>Vui lòng nhập số tiền</p>}
                 {/* Type */}
                 <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
                 <InputLabel id="demo-simple-select-standard-label">Loại</InputLabel>
@@ -193,6 +197,9 @@ function AddSpend() {
                 onChange={handleChangeLocation}
                 />
                 {/* My friend */}
+                <Box>
+                  
+                </Box>
                 <TextField
                 id="outlined-friend"
                 label="Bạn bè"
@@ -203,7 +210,7 @@ function AddSpend() {
                 onChange={handleChangeMyFriend}
                 />
                 {/* Image */}
-                <div className="Image-upload mt-4">
+                <div className="Image-upload mt-2">
                   <ImageUploading
                     multiple
                     value={file}
@@ -223,7 +230,7 @@ function AddSpend() {
                       // write your building UI
                       <div className="upload__image-wrapper">
                         <Button
-                         sx={{ fontFamily: 'Montserrat', m: 1, minWidth: 120 }}
+                         sx={{ fontFamily: 'Montserrat', m: 1, minWidth: 120, fontWeight: 'bold' }}
                           style={isDragging ? { color: 'red' } : undefined}
                           onClick={onImageUpload}
                           {...dragProps}
@@ -233,7 +240,7 @@ function AddSpend() {
                         &nbsp;
                         <Button 
                         onClick={onImageRemoveAll} 
-                        sx={{ fontFamily: 'Montserrat', m: 1, minWidth: 120 }}
+                        sx={{ fontFamily: 'Montserrat', m: 1, minWidth: 120, fontWeight: 'bold' }}
                         >Xoá ảnh</Button>
                         {imageList.map((image, index) => (
                           <div key={index} className="image-item">
@@ -251,8 +258,18 @@ function AddSpend() {
             </div>
         </DialogContent>
         <DialogActions sx={{ display: 'flex', justifyContent: 'space-between' }}>
-          <Button onClick={handleClose} sx={{ color: 'red' }}>Thoát</Button>
-          <Button onClick={handleSpendSubmit} color="primary">Lưu</Button>
+          <Button 
+          onClick={handleClose} 
+          sx = {{ fontFamily: 'Montserrat', m: 1, minWidth: 120, fontWeight: 'bold' }}
+          variant="contained"
+          color="error"
+          >Thoát</Button>
+          <Button 
+          variant="contained"
+          sx = {{ fontFamily: 'Montserrat', m: 1, minWidth: 120, fontWeight: 'bold' }}
+          onClick={handleSpendSubmit} 
+          color="primary"
+          >Lưu</Button>
         </DialogActions>
       </Dialog>
     </>
