@@ -10,7 +10,7 @@ import { useSelector, useDispatch } from 'react-redux';
 const History = () => {
     const user = auth.currentUser;
     const h = async () => {
-        const docRef = collection(db, "spending-web");
+        const docRef = collection(db, "spending");
         const q = query(docRef, where("uuid", "==", user.uid));
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {

@@ -1,0 +1,55 @@
+{
+    "accountInfo": {
+        "tieude": "Thông tin người dùng",
+        "anh":"Thay đổi ảnh",
+        "ten":"Tên",
+        "thieuten":"Thiếu tên",
+        "ngaysinh":"Ngày sinh",
+        "gioitinh":"Giới tính",
+        "gioitinhnam":"Nam",
+        "gioitinhnu":"Nữ",
+        "tienhangthang":"Tiền hàng tháng",
+        "luu":"Lưu",
+        "xuatcsv":"Xuất CSV",
+        "ngonngu":"Ngôn ngữ",
+        "ngonnguanh":"Tiếng Anh",
+        "ngonnguviet":"Tiếng Việt",
+        "thieusotienhangthang":"Thiếu số tiền hàng tháng",
+        "capnhatthongtinthanhcong":"Cập nhật số tiền thành công",
+        "capnhatanhdaidienthanhcong":"Cập nhật ảnh đại diện thành công"
+    },
+    "nav":{
+        "trangchu":"Trang chủ",
+        "thongke":"Thống kê",
+        "taikhoan":"Người dùng",
+        "doimatkhau":"Đổi mật khẩu",
+        "lichsu":"Lịch sử",
+        "tygia":"Tỷ giá",
+        "dangxuat":"Đăng xuất",
+        "themchitieu":"Thêm chi tiêu"
+     },
+     "home":{
+        "sodudau":"Số dư đầu",
+        "soducuoi":"Số dư cuối",
+        "dachi":"Đã chi",
+        "tienchuyendi":"Tiền chuyển đi",
+        "sua":"Sửa",
+        "chiase":"Chia sẻ",
+        "xoa":"Xóa"
+     },
+     "analysis":{
+        "tu": "Từ",
+        "den":"Đến"
+     },
+     "resetpassword":{
+        "banmuondoimatkhau":"Bạn muốn thay đổi mật khẩu",
+        "vuilongnhapmatkhauhientai":"Vui lòng nhập mật khẩu hiện tại và mật khẩu mới",
+        "matkhau":"Mật khẩu",
+        "matkhaumoi":"Mật khẩu mới",
+        "nhaplaimatkhaumoi":"Nhập lại mật khẩu mới",
+        "luu":"Lưu",
+        "matkhaukhongkhop":"Mật khẩu không khớp",
+        "matkhaumoikhongduoctrungmatkhaucu":"Mật khẩu mới không được giống mật khẩu mới",
+        "matkhauphaicoitnhat6kytu":"Mật khẩu phải có ít nhất 6 ký tự"
+     }
+ }

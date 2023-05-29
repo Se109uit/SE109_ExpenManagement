@@ -18,6 +18,8 @@ import CurrencyInput from 'react-currency-input-field';
 import './AddSpend.css';
 import {options} from './data'
 
+
+
 function AddSpend() {
     const dispatch = useDispatch();
     const openState = useSelector((state) => state.spend.isOpen);
@@ -97,7 +99,7 @@ function AddSpend() {
     }
     try {
       console.log("submit", money, datetime, location, myfriend, type, note, uuid, url);
-      const result = await addDoc(collection(db, SPEND_COLLECTION), {
+      const result = await addDoc(collection(db, "spending-web"), {
         money,
         datetime,
         location,

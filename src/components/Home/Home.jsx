@@ -5,6 +5,7 @@ import Calendar from 'react-calendar'
 import 'react-calendar/dist/Calendar.css';
 import { Bar } from "react-chartjs-2";
 import {CardActions, CardContent, Typography, IconButton, Box, Card, Button } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 const bull = (
   <Box
@@ -16,35 +17,29 @@ const bull = (
 );
 
 const Home = () => {
-  
+  const { t } = useTranslation()
 
   return (
-    <div className='Home'>
-      <div className='spending mb-4'>
-        <div className='money-spending'>
-          <li>
-            <h3>Thu nhập: </h3>
-            <div className='money'>
-              <h3>12000000</h3>
-            </div>
-          </li>
-
-          <li>
-            <h3>Chi tiêu: </h3>
-            <div className='money'>
-              <h3>0</h3>
-            </div>
-          </li>
-
-          <li>
-            <h3>Tổng: </h3>
-            <div className='money'>
-              <h3>12000000</h3>
-            </div>
-          </li>
+    <div className='Home d-flex flex-column'>
+      <div className='spending d-flex flex-rows'>
+        <div className='money-spending d-flex flex-column'>
+          <div className='total d-flex flex-row  justify-content-between'>
+            <p className='title fs-5 fw-bold'>{t('home.sodudau')}:</p>
+            <p className='money fs-5 fw-bold '>12000000</p>
+          </div>
+          <div className='total d-flex flex-row  justify-content-between'>
+            <p className='title fs-5 fw-bold'>{t('home.soducuoi')}: </p>
+            <p className='money fs-5 fw-bold '>0</p>
+          </div>
+          <div className='total d-flex flex-row  justify-content-between'>
+            <p className='title fs-5 fw-bold'>{t('home.dachi')}: </p>
+            <p className='money fs-5 fw-bold '>0</p>
+          </div>
+         
           
         </div>
-        <Calendar/>
+        <Calendar/> 
+        {/* Calendar */}
         
       </div>
       <Box>
@@ -54,7 +49,7 @@ const Home = () => {
                 Word of the Day
               </Typography> */}
               <Typography variant="h5" component="div">
-                Tiền chuyển đi
+              {t('home.tienchuyendi')}
               </Typography>
               {/* <Typography sx={{ mb: 1.5 }} color="text.secondary">
                 adjective
@@ -64,9 +59,9 @@ const Home = () => {
               </Typography>
             </CardContent>
             <CardActions>
-              <Button size="small">Sửa</Button>
-              <Button size="small">Chia sẻ</Button>
-              <Button size="small">Xoá</Button>
+              <Button size="small">{t('home.sua')}</Button>
+              <Button size="small">{t('home.chiase')}</Button>
+              <Button size="small">{t('home.xoa')}</Button>
             </CardActions>
           </Card>
         </Box>
