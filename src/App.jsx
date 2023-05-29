@@ -35,6 +35,7 @@ const router = createBrowserRouter(
             <Route path='expense' element={<Nav/>}>
                 <Route path='home' element={<Home/>}></Route>
                 <Route path='addspending' element={<AddSpending/>}></Route>
+                <Route path='addspending' element={<AddSpending/>}></Route>
                 <Route path='analysis' element={<Analysis/>}></Route>
                 <Route path='accountinfor' element={<AccountInfor/>}></Route>
                 <Route path='history' element={<History/>}></Route>

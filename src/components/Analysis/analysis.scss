@@ -8,7 +8,7 @@
      .nav{
           // border: 2px solid black;
           margin-bottom: 1rem;
-          width:210px;
+          width:100%;
           li{
                // border: 2px solid black;
                padding: 5px;
@@ -20,11 +20,26 @@
                     background: #ffff;
                }
           }
+          .option{
+               margin-left: 1rem;
+               // margin-top: 4px;
+               margin-right: 1rem;
+          }
+          .btn-search{
+               margin-left: 2rem;
+               border: none;
+               background: #FFFF;
+               width: 60px;
+               border-radius: 0.5rem;
+               &:hover{
+                    width: 70px;
+               }
+               img{
+                    width: 30px;
+               }
+          }
      }
      .chart{
-          width: 100%;
-          .chart-bar{
-               width: 100%;
-          }
+          width: 1200px;
      }
 }

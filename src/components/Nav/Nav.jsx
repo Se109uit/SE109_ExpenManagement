@@ -17,8 +17,10 @@ import addSpending from '../../assets/AddSpending.png'
 import Logout from '../../assets/Logout.png'
 
 import './Nav.css';
+import { useTranslation } from 'react-i18next';
 
 const Nav = () => {
+    const { t } = useTranslation()
     const navigate = useNavigate();
     const { collapseSidebar} = useProSidebar();
     const dispatch = useDispatch();
@@ -45,37 +47,37 @@ const Nav = () => {
                         <MenuItem 
                             icon={<img className="img-nav" src={Home}/>}
                             component={<Link to="home" />}
-                            > Trang chủ </MenuItem>
+                            > {t('nav.trangchu')} </MenuItem>
                         <MenuItem 
                             icon={<img className="img-nav" src={PhanTich}/>}
                             component={<Link to="analysis" />}
-                        > Thống kê </MenuItem>
-                        <SubMenu icon={<img className="img-nav" src={User}/>} label="Tài khoản">
+                        > {t('nav.thongke')} </MenuItem>
+                        <SubMenu icon={<img className="img-nav" src={User}/>} label={t('nav.taikhoan')}>
                             <MenuItem
                                 component={<Link to="accountinfor" />}
-                            > Tài khoản</MenuItem>
+                            > {t('nav.taikhoan')}</MenuItem>
                             <MenuItem
                                 component={<Link to="resetpassword" />}
-                            > Đổi mật khẩu</MenuItem>
+                            > {t('nav.doimatkhau')}</MenuItem>
                             {/* <MenuItem> Ngôn ngữ </MenuItem> */}
                             <MenuItem
                                 component={<Link to="history" />}
-                            > Lịch sử </MenuItem>
+                            > {t('nav.lichsu')} </MenuItem>
                             <MenuItem
                                 component={<Link to="currency" />}
-                            > Tỷ giá </MenuItem>
+                            > {t('nav.tygia')} </MenuItem>
                             <MenuItem
                                 onClick={() => handleLogout()}
                             > 
                             <div className='p-2'></div>
-                            <p className="text-danger">Đăng xuất</p> 
+                            <p className="text-danger">{t('nav.dangxuat')}</p> 
                             </MenuItem>
                         </SubMenu>
                         <MenuItem 
                             icon={<img className="img-nav" src={addSpending}/>}
                             onClick={() => dispatch(openadd())}
                             // component={<Link to="addSpending" />}
-                        > Thêm chi tiêu </MenuItem>
+                        > {t('nav.themchitieu')} </MenuItem>
                     </Menu>
                 </Sidebar>
             </div>

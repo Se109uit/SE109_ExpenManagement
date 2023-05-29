@@ -32,7 +32,18 @@ import { auth, db, USER_COLLECTION, avatarImg } from '../../features/firebase/fi
 
 import './Account.css'
 
+import { useTranslation } from 'react-i18next';
+import i18next from "i18next";
+import { DocumentScanner } from '@mui/icons-material';
+
+
+
 const AccountInfor = () => {
+
+  const { t, i18n } = useTranslation()
+  
+
+
   const loginState = useSelector(selectUsers);
   const uid = useSelector((state) => state.login.user);
   const user = auth.currentUser;
@@ -68,7 +79,7 @@ const AccountInfor = () => {
       avatar: imageUrl,
     }).then(
       setAvatar(imageUrl),
-      window.alert("Cập nhật ảnh đại diện thành công")
+      window.alert(t('accountInfo.capnhatanhdaidienthanhcong'))
     )
   };
 
@@ -133,12 +144,16 @@ const AccountInfor = () => {
       money: money
     });
 
-    window.alert('Cập nhật thông tin thành công!');
+    window.alert(t('accountInfo.capnhatthongtinthanhcong'));
   }
 
-  function handleLanguageChange(event) {
-    dispatch(lang(event.target.value));
-  }
+  // function handleLanguageChange(event) {
+  //   dispatch(lang(event.target.value));
+  // }
+
+  const handleLanguageChange = (e) => {
+		i18n.changeLanguage(e.target.value);
+	};
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -156,10 +171,12 @@ const AccountInfor = () => {
     updateInformation();
   }
 
+
+  
   return (
     <div className='mt-4'>
       <Box className='row justify-content-center'>
-        <h3 className='my-2'>Thông tin người dùng:</h3>
+        <h3 className='my-2'>{t('accountInfo.tieude')}</h3>
         <Box className='col-md-3'>
           {/* Avatar */}
           <Box className='d-flex align-items-center flex-column mt-3'>
@@ -176,7 +193,8 @@ const AccountInfor = () => {
                 type="file"
                 onChange={handleFileChange}
                 alt='avatar'
-                className='py-2'
+                className='py-2 border border-dark'
+                data-i18n="[value]showcase.search-value"
               />
               <Button
                 type="file"
@@ -185,7 +203,7 @@ const AccountInfor = () => {
                 startIcon={<AddIcon />}
                 onClick={handleUpload}
               >
-                Thay đổi ảnh
+                {t('accountInfo.anh')}
               </Button>
             </Box>
 
@@ -199,19 +217,19 @@ const AccountInfor = () => {
               required
               hiddenLabel
               id="name-input"
-              label="Tên"
+              label={t('accountInfo.ten')}
               variant="outlined"
               fullWidth
               value={name}
               onChange={handleNameChange}
-              helperText={name ? "" : "Thiếu tên."}
+              helperText={name ? "" : t('accountInfo.thieuten')}
               error={name ? false : true}
             />
           </Box>
           <Box className='my-3'>
             {/* <p className='form-control'>{userData?.birthday}</p> */}
             <DatePicker
-              label="Ngày sinh"
+              label={t('accountInfo.ngaysinh')}
               value={birthday}
               onChange={(newValue) => setBirthday(newValue)}
               slotProps={{ textField: { variant: 'outlined' } }}
@@ -221,7 +239,7 @@ const AccountInfor = () => {
           <Box className='my-3 w-box'>
             {/* <p className='form-control'>{userData?.gender}</p> */}
             <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">Giới tính</InputLabel>
+              <InputLabel id="demo-simple-select-label">{t('accountInfo.gioitinh')}</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
                 id="gender-select"
@@ -229,8 +247,8 @@ const AccountInfor = () => {
                 label="ngày sinh"
                 onChange={handleGenderChange}
               >
-                <MenuItem value={true}>Nam</MenuItem>
-                <MenuItem value={false}>Nữ</MenuItem>
+                <MenuItem value={true}>{t('accountInfo.gioitinhnam')}</MenuItem>
+                <MenuItem value={false}>{t('accountInfo.gioitinhnu')}</MenuItem>
               </Select>
             </FormControl>
           </Box>
@@ -241,12 +259,12 @@ const AccountInfor = () => {
               required
               hiddenLabel
               id="standard-basic"
-              label="Tiền hàng tháng"
+              label={t('accountInfo.tienhangthang')}
               variant="outlined"
               fullWidth
               value={money}
               onChange={handleMoneyChange}
-              helperText={money ? "" : "Thiếu số tiền hàng tháng."}
+              helperText={money ? "" : t('accountInfo.thieusotienhangthang')}
               error={money ? false : true}
             />
           </Box>
@@ -254,27 +272,29 @@ const AccountInfor = () => {
       </Box>
       {/* Button */}
       <Box className='d-flex justify-content-center mb-4'>
-        <button className='button-logout' onClick={handleUpdate}>Lưu</button>
+        <button className='button-logout' onClick={handleUpdate}>{t('accountInfo.luu')}</button>
       </Box>
       <hr />
-      <h3 className='my-2'>Xuất CSV:</h3>
+      <h3 className='my-2'>{t('accountInfo.xuatcsv')}:</h3>
       <Box className="mx-3 text-center">
-        <Button variant="contained">Xuất CSV</Button>
+        <Button variant="contained">{t('accountInfo.xuatcsv')}</Button>
       </Box>
       <hr />
-      <h3 className='my-2'>Ngôn ngữ:</h3>
+      <h3 className='my-2'>{t('accountInfo.ngonngu')}:</h3>
       <Box className="mx-3 text-center">
         <FormControl>
-          <InputLabel id="language-label" sx={{ fontFamily: "Montserrat", fontWeight: "bold" }}>Ngôn ngữ</InputLabel>
+          <InputLabel id="language-label" sx={{ fontFamily: "Montserrat", fontWeight: "bold" }}>{t('accountInfo.ngonngu')}</InputLabel>
           <Select
             labelId="language-label"
             id="language-select"
-            value={language}
+            // value={language}
+            value={localStorage.getItem("i18nextLng")}
             label="Ngôn ngữ."
             onChange={handleLanguageChange}
           >
-            <MenuItem value="vi">Tiếng việt</MenuItem>
-            <MenuItem value="en">English</MenuItem>
+            <MenuItem value="vi" className='languageV'>{t('accountInfo.ngonnguviet')}</MenuItem>
+            <MenuItem value="en" className='languageE'>{t('accountInfo.ngonnguanh')}</MenuItem>
+           
           </Select>
         </FormControl>
       </Box>
