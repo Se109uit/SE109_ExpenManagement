@@ -8,7 +8,7 @@ import { auth, db, storage, SPEND_COLLECTION, DATA_COLLECTION, avatarImg } from 
 
 import { Button, Dialog, DialogActions, 
     DialogContent, DialogTitle, TextField, 
-    FormControl, Select, MenuItem, InputLabel  } from '@mui/material';
+    FormControl, Select, MenuItem, InputLabel, Box  } from '@mui/material';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { DatePicker, TimePicker, DateTimePicker  } from '@mui/x-date-pickers';
 import dayjs from 'dayjs';
