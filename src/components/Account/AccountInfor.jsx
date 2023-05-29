@@ -41,8 +41,6 @@ import { DocumentScanner } from '@mui/icons-material';
 const AccountInfor = () => {
 
   const { t, i18n } = useTranslation()
-  
-
 
   const loginState = useSelector(selectUsers);
   const uid = useSelector((state) => state.login.user);
@@ -102,8 +100,16 @@ const AccountInfor = () => {
     getDoc(docRef).then(async (docSnap) => {
       if (docSnap.exists()) {
         setName(docSnap.data().name);
-        const aBirthday = dayjs(docSnap.data().birthday, 'DD/MM/YYYY');
-        console.log('bt', aBirthday);
+        let aBirthday = null;
+
+        const userAgent = navigator.userAgent;
+        if (userAgent.indexOf('Firefox') > -1) {
+          aBirthday = dayjs(docSnap.data().birthday, 'DD/MM/YYYY');
+        } 
+        else {
+          aBirthday = dayjs(docSnap.data().birthday);
+        }
+
         setBirthday(aBirthday);
         const aMoney = docSnap.data().money.toString();
         setMoney(aMoney);

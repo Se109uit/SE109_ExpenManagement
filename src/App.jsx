@@ -14,7 +14,6 @@ import Rootpage from './components/RootPage/RootPage';
 import Login from './components/Login/Login';
 import SignUp from './components/Login/SignUp';
 import Home from './components/Home/Home';
-import Account from './components/Account/Account';
 import ErrorPage from './components/ErrorPage/ErrorPage';
 import AccountInfor from './components/Account/AccountInfor';
 import AppInfor from './components/Account/AppInfor';

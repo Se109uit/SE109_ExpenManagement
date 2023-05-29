@@ -17,8 +17,7 @@ import CurrencyInput from 'react-currency-input-field';
 
 import './AddSpend.css';
 import {options} from './data'
-
-
+import ManageFriend from './friend';
 
 function AddSpend() {
     const dispatch = useDispatch();
@@ -101,12 +100,12 @@ function AddSpend() {
       })
     }
     try {
-      console.log("submit", money, datetime, location, myfriend, type, note, uuid, url);
-      const result = await addDoc(collection(db, "spending-web"), {
+      console.log("submit", money, datetime, location, friends, type, note, uuid, url);
+      const result = await addDoc(collection(db, SPEND_COLLECTION), {
         money,
-        datetime,
+        date: datetime,
         location,
-        friends: myfriend,
+        friends: friends,
         type,
         note,
         uuid,
@@ -125,7 +124,7 @@ function AddSpend() {
     <>
       <Dialog open={openState} onClose={handleClose}>
         <DialogTitle>Thêm chi tiêu</DialogTitle>
-        <DialogContent sx={{ marginBottom: 1 }}>
+        <DialogContent>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 {/* Money */}
                 <label htmlFor="">Nhập số tiền:</label>
@@ -178,6 +177,7 @@ function AddSpend() {
                 slotProps={{ textField: { variant: 'outlined' }} }
                 sx={{ m: 1, minWidth: 120 }}
                 />
+                <Box sx={{ display: 'flex', flex: 1 }}>
                 {/* Note */}
                 <TextField
                 id="outlined-multiline-static"
@@ -198,11 +198,15 @@ function AddSpend() {
                 sx={{ m: 1, minWidth: 120 }}
                 onChange={handleChangeLocation}
                 />
+                </Box>
                 {/* My friend */}
                 <Box>
-                  
+                  <ManageFriend 
+                    data={friends}
+                    setData={setFriends}
+                  />
                 </Box>
-                <TextField
+                {/* <TextField
                 id="outlined-friend"
                 label="Bạn bè"
                 rows={4}
@@ -210,9 +214,9 @@ function AddSpend() {
                 variant="standard"
                 sx={{ m: 1, minWidth: 120 }}
                 onChange={handleChangeMyFriend}
-                />
+                /> */}
                 {/* Image */}
-                <div className="Image-upload mt-2">
+                <div className="Image-upload mt-1">
                   <ImageUploading
                     multiple
                     value={file}
@@ -262,13 +266,13 @@ function AddSpend() {
         <DialogActions sx={{ display: 'flex', justifyContent: 'space-between' }}>
           <Button 
           onClick={handleClose} 
-          sx = {{ fontFamily: 'Montserrat', m: 1, minWidth: 120, fontWeight: 'bold' }}
+          sx = {{ fontFamily: 'Montserrat', minWidth: 120, fontWeight: 'bold' }}
           variant="contained"
           color="error"
           >Thoát</Button>
           <Button 
           variant="contained"
-          sx = {{ fontFamily: 'Montserrat', m: 1, minWidth: 120, fontWeight: 'bold' }}
+          sx = {{ fontFamily: 'Montserrat', minWidth: 120, fontWeight: 'bold' }}
           onClick={handleSpendSubmit} 
           color="primary"
           >Lưu</Button>

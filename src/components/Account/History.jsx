@@ -7,20 +7,22 @@ import { getStorage, ref, uploadBytes} from 'firebase/storage'
 import { v4 } from 'uuid'
 import { useSelector, useDispatch } from 'react-redux';
 
+import SpendingData from '../SpendingData/SpendingData'
+
 const History = () => {
-    const user = auth.currentUser;
-    const getAllSpending = async () => {
-        const docRef = collection(db, SPEND_COLLECTION);
-        const q = query(docRef, where("uuid", "==", user.uid));
-        const querySnapshot = await getDocs(q);
-        querySnapshot.forEach((doc) => {
-            console.log(doc.id, " => ", doc.data());
-        }
-        );
-    }
+    // const user = auth.currentUser;
+    // const getAllSpending = async () => {
+    //     const docRef = collection(db, SPEND_COLLECTION);
+    //     const q = query(docRef, where("uuid", "==", user.uid));
+    //     const querySnapshot = await getDocs(q);
+    //     querySnapshot.forEach((doc) => {
+    //         console.log(doc.id, " => ", doc.data());
+    //     }
+    //     );
+    // }
     return (
         <div>
-            <button onClick={getAllSpending}>button</button>
+            <SpendingData />
         </div>
     )
 }
