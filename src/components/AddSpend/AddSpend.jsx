@@ -170,23 +170,24 @@ function AddSpend() {
           var dataSpending = [];
           if (value.exists) {
             const data = value.data();
-            const formattedDate = format(spending.dateTime, "MM_yyyy");
+            const formattedDate = format(datetime, "MM_yyyy");
+            console.log(formattedDate);
             if (data[formattedDate] !== null) {
               dataSpending = data[formattedDate]
                 .map((e) => e.toString())
-                .concat([firestoreSpending.id]);
-              firestoreData.update({
+                .concat([documentId()]);
+              updateDoc(docRef, {
                 [formattedDate]: dataSpending,
               });
             } else {
-              dataSpending.push(firestoreSpending.id);
+              dataSpending.push(documentId());
               data[formattedDate] = dataSpending;
-              firestoreData.set(data);
+              addDoc(docRef, data);
             }
           } else {
-            dataSpending.push(firestoreSpending.id);
-            firestoreData.set({
-              [format(spending.dateTime, "MM_yyyy")]: dataSpending,
+            dataSpending.push(documentId());
+            addDoc(docRef, {
+              [format(datetime, "MM_yyyy")]: dataSpending,
             });
           }
         });
