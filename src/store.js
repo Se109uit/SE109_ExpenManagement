@@ -42,7 +42,7 @@ export const store = configureStore({
 
 export const persistor = persistStore(store);
 
-// Reset the data
+// // Reset the data
 // persistor.purge().then(() => {
 //   console.log('Data reset successful');
 // }).catch(() => {

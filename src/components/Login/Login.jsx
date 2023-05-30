@@ -83,6 +83,7 @@ function Login() {
   }
 
   return (
+    <div className="login-page">
     <div className="form-margin">
       <div className="container col-12 col-md-6 col-lg-4">
         <div className="">
@@ -224,6 +225,7 @@ function Login() {
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 }

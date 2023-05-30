@@ -1,16 +1,29 @@
 
 
 export const options = [
-    { value: '1', label: 'Gia đình' },
-    { value: '2', label: 'Hẹn hò' },
-    { value: '3', label: 'Điện nước' },
-    { value: '4', label: 'Thuốc - Y tế' },
-    { value: '5', label: 'Ăn uống' },
-    { value: '6', label: 'Taxi' },
-    { value: '7', label: 'Thú cưng' },
-    { value: '8', label: 'Trò chơi điện tử' },
-    { value: '9', label: 'Điện thoại' },  
-    { value: '10', label: 'Thể thao' },
+    //Chi tiêu hàng tháng
+    { value: '1', label: 'Ăn uống' },
+    { value: '2', label: 'Di chuyển' },
+    { value: '3', label: 'Thuê nhà' },
+    { value: '4', label: 'Tiền nước' },
+    { value: '5', label: 'Tiền điện thoại' },
+    //Chi tiêu cần thiết
+    { value: '11', label: 'Sửa và trang trí nhà' },
+    { value: '12', label: 'Bảo dưỡng xe' },  
+    { value: '13', label: 'Khám sức khoẻ' },
+    { value: '14', label: 'Bảo hiểm' },
+    { value: '15', label: 'Giáo dục' },
+    //Vui-chơi
+    { value: '18', label: 'Thú cưng' },
+    { value: '19', label: 'Dịch vụ và gia đình' },
+    { value: '20', label: 'Chi phí khác' },
+    //Đầu tư, cho vay & nợ
+    { value: '21', label: 'Đầu tư' },
+    //Khoản thu
+    { value: '36', label: 'Thu nhập khác' },
+
+    //Khác
+    { value: '40', label: 'Nhóm mới' },
   ];
 
 export const friend = [

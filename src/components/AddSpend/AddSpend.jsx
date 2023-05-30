@@ -27,11 +27,11 @@ function AddSpend() {
     const [spend, setSpend] = useState({ title: '', amount: 0 });
     const uuid = useSelector(state => state.login.user);
 
-    const [money, setMoney] = useState(null);
+    let [money, setMoney] = useState(null);
     const [moneyError, setMoneyError] = useState(false);
     // const [date, setDate] = useState(dayjs('2022-04-17T15:30'));
     const now = dayjs();
-    const [date, setDate] = useState(now.set('hour', 15).set('minute', 30));
+    const [date, setDate] = useState(now);
     // const [time, setTime] = useState(dayjs('2022-04-17T15:30'));
     const [location, setLocation] = useState("");
     const [myfriend, setMyfriend] = useState("");
@@ -104,6 +104,12 @@ function AddSpend() {
         }
       })
     }
+    if (type < 20) {
+      money = -Math.abs(money);
+    } else {
+      money = Math.abs(money);
+    }
+      
     try {
       console.log("submit", money, datetime, location, friends, type, note, uuid, url);
       const result = await addDoc(collection(db, SPEND_COLLECTION), {
@@ -118,9 +124,9 @@ function AddSpend() {
       }).then(() => {
         alert("Thêm chi tiêu thành công")
       })
-  } catch (error) {
-    console.log(error);
-  }
+    } catch (error) {
+      console.log(error);
+    }
     // Close the dialog
     handleClose();
   }
@@ -160,7 +166,7 @@ function AddSpend() {
                 placeholder="100.000VND"
                 value={money}
                 decimalsLimit={2}
-                onValueChange={(value) => setMoney(value)}
+                onValueChange={(value) => setMoney(Number(value))}
                 intlConfig={{ locale: 'vi-VN', currency: 'VND' }}
                 className='currency-input'
                 style={{ maxWidth: '300px' }}

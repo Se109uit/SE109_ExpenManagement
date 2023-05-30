@@ -46,7 +46,7 @@ export const storage = getStorage(app)
 export default auth;
 export const USER_COLLECTION = "info";
 export const SPEND_COLLECTION = "spending";
-export const DATA_COLLECTION = "datatemp";
+export const DATA_COLLECTION = "data";
 
 const ggProvider = new GoogleAuthProvider();
 const fbProvider = new FacebookAuthProvider();
