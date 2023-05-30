@@ -8,7 +8,8 @@ import { auth, db, storage, SPEND_COLLECTION, DATA_COLLECTION, avatarImg } from 
 
 import { Button, Dialog, DialogActions, 
     DialogContent, DialogTitle, TextField, 
-    FormControl, Select, MenuItem, InputLabel, Box  } from '@mui/material';
+    FormControl, Select, MenuItem, InputLabel, Box, IconButton  } from '@mui/material';
+    import CloseIcon from '@mui/icons-material/Close';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { DatePicker, TimePicker, DateTimePicker  } from '@mui/x-date-pickers';
 import dayjs from 'dayjs';
@@ -28,7 +29,9 @@ function AddSpend() {
 
     const [money, setMoney] = useState(null);
     const [moneyError, setMoneyError] = useState(false);
-    const [date, setDate] = useState(dayjs('2022-04-17T15:30'));
+    // const [date, setDate] = useState(dayjs('2022-04-17T15:30'));
+    const now = dayjs();
+    const [date, setDate] = useState(now.set('hour', 15).set('minute', 30));
     // const [time, setTime] = useState(dayjs('2022-04-17T15:30'));
     const [location, setLocation] = useState("");
     const [myfriend, setMyfriend] = useState("");
@@ -36,6 +39,8 @@ function AddSpend() {
     const [type, setType] = useState(1);
     const [note, setNote] = useState("");
     const [file, setFile] = useState(null);
+
+    const [scroll, setScroll] = useState('body');
 
   function handleOpen() {
     dispatch(openadd());
@@ -122,8 +127,29 @@ function AddSpend() {
 
   return (
     <>
-      <Dialog open={openState} onClose={handleClose}>
-        <DialogTitle>Thêm chi tiêu</DialogTitle>
+      <Dialog 
+      open={openState} 
+      onClose={handleClose} 
+      scroll='paper'
+      maxWidth='sm'
+      fullWidth
+      sx={{ maxHeight: 'calc(100vh - 64px)'}}
+      >
+        <DialogTitle>
+          Thêm chi tiêu
+          <IconButton
+            aria-label="close"
+            onClick={handleClose}
+            sx={{
+              position: 'absolute',
+              right: 8,
+              top: 8,
+              color: (theme) => theme.palette.grey[500],
+            }}
+          >
+            <CloseIcon />
+          </IconButton>
+        </DialogTitle>
         <DialogContent>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 {/* Money */}
@@ -137,6 +163,7 @@ function AddSpend() {
                 onValueChange={(value) => setMoney(value)}
                 intlConfig={{ locale: 'vi-VN', currency: 'VND' }}
                 className='currency-input'
+                style={{ maxWidth: '300px' }}
                 />
                 {moneyError && <p style={{ color: 'red' }}>Vui lòng nhập số tiền</p>}
                 {/* Type */}
@@ -161,6 +188,7 @@ function AddSpend() {
                 <DatePicker
                 label="Ngày"
                 value={date}
+                format='DD/MM/YYYY'
                 onChange={(newValue) => {
                     setDate(newValue);
                 }}

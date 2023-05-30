@@ -165,7 +165,6 @@ const AccountInfor = () => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         uuid = user.uid;
-        console.log('user signed in', user);
         showInfor();
       } else {
         dispatch(signout());

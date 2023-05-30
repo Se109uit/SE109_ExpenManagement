@@ -8,6 +8,7 @@ import { auth } from '../../features/firebase/firebase'
 import { signout } from '../../features/firebase/firebaseSlice'
 
 import AddSpend from '../AddSpend/AddSpend';
+import AddSpendB from '../AddSpendB/AddSpendB';
 import { use } from 'i18next';
 
 const RootPage = () => {
@@ -33,6 +34,7 @@ const RootPage = () => {
                 <Outlet />
                 {
                     openState && <AddSpend />
+                    // openState && <AddSpendB />
                 }
             </div>
         </>

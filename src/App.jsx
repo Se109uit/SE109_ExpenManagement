@@ -20,7 +20,7 @@ import AppInfor from './components/Account/AppInfor';
 import Currency from './components/Account/Currency';
 import History from './components/Account/History';
 import Nav from './components/Nav/Nav';
-import AddSpending from './components/AddSpending/AddSpending';
+// import AddSpending from './components/AddSpending/AddSpending';
 import Analysis from './components/Analysis/Analysis';
 import ForgotPassword from './components/ForgotPassword/ForgotPassword';
 import ResetPassword from './components/ForgotPassword/ResetPassword';
@@ -33,8 +33,6 @@ const router = createBrowserRouter(
             <Route path='signup' element={<SignUp/>}/>
             <Route path='expense' element={<Nav/>}>
                 <Route path='home' element={<Home/>}></Route>
-                <Route path='addspending' element={<AddSpending/>}></Route>
-                <Route path='addspending' element={<AddSpending/>}></Route>
                 <Route path='analysis' element={<Analysis/>}></Route>
                 <Route path='accountinfor' element={<AccountInfor/>}></Route>
                 <Route path='history' element={<History/>}></Route>
