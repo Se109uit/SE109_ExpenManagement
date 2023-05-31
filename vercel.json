@@ -1,16 +1,1 @@
-{
-    "routes": [
-      { "src": "/", "dest": "/" },
-      { "src": "/login", "dest": "/login" },
-      { "src": "/signup", "dest": "/signup" },
-      { "src": "/expense", "dest": "/expense" },
-      { "src": "/expense/home", "dest": "/expense/home" },
-      { "src": "/expense/analysis", "dest": "/expense/analysist" },
-      { "src": "/expense/accountinfor", "dest": "/expense/accountinfor" },
-      { "src": "/expense/history", "dest": "/expense/history" },
-      { "src": "/expense/currency", "dest": "/expense/currency" },
-      { "src": "/expense/appinfor", "dest": "/expense/appinfor" },
-      { "src": "/expense/resetpassword", "dest": "/expense/resetpassword" },
-      { "src": "/forgotpassword", "dest": "/forgotpassword" }
-    ]
-}
+{ "routes": [{ "src": "/[^.]+", "dest": "/", "status": 200 }] }
