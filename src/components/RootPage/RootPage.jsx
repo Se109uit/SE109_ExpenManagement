@@ -8,6 +8,7 @@ import { auth } from '../../features/firebase/firebase'
 import { signout } from '../../features/firebase/firebaseSlice'
 
 import AddSpend from '../AddSpend/AddSpend';
+import ChangeSpend from '../AddSpend/ChangeSpend';
 import { use } from 'i18next';
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -17,6 +18,7 @@ const RootPage = () => {
     const dispatch = useDispatch();
     const loginState = useSelector((state) => state.login.isLogin);
     const openState = useSelector((state) => state.spend.isOpen);
+    const changeState = useSelector((state) => state.change.isChange);
 
     const [loading, setLoading] = useState(false);
 
@@ -40,6 +42,9 @@ const RootPage = () => {
                 <Outlet />
                 {
                     openState && <AddSpend />
+                }
+                {
+                    changeState && <ChangeSpend />
                 }
                 <Backdrop
                     sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}

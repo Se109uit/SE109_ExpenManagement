@@ -77,7 +77,7 @@ function SignUp() {
             {
                 // const birthday = dob.toLocaleDateString('en-GB');
                 const birthday = dob.format('DD/MM/YYYY');
-                console.log(birthday, gender, username, email, password)
+                // console.log(birthday, gender, username, email, password)
 
                 dispatch(signup({birthday, gender, username, email, password}))
                 // .then( res => {

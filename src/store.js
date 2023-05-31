@@ -12,6 +12,7 @@ import {
 import storage from 'redux-persist/lib/storage';
 import counterReducer from './features/counter/counterSlice'
 import addspendReducer from './features/spend/spendSlice'
+import changespendReducer from './features/change/changeSlice'
 import loginReducer from './features/firebase/firebaseSlice'
 import languageSlice from './features/language/languageSlice';
 const persistConfig = {
@@ -24,6 +25,7 @@ const persistConfig = {
 export const rootReducer = combineReducers({
   counter: counterReducer,
   spend: addspendReducer,
+  change: changespendReducer,
   language: languageSlice,
   login: loginReducer
 })
