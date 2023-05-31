@@ -9,7 +9,7 @@ import { auth, db, storage, SPEND_COLLECTION, DATA_COLLECTION, avatarImg } from 
 import { Button, Dialog, DialogActions, 
     DialogContent, DialogTitle, TextField, 
     FormControl, Select, MenuItem, InputLabel, Box, IconButton  } from '@mui/material';
-    import CloseIcon from '@mui/icons-material/Close';
+import CloseIcon from '@mui/icons-material/Close';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { DatePicker, TimePicker, DateTimePicker  } from '@mui/x-date-pickers';
 import dayjs from 'dayjs';

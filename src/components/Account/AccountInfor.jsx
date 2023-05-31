@@ -46,6 +46,7 @@ const AccountInfor = () => {
   const uid = useSelector((state) => state.login.user);
   const user = auth.currentUser;
   let uuid = null;
+  let img_avatar = null;
   const language = useSelector((state) => state.language.choose);
   const dispatch = useDispatch();
   const [name, setName] = useState('a');

@@ -12,6 +12,7 @@ import SpendingData from '../SpendingData/SpendingData'
 const History = () => {
     const [spendingData, setSpendingData] = useState([]);
     const _user = useSelector((state) => state.login.user);
+    const _addSpending = useSelector((state) => state.spend.isOpen);
 
     const user = auth.currentUser;
     //   const useruid = user.uid;
@@ -38,16 +39,16 @@ const History = () => {
 
     useEffect(() => {
         getAllSpending();
-    }, []);
+    }, [_addSpending]);
 
     return (
         <div className='mt-4'>
             <div className='row justify-content-center'>
                 <h3 className='my-2'>Lịch sử</h3>
-                <div>
+                <div className='mt-2'>
                     {Object.entries(spendingData).map(([date, spendings]) => (
                       <div key={date}>
-                        <h4>{date}</h4>
+                        <h4 className='pl-1 text-danger mt-1' style={{ paddingLeft: '1rem' }}>Ngày: {date}</h4>
                         {Array.isArray(spendings) && spendings.map((spending) => (
                           <SpendingData key={spending.uid} spending={spending} />
                         ))}
