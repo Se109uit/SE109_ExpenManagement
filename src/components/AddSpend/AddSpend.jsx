@@ -27,26 +27,15 @@ import {
   avatarImg,
 } from "../../features/firebase/firebase";
 
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  TextField,
-  FormControl,
-  Select,
-  MenuItem,
-  InputLabel,
-  Box,
-  IconButton,
-} from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
-import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
-import { DatePicker, TimePicker, DateTimePicker } from "@mui/x-date-pickers";
-import dayjs from "dayjs";
-import ImageUploading from "react-images-uploading";
-import CurrencyInput from "react-currency-input-field";
+import { Button, Dialog, DialogActions, 
+    DialogContent, DialogTitle, TextField, 
+    FormControl, Select, MenuItem, InputLabel, Box, IconButton  } from '@mui/material';
+    import CloseIcon from '@mui/icons-material/Close';
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { DatePicker, TimePicker, DateTimePicker  } from '@mui/x-date-pickers';
+import dayjs from 'dayjs';
+import ImageUploading from 'react-images-uploading';
+import CurrencyInput from 'react-currency-input-field';
 
 import "./AddSpend.css";
 import { options } from "./data";
