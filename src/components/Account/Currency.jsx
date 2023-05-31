@@ -4,16 +4,22 @@ import Select from "react-select";
 import "./Currency.css";
 import { API, options } from "../../utils/countries";
 
+//??? why it outside
+var search = document.querySelector(".searchBox");
+
 const Currency = () => {
   const [typeOne, setTypeOne] = useState("");
   const [typeTwo, setTypeTwo] = useState("");
   const [value, setValue] = useState("");
   const [changeValue, setChangeValue] = useState("");
+  const [searchValue, setSearchValue] = useState("");
+  const [searchError, setSearchError] = useState(false);
 
   const { t, i18n } = useTranslation();
 
   function updateValue(e) {
-    searchValue = e.target.value;
+    const newValue = e.target.value.replace(/[^0-9]/g, "");
+    setSearchValue(newValue);
   }
 
   const updateCurrency = () => {
@@ -41,26 +47,32 @@ const Currency = () => {
             type="text"
             className="form-control searchBox"
             aria-describedby="basic-addon1"
+            value={searchValue}
             onInput={updateValue}
           />
-          <p>Tỷ giá hiện tại đang sử dụng</p>
+            {searchError && (
+                <p className="error">Chỉ nhập số</p>
+            )}
+          <p>Từ</p>
 
           <Select
             className="w-100"
             placeholder="lựa chọn"
             onChange={setTypeOne}
+            value={typeOne}
             options={options}
           />
 
-          <p>Tỷ giá cần chuyển đổi</p>
+          <p>Đến</p>
           <Select
             className="w-100"
             placeholder="lựa chọn"
             onChange={setTypeTwo}
+            value={typeTwo}
             options={options}
           />
 
-          <button className="btn btn-primary" onClick={updateCurrency}>
+          <button className="btn btn-primary mt-4" onClick={updateCurrency}>
             Chuyển đổi
           </button>
           <p>Giá trị</p>

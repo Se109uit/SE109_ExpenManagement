@@ -71,8 +71,8 @@ const Nav = () => {
                             <MenuItem
                                 onClick={() => handleLogout()}
                             > 
-                            <div className='p-2'></div>
-                            <p className="text-danger">{t('nav.dangxuat')}</p> 
+                            <div className='p-1'></div>
+                            <p className="text-danger pb-2">{t('nav.dangxuat')}</p> 
                             </MenuItem>
                         </SubMenu>
                         <MenuItem 
