@@ -38,7 +38,7 @@ import ImageUploading from 'react-images-uploading';
 import CurrencyInput from 'react-currency-input-field';
 
 import "./AddSpend.css";
-import { options } from "./data";
+import { options } from '../../utils/data';
 import ManageFriend from "./friend";
 
 function AddSpend() {

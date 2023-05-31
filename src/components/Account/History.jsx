@@ -11,6 +11,7 @@ import SpendingData from '../SpendingData/SpendingData'
 
 const History = () => {
     const [spendingData, setSpendingData] = useState([]);
+    const [deleteSpending, setDeleteSpending] = useState(false);
     const _user = useSelector((state) => state.login.user);
     const _addSpending = useSelector((state) => state.spend.isOpen);
 
@@ -23,7 +24,7 @@ const History = () => {
         const data = [];
         querySnapshot.forEach((doc) => {
             console.log(doc.id, " => ", doc.data());
-            data.push(doc.data());
+            data.push({ id: doc.id, ...doc.data() });
         });
         data.sort((a, b) => b.date.toDate() - a.date.toDate()); // Sort by date
         const groupedData = data.reduce((acc, spending) => {
@@ -39,7 +40,7 @@ const History = () => {
 
     useEffect(() => {
         getAllSpending();
-    }, [_addSpending]);
+    }, [_addSpending, deleteSpending]);
 
     return (
         <div className='mt-4'>
@@ -50,7 +51,7 @@ const History = () => {
                       <div key={date}>
                         <h4 className='pl-1 text-danger mt-1' style={{ paddingLeft: '1rem' }}>Ngày: {date}</h4>
                         {Array.isArray(spendings) && spendings.map((spending) => (
-                          <SpendingData key={spending.uid} spending={spending} />
+                          <SpendingData key={spending.id} spending={spending} setDeleteSpending={setDeleteSpending}/>
                         ))}
                       </div>
                     ))}

@@ -8,7 +8,6 @@ import { auth } from '../../features/firebase/firebase'
 import { signout } from '../../features/firebase/firebaseSlice'
 
 import AddSpend from '../AddSpend/AddSpend';
-import AddSpendB from '../AddSpendB/AddSpendB';
 import { use } from 'i18next';
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -41,7 +40,6 @@ const RootPage = () => {
                 <Outlet />
                 {
                     openState && <AddSpend />
-                    // openState && <AddSpendB />
                 }
                 <Backdrop
                     sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}

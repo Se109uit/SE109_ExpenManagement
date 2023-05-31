@@ -27,6 +27,8 @@ const Nav = () => {
     const loginState = useSelector((state) => state.login.isLogin);
 
     function handleLogout ()  {
+        const confirmed = window.confirm('Are you want to logout?');
+        if (confirmed)
         dispatch(signout());
     }
 

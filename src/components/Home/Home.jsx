@@ -1,70 +1,159 @@
-import React from 'react'
-import './home.css'
+import React, {useState, useEffect} from 'react'
 
 import Calendar from 'react-calendar'
 import 'react-calendar/dist/Calendar.css';
-import { Bar } from "react-chartjs-2";
-import {CardActions, CardContent, Typography, IconButton, Box, Card, Button } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import { db , storage, auth, DATA_COLLECTION, SPEND_COLLECTION } from '../../features/firebase/firebase'
+import { collection, addDoc, setDoc, doc, updateDoc, getDoc, getDocs, query, where, Timestamp } from 'firebase/firestore'
+import { getStorage, ref, uploadBytes} from 'firebase/storage'
+import { useSelector, useDispatch } from 'react-redux';
+import { v4 } from 'uuid'
 
-const bull = (
-  <Box
-    component="span"
-    sx={{ display: 'inline-block', mx: '2px', transform: 'scale(0.8)' }}
-  >
-    •
-  </Box>
-);
+import SpendingData from '../SpendingData/SpendingData'
+import './HomePage.css'
+import { options } from '../../utils/data';
+import { set } from 'date-fns';
+import { ca } from 'date-fns/locale';
 
 const Home = () => {
   const { t } = useTranslation()
+  const [date, setDate] = useState(new Date());
+  const [spendingData, setSpendingData] = useState([]);
+  const [deleteSpending, setDeleteSpending] = useState(false);
+  const _user = useSelector((state) => state.login.user);
+  const _addSpending = useSelector((state) => state.spend.isOpen);
+  const timestamp = Timestamp.fromDate(date);
+
+  const [income, setIncome] = useState(0);
+  const [spend, setSpend] = useState(0);
+
+  let add = 0;
+  let del = 0;
+  let addMonth = 0;
+  let delMonth = 0;
+
+  const [incomeMonth, setIncomeMonth] = useState(0);
+  const [spendMonth, setSpendMonth] = useState(0);
+
+  const getAllSpending = async () => {
+    const docRef = collection(db, SPEND_COLLECTION);
+    const q = query(docRef, where("uuid", "==", _user));
+    const querySnapshot = await getDocs(q);
+    const data = [];
+    querySnapshot.forEach((doc) => {
+        console.log(doc.id, " => ", doc.data());
+        data.push({ id: doc.id, ...doc.data() });
+    });
+    caculateIncomeMonth(data);
+    // setSpendingData(data);
+    return data;
+  }
+
+  const resetSpending = () => {
+    setSpendingData([]);
+  }
+
+  const caculateIncome = (spendingData) => {
+    spendingData.forEach((spending) => {
+      if (spending.type > 20) {
+        add += spending.money;
+      } else {
+        del += spending.money;
+      }
+      setIncome(add);
+      setSpend(del);
+    });
+  }
+
+  const caculateIncomeMonth = (spendingData) => {
+    spendingData.forEach((spending) => {
+      if (spending.date.toDate().getMonth() === date.getMonth()) {
+        if (spending.type > 20) {
+          addMonth += spending.money;
+        } else {
+          delMonth += spending.money;
+        }
+        setIncomeMonth(addMonth);
+        setSpendMonth(delMonth);
+      }
+    });
+  }
+
+useEffect(() => {
+  resetSpending();
+  getAllSpending().then((data) => {
+    const filteredData = data.filter((spending) => {
+      return spending.date.toDate().toLocaleDateString() === date.toLocaleDateString();
+    });
+    setSpendingData(filteredData);
+    caculateIncome(filteredData);
+  });
+
+}, [_addSpending, deleteSpending, date]);
 
   return (
-    <div className='Home d-flex flex-column'>
-      <div className='spending d-flex flex-rows'>
-        <div className='money-spending d-flex flex-column'>
-          <div className='total d-flex flex-row  justify-content-between'>
-            <p className='title fs-5 fw-bold'>{t('home.sodudau')}:</p>
-            <p className='money fs-5 fw-bold '>12000000</p>
+    <div className='mt-4'>
+      {/* top */}
+      <h3 className='my-2 pb-3'>Trang chủ</h3>
+      <div className='spending d-flex justify-content-between' style={{ width: '95%' }}>
+        {/* Spending infor */}
+        <div className='spending-infor' style={{ paddingLeft: '1rem', width: '50%' }}>
+          <div className="card" style={{ paddingRight: '1rem'}}>
+            <div className="card-body">
+              <h4 className="card-info mb-2 px-4">Chi tiêu tháng</h4>
+              <div className='card-div'>
+                <h5 className="card-title pt-2">Thu nhập: </h5>
+                <p className="card-text income">{incomeMonth}</p>
+              </div>
+              <div className='card-div'>
+                <h5 className="card-title pt-2">Chi tiêu: </h5>
+                <p className="card-text income">{spendMonth}</p>
+              </div>
+              <div className='card-div'>
+                <h5 className="card-title pt-2">Tổng tiền: </h5>
+                <p className="card-text income" style={{fontWeight: 700}}>{incomeMonth - spendMonth}</p>
+              </div>
+            </div>
           </div>
-          <div className='total d-flex flex-row  justify-content-between'>
-            <p className='title fs-5 fw-bold'>{t('home.soducuoi')}: </p>
-            <p className='money fs-5 fw-bold '>0</p>
-          </div>
-          <div className='total d-flex flex-row  justify-content-between'>
-            <p className='title fs-5 fw-bold'>{t('home.dachi')}: </p>
-            <p className='money fs-5 fw-bold '>0</p>
-          </div>
-         
-          
         </div>
-        <Calendar/> 
         {/* Calendar */}
-        
+        <div className='calend'>
+          <Calendar value={date} onChange={setDate}></Calendar>
+        </div>
       </div>
-      <Box>
-          <Card sx={{ minWidth: 275 }}>
-            <CardContent>
-              {/* <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                Word of the Day
-              </Typography> */}
-              <Typography variant="h5" component="div">
-              {t('home.tienchuyendi')}
-              </Typography>
-              {/* <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                adjective
-              </Typography> */}
-              <Typography variant="body2">
-                100.000 VND
-              </Typography>
-            </CardContent>
-            <CardActions>
-              <Button size="small">{t('home.sua')}</Button>
-              <Button size="small">{t('home.chiase')}</Button>
-              <Button size="small">{t('home.xoa')}</Button>
-            </CardActions>
-          </Card>
-        </Box>
+
+      <div className='spending-infor mt-2' style={{ paddingLeft: '1rem' }}>
+          <div className="card" style={{ width: '90%', background: '#73C6B6' }}>
+            <div className="card-body d-flex justify-content-between">
+              <h4 className="card-infor mb-2 px-4">Chi tiêu ngày</h4>
+                <h5 className="card-title">Thu nhập: </h5>
+                <p className="card-text income">{income}</p>
+                <h5 className="card-title">Chi tiêu: </h5>
+                <p className="card-text income">{spend}</p>
+                <h5 className="card-title">Tổng tiền: </h5>
+                <p className="card-text income" style={{fontWeight: 700, paddingRight: 20}}>{income + spend}</p>
+            </div>
+          </div>
+        </div>
+
+        { spendingData.length === 0 ?
+        
+        <div className='mt-2' style={{ width: '90%'}}>
+          <h5 className='text-center'>Ngày này không có dữ liệu</h5>
+        </div>
+
+        :
+
+      <div className='mt-2'>
+          {Object.entries(spendingData).map(([date, spending]) => (
+            <div key={date}>
+                <SpendingData key={spending.id} spending={spending} setDeleteSpending={setDeleteSpending}/>
+            </div>
+          ))}
+      </div>
+
+          }
+      
     </div>
   )
 }

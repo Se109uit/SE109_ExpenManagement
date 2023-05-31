@@ -5,6 +5,7 @@ export const options = [
     { value: '3', label: 'Thuê nhà' },
     { value: '4', label: 'Tiền nước' },
     { value: '5', label: 'Tiền điện thoại' },
+    { value: '6', label: 'Tiền điện' },
     //Chi tiêu cần thiết
     { value: '11', label: 'Sửa và trang trí nhà' },
     { value: '12', label: 'Bảo dưỡng xe' },  

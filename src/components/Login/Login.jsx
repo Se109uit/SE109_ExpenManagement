@@ -87,7 +87,7 @@ function Login() {
     <div className="form-margin">
       <div className="container col-12 col-md-6 col-lg-4">
         <div className="">
-          <h2 className="d-flex justify-content-center mt-5">
+          <h2 className="d-flex flex-column lg:justify-content-center mt-5">
             Chào mừng trở lại!
           </h2>
           <div className="d-flex justify-content-center greeting-log">
