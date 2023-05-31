@@ -14,6 +14,7 @@ import {
   query,
   documentId,
   getDocs,
+  QuerySnapshot,
 } from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { v4 } from "uuid";
@@ -141,17 +142,6 @@ function AddSpend() {
     }
 
     try {
-      console.log(
-        "submit",
-        money,
-        datetime,
-        location,
-        friends,
-        type,
-        note,
-        uuid,
-        url
-      );
       const result = await addDoc(collection(db, SPEND_COLLECTION), {
         money,
         date: datetime,
@@ -161,36 +151,31 @@ function AddSpend() {
         note,
         uuid,
         image: url,
-      }).then(async () => {
+      }).then(async (old) => {
         alert("Thêm chi tiêu thành công");
         const docRef = collection(db, DATA_COLLECTION);
         const q = query(docRef, where(documentId(), "==", user.uid));
         const querySnapshot = await getDocs(q);
-        querySnapshot.forEach((value) => {
+        const formattedDate = format(datetime, "MM_yyyy");
+
+        console.log(querySnapshot.empty);
+        if (querySnapshot.empty == true) {
+          await setDoc(doc(db, DATA_COLLECTION, user.uid), {
+            [format(datetime, "MM_yyyy")]: [old.id],
+          });
+        } else {
           var dataSpending = [];
-          if (value.exists) {
+          querySnapshot.forEach(async (value) => {
             const data = value.data();
-            const formattedDate = format(datetime, "MM_yyyy");
-            console.log(formattedDate);
             if (data[formattedDate] !== null) {
-              dataSpending = data[formattedDate]
-                .map((e) => e.toString())
-                .concat([documentId()]);
-              updateDoc(docRef, {
-                [formattedDate]: dataSpending,
-              });
-            } else {
-              dataSpending.push(documentId());
-              data[formattedDate] = dataSpending;
-              addDoc(docRef, data);
+              dataSpending = data[formattedDate].map((e) => e.toString());
             }
-          } else {
-            dataSpending.push(documentId());
-            addDoc(docRef, {
-              [format(datetime, "MM_yyyy")]: dataSpending,
-            });
-          }
-        });
+          });
+          dataSpending.push(old.id)
+          updateDoc(doc(db, DATA_COLLECTION, user.uid), {
+            [formattedDate]: dataSpending,
+          });
+        }
       });
     } catch (error) {
       console.log(error);
