@@ -63,7 +63,7 @@ export const ggSignIn = () =>
         // The signed-in user info.
         const user = result.user;
         // IdP data available using getAdditionalUserInfo(result)
-        console.log(user)
+        // console.log(user)
         const uuid = user.uid.toString();
         // ...
         return uuid;
@@ -87,14 +87,14 @@ export const ggSignIn = () =>
 export const fbSignIn = () =>
   signInWithPopup(auth, fbProvider)
     .then((result) => {
-      console.log("done");
+      // console.log("done");
       // The signed-in user info.
       const user = result.user;
 
       // This gives you a Facebook Access Token. You can use it to access the Facebook API.
       const credential = FacebookAuthProvider.credentialFromResult(result);
       const accessToken = credential.accessToken;
-      console.log(user)
+      // console.log(user)
       const uuid = user.uid.toString();
       return uuid;
       // IdP data available using getAdditionalUserInfo(result)
@@ -141,7 +141,7 @@ export const signUp = (birthday, gender, username, email, password) =>
       const user = userCredential.user;
       const uuid = user.uid.toString();
 
-      console.log(userCredential.user)
+      // console.log(userCredential.user)
 
       // Add a new document with a generated id.
       try {
@@ -153,7 +153,7 @@ export const signUp = (birthday, gender, username, email, password) =>
             name: username,
         });
 
-        console.log("Document successfully written!");
+        // console.log("Document successfully written!");
 
       } catch (e) {
         console.error("Error adding document: ", e);
@@ -180,7 +180,7 @@ export const signUp = (birthday, gender, username, email, password) =>
 export const logOut = () =>{
   signOut(auth).then(() => {
     // Sign-out successful.
-    console.log("Sign-out successful.");
+    // console.log("Sign-out successful.");
   }).catch((error) => {
     // An error happened.
     console.log(error);

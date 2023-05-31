@@ -124,7 +124,7 @@ const AccountInfor = () => {
         const aMoney = docSnap.data().money.toString();
         setMoney(aMoney);
         setGender(docSnap.data().gender);
-        console.log("Document data:", docSnap.data());
+        // console.log("Document data:", docSnap.data());
         setAvatar(docSnap.data().avatar);
       } else if (user !== null && docSnap.exists() === false) {
         try {
@@ -136,11 +136,13 @@ const AccountInfor = () => {
             name: user.displayName,
           });
         } catch (e) {
-          console.error("Error adding document: ", e);
+          // console.error("Error adding document: ", e);
+          window.alert("Error adding document:" + e);
         }
       }
       else {
         console.log("No such document!");
+        window.alert(t('accountInfo.khongtimthaythongtincuaban'));
       }
     });
 
@@ -199,7 +201,7 @@ const AccountInfor = () => {
       let iD = []
 
       querySnapshot.forEach((doc) => {
-          console.log({...doc.data(), id: doc.id});
+          // console.log({...doc.data(), id: doc.id});
           doc.data().money = Number(doc.data().money)
           iD.push({
             ID: doc.id,
@@ -222,7 +224,7 @@ const AccountInfor = () => {
           let fromRate = currency.rates[typeOne.label];
           let toRate = currency.rates[typeTwo.label];
           iD[i].MONEY = ((toRate / fromRate) * iD[i].MONEY);
-          console.log(iD[i].MONEY)
+          // console.log(iD[i].MONEY)
           await updateDoc(doc(db, 'spending', iD[i].ID, ), {money: iD[i].MONEY})
         }
       } 

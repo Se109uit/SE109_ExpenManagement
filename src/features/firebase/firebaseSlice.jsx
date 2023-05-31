@@ -61,7 +61,7 @@ export const login = createSlice({
       .addCase(gg.fulfilled, (state ,action) => {
         const userInfor = action.payload
         state.user = userInfor
-        console.log("user", state.user)
+        // console.log("user", state.user)
         if(state.user){
           state.isLogin = true
         }

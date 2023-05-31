@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { openadd, closeadd } from "../../features/spend/spendSlice";
-import { format } from "date-fns";
+import { openchange, closechange } from "../../features/change/changeSlice";
+import { format, set } from "date-fns";
 import {
   collection,
   doc,
@@ -41,12 +41,14 @@ import "./AddSpend.css";
 import { options } from '../../utils/data';
 import ManageFriend from "./friend";
 
-function AddSpend() {
+function ChangeSpend() {
   const dispatch = useDispatch();
-  const openState = useSelector((state) => state.spend.isOpen);
+  const openState = useSelector((state) => state.change.isChange);
   const [open, setOpen] = useState(false);
   const [spend, setSpend] = useState({ title: "", amount: 0 });
   const uuid = useSelector((state) => state.login.user);
+  const spendId = useSelector((state) => state.change.changeId);
+  const [spendData, setSpendData] = useState({});
 
   let [money, setMoney] = useState(null);
   const [moneyError, setMoneyError] = useState(false);
@@ -64,7 +66,7 @@ function AddSpend() {
   const [scroll, setScroll] = useState("body");
 
   function handleOpen() {
-    dispatch(openadd());
+    dispatch(openchange());
     setOpen(true);
   }
 
@@ -75,7 +77,7 @@ function AddSpend() {
 
   function handleClose(event, reason) {
     if (reason && reason == "backdropClick") return;
-    dispatch(closeadd());
+    dispatch(closechange());
     setOpen(false);
   }
 
@@ -105,6 +107,43 @@ function AddSpend() {
     setDate(value);
   }
 
+  const addFriend = (friends) => {
+    friends.map((friend) => {
+        setFriends((old) => [...old, friend]);
+    });
+  };
+
+    async function showSpend() {
+    const docRef = doc(db, SPEND_COLLECTION, spendId);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+        setSpendData(docSnap.data());
+        setMoney(docSnap.data().money);
+        setLocation(docSnap.data().location);
+        setNote(docSnap.data().note);
+        setType(docSnap.data().type);
+        const datetime = dayjs(docSnap.data().date.toDate());
+        setDate(datetime);
+        setFriends(docSnap.data().friends);
+        console.log("Document data:", docSnap.data().datetime);
+    } else {
+        // doc.data() will be undefined in this case
+        console.log("No such document!");
+    }
+    }
+
+    async function updateSpend() {
+    const docRef = doc(db, SPEND_COLLECTION, spendId);
+    await updateDoc(docRef, {
+        money: money,
+        location: location,
+        note: note,
+        type: type,
+        date: date.toDate(),
+        friends: friends
+    });
+    }
+
   async function handleSpendSubmit(event) {
     event.preventDefault();
     // Checking
@@ -112,7 +151,7 @@ function AddSpend() {
       setMoneyError(true);
       return;
     }
-    // Add spending to Firebase
+    // Change spending
     let imageRef = null;
     let url = null;
     const datetime = dayjs(date).toDate();
@@ -130,47 +169,19 @@ function AddSpend() {
       money = Math.abs(money);
     }
 
-    try {
-      const result = await addDoc(collection(db, SPEND_COLLECTION), {
-        money,
-        date: datetime,
-        location,
-        friends: friends,
-        type,
-        note,
-        uuid,
-        image: url,
-      }).then(async (old) => {
-        alert("Thêm chi tiêu thành công");
-        const docRef = collection(db, DATA_COLLECTION);
-        const q = query(docRef, where(documentId(), "==", user.uid));
-        const querySnapshot = await getDocs(q);
-        const formattedDate = format(datetime, "MM_yyyy");
-
-        if (querySnapshot.empty == true) {
-          await setDoc(doc(db, DATA_COLLECTION, user.uid), {
-            [format(datetime, "MM_yyyy")]: [old.id],
-          });
-        } else {
-          var dataSpending = [];
-          querySnapshot.forEach(async (value) => {
-            const data = value.data();
-            if (data[formattedDate] !== null) {
-              dataSpending = data[formattedDate].map((e) => e.toString());
-            }
-          });
-          dataSpending.push(old.id)
-          updateDoc(doc(db, DATA_COLLECTION, user.uid), {
-            [formattedDate]: dataSpending,
-          });
-        }
-      });
-    } catch (error) {
-      console.log(error);
-    }
+    updateSpend().then(() => {
+        window.alert("Sửa chi tiêu thành công");
+    });
+    
     // Close the dialog
     handleClose();
   }
+
+    useEffect(() => {
+        if (spendId !== null) {
+            showSpend();
+        }
+    }, [spendId]);
 
   return (
     <>
@@ -183,7 +194,7 @@ function AddSpend() {
         sx={{ maxHeight: "calc(100vh - 64px)" }}
       >
         <DialogTitle>
-          Thêm chi tiêu
+          Sửa chi tiêu
           <IconButton
             aria-label="close"
             onClick={handleClose}
@@ -382,4 +393,4 @@ function AddSpend() {
   );
 }
 
-export default AddSpend;
+export default ChangeSpend;

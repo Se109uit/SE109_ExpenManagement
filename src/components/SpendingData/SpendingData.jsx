@@ -4,6 +4,7 @@ import { db, DATA_COLLECTION, SPEND_COLLECTION } from '../../features/firebase/f
 
 import { useDispatch } from 'react-redux';
 import { closeadd } from '../../features/spend/spendSlice';
+import { openchange } from '../../features/change/changeSlice';
 
 import {IconButton} from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -14,11 +15,16 @@ import { use } from 'i18next';
 import { options } from '../../utils/data';
 
 const SpendingData = ({ spending, setDeleteSpending }) => {
+  const dispatch = useDispatch();
   const typeOption = options.find(option => option.value === spending.type.toString());
   let sharing = false;
 
   const handleShare = async () => {
     window.alert('tinh nang dang hoan thien')
+  };
+
+  const handleChangeSpending = () => {
+    dispatch(openchange(spending.id));
   };
 
   const handleDelete = async () => {
@@ -42,10 +48,10 @@ const SpendingData = ({ spending, setDeleteSpending }) => {
                 <span style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>Time: </span> {spending.date.toDate().toLocaleTimeString()}
               </span>
               <span style={{ display: 'flex', justifyContent: 'flex-end', width: '50%' }}>
-                <IconButton aria-label="share" color="primary" onClick={handleShare}>
+                {/* <IconButton aria-label="share" color="primary" onClick={handleShare}>
                   <ShareIcon/>
-                </IconButton>
-                <IconButton aria-label="add">
+                </IconButton> */}
+                <IconButton aria-label="change" onClick={handleChangeSpending}>
                   <CreateIcon />
                 </IconButton>
                 <IconButton aria-label="delete" color="error" onClick={handleDelete}>

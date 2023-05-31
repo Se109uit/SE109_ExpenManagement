@@ -22,6 +22,7 @@ const Home = () => {
   const [deleteSpending, setDeleteSpending] = useState(false);
   const _user = useSelector((state) => state.login.user);
   const _addSpending = useSelector((state) => state.spend.isOpen);
+  const _editSpending = useSelector((state) => state.change.isChange);
   const timestamp = Timestamp.fromDate(date);
 
   const [income, setIncome] = useState(0);
@@ -41,7 +42,7 @@ const Home = () => {
     const querySnapshot = await getDocs(q);
     const data = [];
     querySnapshot.forEach((doc) => {
-        console.log(doc.id, " => ", doc.data());
+        // console.log(doc.id, " => ", doc.data());
         data.push({ id: doc.id, ...doc.data() });
     });
     caculateIncomeMonth(data);
@@ -89,7 +90,7 @@ useEffect(() => {
     caculateIncome(filteredData);
   });
 
-}, [_addSpending, deleteSpending, date]);
+}, [_addSpending, _editSpending, deleteSpending, date]);
 
   return (
     <div className='mt-4'>
