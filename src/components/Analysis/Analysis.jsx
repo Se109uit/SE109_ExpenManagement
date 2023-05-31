@@ -22,60 +22,124 @@ ChartJS.register(
   BarElement
 )
 import { useTranslation } from 'react-i18next';
+import { useStateManager } from 'react-select'
+import { useAsyncError } from 'react-router'
 const Analysis = () => {
   const { t } = useTranslation()
   const [title, setTitle] = useState([]);
-  const [many, setMany] = useState([]);
-  const [date, setDate] = useState([])
-  const [test, setTest] = useState([])
+
+  
+
+  const [revenue, setRevenue] = useState([])
+  const [expenditure, setExpenditure] = useState([])
+
+  const [dateRevenue, setDateRevenue ] =useState([])
+  const [moneyRevenue, setMoneyRevenue] = useState([])
+
+  const [dateExpend, setDateExpend] = useState([])
+  const [moneyExpend, setMoneyExpend] = useState([])
   useEffect(() => {
     const user = auth.currentUser;
-    const q = query(collection(db, "spending-web"),where("uuid", "==", user.uid))
+    const q = query(collection(db, "spending"),where("uuid", "==", user.uid))
     const unsub = onSnapshot(q, (querySnapshot) => {
-      let spendingArray = []
-      let manyArray = []
-      let dateArray = []
+      let revenueArray = [] // biểu đồ thu nhập
+      let expenditureArray = [] // biểu đồ về chi tiêu
+      let testArray = []
+
+      let dateRe = []
+      let moneyRe = []
+      let dateEx = []
+      let moneyEx = []
       querySnapshot.forEach((doc) => {
-        spendingArray.push({...doc.data(), id: doc.id})
-        manyArray.push(doc.data().money)
-        dateArray.push(doc.data().datetime)
+        testArray.push({
+          money: doc.data().money,
+          date: doc.data().date.toDate().toLocaleDateString()
+        })
+
       })
-
-      // for(let i = 0; i < spendingArray.length; i++){
-      //   for(let j = i + 1; j < spendingArray.length; j++){
-      //     if(spendingArray[i].date === spendingArray[j].date){
-      //       spendingArray[i].many = Number(spendingArray[i].many)
-      //       spendingArray[j].many = Number(spendingArray[j].many)
-
-      //       spendingArray[i].many += spendingArray[j].many
-      //       // const removeIndex = spendingArray.findIndex(item => item.date === spendingArray[j].date)
-      //       // spendingArray.splice(removeIndex, 0)
+      for(let i = 0; i < testArray.length; i++){
+        if(testArray[i].money > 0){
+          revenueArray.push(testArray[i])
+        } else if(testArray[i].money < 0){
+          expenditureArray.push(testArray[i])
+        }
+      }
+      // let k = 0;
+      // for(let i = 0; i < revenueArray.length; i++){
+      //   for(let j = i + 1; j < revenueArray.length; j++){
+      //     if(revenueArray[i].date == revenueArray[j].date){
+      //       k++;
+      //       revenueArray[i].money += revenueArray[j].money 
+      //       revenueArray.splice(j, k)
       //     }
       //   }
-      //   manyArray.push(spendingArray[i].many)
-      //   dateArray.push(spendingArray[i].date)
       // }
-      setTitle(spendingArray)
-      setMany(manyArray)
-      setDate(dateArray)
+
+      for(let i = 0; i < revenueArray.length; i++){
+        dateRe.push(revenueArray[i].date)
+        moneyRe.push(revenueArray[i].money)
+      }
+      for(let i = 0; i < expenditureArray.length; i++){
+        dateEx.push(expenditureArray[i].date)
+        moneyEx.push(expenditureArray[i].money*(-1))
+      }
+      setDateRevenue(dateRe)
+      setMoneyRevenue(moneyRe)
+      setDateExpend(dateEx)
+      setMoneyExpend(moneyEx)
+
+      setRevenue(revenueArray)
+      setExpenditure(expenditureArray)
     })
     return () => unsub();
   }, []);
-  console.log(many)
-  console.log(date)
-  console.log(title)
+  console.log(revenue)
+  console.log(expenditure)
+
+  console.log(dateRevenue)
+  console.log(moneyRevenue)
+
+  console.log(dateExpend)
+  console.log(moneyExpend)
+
+  const [dateChange, setDateChange] = useState([])
+  const [moneyChange, setMoneyChange] = useState([])
+  const [colorChart, setColorChart] = useState("")
+
+  const changeChartRev = () => {
+    setDateChange(dateRevenue)
+    setMoneyChange(moneyRevenue)
+    setColorChart("#1ECCEC")
+  }
+  const changeChartEx = () => {
+    setDateExpend(dateExpend)
+    setMoneyChange(moneyExpend)
+    setColorChart("#A5191D")
+  }
 
   return (
-    <div className='Analysis'>
-      <div className='nav d-flex flex-row'>
+    <div className='Analysis align-items-center'>
+      <div className='nav d-flex flex-row '>
         <li>{t('analysis.tu')}:</li>
         <div className='option d-flex flex-row'>
-          <input type='date' className="to form-control" aria-label="Username" aria-describedby="basic-addon1"/>
+          <input 
+            type='date' 
+            className="from form-control" 
+            aria-label="Username" 
+            aria-describedby="basic-addon1"
+            // onChange={setChangeFrom}
+            />
         </div>
 
         <li>{t('analysis.den')}:</li>
         <div className='option d-flex flex-row'>
-          <input type='date' className=" from form-control" aria-label="Username" aria-describedby="basic-addon1"/>
+          <input 
+            type='date' 
+            className=" to form-control" 
+            aria-label="Username" 
+            aria-describedby="basic-addon1"
+            // onChange={setChangeTo}
+            />
         </div>
 
         <button className='btn-search'><img src={search}/></button>
@@ -86,12 +150,12 @@ const Analysis = () => {
       <div className='chart'>
         <Bar className='chart-bar'
           data={{
-            labels: date,
+            labels: dateChange,
             datasets: [
               {
-                data: many,
-                label: "Africa",
-                backgroundColor: "#1ECCEC",
+                data: moneyChange,
+                label: "Ngày",
+                backgroundColor: colorChart,
                 fill: false,
                 maxBarThickness: 30,
               },
@@ -107,6 +171,11 @@ const Analysis = () => {
             },
           }}
         ></Bar>
+      </div>
+
+      <div className=''>
+        <button className='btn btn-primary' onClick={changeChartRev}>Thu nhập</button>
+        <button className='btn btn-primary' onClick={changeChartEx}>Chi tiêu</button>
       </div>
     </div>
   )
