@@ -7,6 +7,7 @@ import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 
 import {useDispatch, useSelector} from 'react-redux'
 import {signout} from '../../features/firebase/firebaseSlice'
+import {openadd} from '../../features/spend/spendSlice'
 
 import Home from '../../assets/Home.png'
 import User from '../../assets/User.png'
@@ -16,14 +17,18 @@ import addSpending from '../../assets/AddSpending.png'
 import Logout from '../../assets/Logout.png'
 
 import './Nav.css';
+import { useTranslation } from 'react-i18next';
 
 const Nav = () => {
+    const { t } = useTranslation()
     const navigate = useNavigate();
     const { collapseSidebar} = useProSidebar();
     const dispatch = useDispatch();
     const loginState = useSelector((state) => state.login.isLogin);
 
     function handleLogout ()  {
+        const confirmed = window.confirm('Are you want to logout?');
+        if (confirmed)
         dispatch(signout());
     }
 
@@ -44,35 +49,37 @@ const Nav = () => {
                         <MenuItem 
                             icon={<img className="img-nav" src={Home}/>}
                             component={<Link to="home" />}
-                            > Trang chủ </MenuItem>
-                        <MenuItem 
-                            icon={<img className="img-nav" src={addSpending}/>}
-                            component={<Link to="addSpending" />}
-                        > Thêm chi tiêu </MenuItem>
+                            > {t('nav.trangchu')} </MenuItem>
                         <MenuItem 
                             icon={<img className="img-nav" src={PhanTich}/>}
                             component={<Link to="analysis" />}
-                        > Thống kê </MenuItem>
-                        <SubMenu icon={<img className="img-nav" src={User}/>} label="Tài khoản">
+                        > {t('nav.thongke')} </MenuItem>
+                        <SubMenu icon={<img className="img-nav" src={User}/>} label={t('nav.taikhoan')}>
                             <MenuItem
                                 component={<Link to="accountinfor" />}
-                            > Tài khoản</MenuItem>
+                            > {t('nav.taikhoan')}</MenuItem>
                             <MenuItem
                                 component={<Link to="resetpassword" />}
-                            > Đổi mật khẩu</MenuItem>
-                            <MenuItem> Ngôn ngữ </MenuItem>
+                            > {t('nav.doimatkhau')}</MenuItem>
+                            {/* <MenuItem> Ngôn ngữ </MenuItem> */}
                             <MenuItem
                                 component={<Link to="history" />}
-                            > Lịch sử </MenuItem>
+                            > {t('nav.lichsu')} </MenuItem>
                             <MenuItem
                                 component={<Link to="currency" />}
-                            > Tỷ giá </MenuItem>
+                            > {t('nav.tygia')} </MenuItem>
                             <MenuItem
                                 onClick={() => handleLogout()}
                             > 
-                            <p className="text-danger">Đăng xuất</p> 
+                            <div className='p-2'></div>
+                            <p className="text-danger">{t('nav.dangxuat')}</p> 
                             </MenuItem>
                         </SubMenu>
+                        <MenuItem 
+                            icon={<img className="img-nav" src={addSpending}/>}
+                            onClick={() => dispatch(openadd())}
+                            // component={<Link to="addSpending" />}
+                        > {t('nav.themchitieu')} </MenuItem>
                     </Menu>
                 </Sidebar>
             </div>

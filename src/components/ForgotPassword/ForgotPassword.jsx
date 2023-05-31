@@ -24,7 +24,7 @@ function ForgotPassword() {
             sendPasswordResetEmail(auth, email)
             .then(() => {
                 alert('Email đã được gửi');
-                navigate('login');
+                navigate('/');
             })
             .catch((error) => {
                 alert(error.message);

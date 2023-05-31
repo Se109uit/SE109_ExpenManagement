@@ -16,12 +16,15 @@ function SignUp() {
     const loginState = useSelector((state) => state.login.isLogin);
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
+    const [emailValid, setEmailValid] = useState(true);
     const [gender, setGender] = useState(true);
     const [password, setPassword] = useState('');
+    const [passwordValid, setPasswordValid] = useState(true);
     const date = new Date();
     const [dob, setDob] = useState(dayjs(date.toISOString().split('T')[0]));
     const [showPassword, setShowPassword] = useState(false);
     const [ConfirmPassword, setConfirmPassword] = useState(false);
+    const [confirmPasswordValid, setConfirmPasswordValid] = useState(true);
     const [errorEmail, setErrorEmail] = useState();
     const [errorPassword, setErrorPassword] = useState();
 
@@ -35,7 +38,9 @@ function SignUp() {
     }
 
     function handleEmailChange(event) {
-        setEmail(event.target.value);
+        const value = event.target.value;
+        setEmail(value);
+        setEmailValid(/^\S+@\S+\.\S+$/.test(value));
     }   
 
     // function handleDobChange(event) {
@@ -45,11 +50,15 @@ function SignUp() {
     // }
 
     function handlePasswordChange(event) {
-        setPassword(event.target.value);
+        const value = event.target.value;
+        setPassword(value);
+        setPasswordValid(value.length >= 6);
     }
 
     function handleConfirmPasswordChange(event) {
+        const value = event.target.value;
         setConfirmPassword(event.target.value);
+        setConfirmPasswordValid(value === password && value.length >= 6);
     }
 
     function handleGenderChange(event) {
@@ -134,9 +143,10 @@ function SignUp() {
                     className='py-2'
                     onChange={handleEmailChange}
                     required
+                    isInvalid={!emailValid}
                     />
                     <Form.Control.Feedback type="invalid">
-                        Hãy nhập email
+                    {emailValid ? "Hãy nhập email" : "Email không hợp lệ"}
                     </Form.Control.Feedback>
                 </Form.Group>
 
@@ -170,6 +180,7 @@ function SignUp() {
                     value={dob}
                     onChange={(newValue) => setDob(newValue)}
                     // renderInput={(params) => <TextField {...params} />}
+                    format="DD/MM/YYYY"
                     slotProps={{ textField: { variant: 'outlined' } }}
                     />
                     </InputGroup>
@@ -189,6 +200,7 @@ function SignUp() {
                         aria-describedby="basic-addon1"
                         onChange={handlePasswordChange}
                         required
+                        isInvalid={!passwordValid}
                         />
                         <InputGroup.Text id="basic-addon1" className='bg-white' onClick={() => setShowPassword(!showPassword)}>
                             {showPassword ? (
@@ -203,10 +215,10 @@ function SignUp() {
                                 </svg>
                             }
                         </InputGroup.Text>
+                        <Form.Control.Feedback type="invalid">
+                            {passwordValid ? "Hãy nhập mật khẩu" : "Mật khẩu phải có ít nhất 6 ký tự"}
+                        </Form.Control.Feedback>
                     </InputGroup>
-                    <Form.Control.Feedback type="invalid">
-                        Hãy nhập mật khẩu
-                    </Form.Control.Feedback>
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formBasicConfirmPassword">
@@ -223,6 +235,7 @@ function SignUp() {
                         aria-describedby="basic-addon1"
                         onChange={handleConfirmPasswordChange}
                         required
+                        isInvalid={!confirmPasswordValid}
                         />
                         <InputGroup.Text id="basic-addon1" className='bg-white' onClick={() => setShowPassword(!showPassword)}>
                             {showPassword ? (
@@ -237,10 +250,10 @@ function SignUp() {
                                 </svg>
                             }
                         </InputGroup.Text>
+                        <Form.Control.Feedback type="invalid">
+                            {confirmPasswordValid ? "Hãy nhập mật khẩu xác nhận" : "Mật khẩu phải có ít nhất 6 ký tự"}
+                        </Form.Control.Feedback>
                     </InputGroup>
-                    <Form.Control.Feedback type="invalid">
-                        Hãy nhập mật khẩu xác nhận
-                    </Form.Control.Feedback>
                 </Form.Group>
 
                 <div className='d-grid gap-2'>

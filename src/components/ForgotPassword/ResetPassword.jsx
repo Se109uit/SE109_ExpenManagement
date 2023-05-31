@@ -5,6 +5,8 @@ import { updatePassword } from "firebase/auth";
 import {auth} from '../../features/firebase/firebase';
 import { useNavigate } from 'react-router-dom';
 
+import { useTranslation } from 'react-i18next';
+
 // import { MyPPassword } from '../SmallFunction/MyPPassword';
 
 function ForgotPassword() {
@@ -23,24 +25,26 @@ function ForgotPassword() {
     const [passwordError, setPasswordError] = useState('');
     const [newPasswordError, setNewPasswordError] = useState('');
     const [passwordConfirmError, setPasswordConfirmError] = useState('');
+    
+    const { t } = useTranslation()
 
     function handleSubmit(e) {
         e.preventDefault();
         e.stopPropagation();
             if (newPassword !== passwordConfirm) {
-                setError('Mật khẩu không khớp');
+                setError(t('resetpassword.matkhaukhongkhop'));
                 return;
             }
             else if (password === newPassword) {
-                setError('Mật khẩu mới không được trùng với mật khẩu cũ');
+                setError(t('resetpassword.matkhaumoikhongduoctrungmatkhaucu'));
                 return;
             }
             else if (newPassword !== passwordConfirm) {
-                setError('Mật khẩu không khớp');
+                setError(t('resetpassword.matkhaukhongkhop'));
                 return;
             }
             else if (newPassword.length < 6) {
-                setError('Mật khẩu phải có ít nhất 6 ký tự');
+                setError(t('resetpassword.matkhauphaicoitnhat6kytu'));
                 return; 
             }
             else {
@@ -72,21 +76,21 @@ function ForgotPassword() {
     <Form className='container mt-5 forgot-pass' noValidate validated={validated} onSubmit={handleSubmit}>
       <div className="">
           <h2 className="d-flex justify-content-center mt-5">
-            Bạn muốn đổi mật khẩu?
+          {t('resetpassword.banmuondoimatkhau')}
           </h2>
           <div className="d-flex justify-content-center greeting-log mb-4">
-            Vui lòng nhập mật khẩu hiện tại và mật khẩu mới
+          {t('resetpassword.vuilongnhapmatkhauhientai')}
           </div>
         </div>
         <Form.Label>
           <div className="weight-label">
-            Mật khẩu
+          {t('resetpassword.matkhau')}
           </div>
         </Form.Label>
         <Form.Group className="mb-2" controlId="formBasicPassword">
           <InputGroup className="">
               <Form.Control
-              placeholder="Mật khẩu"
+              placeholder={t('resetpassword.matkhau')}
               aria-label="Password"
               type={showPassword ? "text" : "password"}
               aria-describedby="basic-addon1"
@@ -110,13 +114,13 @@ function ForgotPassword() {
         </Form.Group>
         <Form.Label>
           <div className="weight-label">
-            Mật khẩu mới
+          {t('resetpassword.matkhaumoi')}
           </div>
         </Form.Label>
         <Form.Group className="mb-2" controlId="formBasicPassword">
           <InputGroup className="">
               <Form.Control
-              placeholder="Mật khẩu"
+              placeholder={t('resetpassword.matkhaumoi')}
               aria-label="Password"
               type={showPassword ? "text" : "password"}
               aria-describedby="basic-addon1"
@@ -140,13 +144,13 @@ function ForgotPassword() {
         </Form.Group>
         <Form.Label>
           <div className="weight-label">
-            Nhập lại mật khẩu mới
+          {t('resetpassword.nhaplaimatkhaumoi')}
           </div>
         </Form.Label>
         <Form.Group className="mb-2" controlId="formBasicPassword">
           <InputGroup className="">
               <Form.Control
-              placeholder="Mật khẩu"
+              placeholder={t('resetpassword.matkhau')}
               aria-label="Password"
               type={showPassword ? "text" : "password"}
               aria-describedby="basic-addon1"
@@ -182,7 +186,7 @@ function ForgotPassword() {
       type="submit"
       className='d-block mx-auto mt-3'
       >
-        Gửi
+        {t('resetpassword.luu')}
       </Button>
     </Form>
   );

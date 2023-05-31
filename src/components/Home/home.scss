@@ -3,34 +3,32 @@
      display: flex;
      flex-direction: column;
      width: 100%;
-     height: 712px;
+     height: 812px;
      background: #ECF0F1;
-     
      .spending{
-          display: flex;
-          flex-direction: row;
+          margin-bottom: 2rem;
           .money-spending{
-               margin-right: 2rem;
-               list-style-type: none;
-               display: flex;
-               flex-direction: column;
-               width: 27%;
-               padding-top: 1rem;
-               li{
+               width: 30%;
+               .total{
+                    align-items: center;
+                    width: 370px;
                     border-radius: 1rem;
-                    background:#73C6B6;
-                    color: black;
-                    justify-content: space-between;
-                    display: flex;
+                    padding-left: 0.5rem;
+                    padding-right: 0.5rem;
+                    background: #73C6B6;
                     margin-bottom: 1.5rem;
-                    width: 100%;
-                    h3{
-                         margin: 0.5rem;
+                    .title{
+                         margin-top: 1rem;
+                         // border: 2px solid black;
+                         width: 140px;
+                         padding: 0.5rem;
                     }
                     .money{
-                         border-radius: 1rem;
+                         margin-top: 1rem;
+                         // margin-left: 7rem;
+                         padding: 0.5rem;
+                         border-radius: 0.5rem;
                          background: #ffff;
-                         margin: 0.5rem;
                     }
                }
           }
@@ -40,7 +38,7 @@
           padding: 0.5rem;
           width: 450px;
           max-width: 100%;
-          margin-left: 1rem;
+          margin-left: 3rem;
      }
      .react-calendar__navigation{
           background:#73C6B6;

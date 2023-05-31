@@ -10,7 +10,7 @@ i18n
         resources: {
         en: {
             translation: {
-            greeting: 'Hello',
+            greeting: 'Hello',  
             description: 'Welcome to my website!',
             },
         },
@@ -21,9 +21,9 @@ i18n
             },
         },
         },
-        fallbackLng: 'en',
+        fallbackLng: 'vi',
         interpolation: {
-        escapeValue: false,
+            escapeValue: false,
         },
     });
 
