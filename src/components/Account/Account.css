@@ -21,3 +21,10 @@
     .t-box{
         width: 400px;
     }
+    
+.currency{
+    width: 60%;
+}
+p, button, .value{
+    margin-top: 1rem;
+}

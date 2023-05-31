@@ -15,6 +15,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { selectUsers, signout } from '../../features/firebase/firebaseSlice';
 import { lang } from '../../features/language/languageSlice';
 
+
 import {
   updateProfile,
   updateEmail,
@@ -25,7 +26,7 @@ import {
   EmailAuthProvider,
   deleteUser
 } from 'firebase/auth';
-import { collection, doc, getDoc, updateDoc, setDoc } from "firebase/firestore";
+import { collection, onSnapshot, doc, getDoc, getDocs, updateDoc, setDoc, query, where } from "firebase/firestore";
 import { v4 } from 'uuid';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { auth, db, USER_COLLECTION, avatarImg } from '../../features/firebase/firebase';
@@ -34,30 +35,46 @@ import './Account.css'
 
 import { useTranslation } from 'react-i18next';
 import i18next from "i18next";
-import { DocumentScanner } from '@mui/icons-material';
+import { DocumentScanner, RemoveRoadTwoTone } from '@mui/icons-material';
 
+
+
+
+
+
+const language = [
+  { value: '1', label: 'Tiếng Việt' },
+  { value: '2', label: 'Tiếng Anh' },
+];
 
 
 const AccountInfor = () => {
 
   const { t, i18n } = useTranslation()
 
+    
+
   const loginState = useSelector(selectUsers);
   const uid = useSelector((state) => state.login.user);
-  const user = auth.currentUser;
-  let uuid = null;
-  let img_avatar = null;
   const language = useSelector((state) => state.language.choose);
   const dispatch = useDispatch();
+
+  const user = auth.currentUser;
+
+  const [userData, setUserData] = useState(null);
   const [name, setName] = useState('a');
   const [birthday, setBirthday] = useState(dayjs('2023-05-14'));
   const [gender, setGender] = useState('');
   const [money, setMoney] = useState(1);
   const [avatar, setAvatar] = useState('/src/assets/female.png');
+  const [img, setImg] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
 
   const formattedMoney = money.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
   const integerMoney = parseInt(formattedMoney.replace(/,/g, ''), 10);
+
+
+  
 
   let imageUrl = null;
 
@@ -97,20 +114,12 @@ const AccountInfor = () => {
   }
 
   const showInfor = async () => {
-    const docRef = doc(db, USER_COLLECTION, uuid);
+    const docRef = doc(db, USER_COLLECTION, uid);
     getDoc(docRef).then(async (docSnap) => {
       if (docSnap.exists()) {
+        setUserData(docSnap.data());
         setName(docSnap.data().name);
-        let aBirthday = null;
-
-        const userAgent = navigator.userAgent;
-        if (userAgent.indexOf('Firefox') > -1) {
-          aBirthday = dayjs(docSnap.data().birthday, 'DD/MM/YYYY');
-        } 
-        else {
-          aBirthday = dayjs(docSnap.data().birthday);
-        }
-
+        const aBirthday = dayjs(docSnap.data().birthday);
         setBirthday(aBirthday);
         const aMoney = docSnap.data().money.toString();
         setMoney(aMoney);
@@ -121,7 +130,7 @@ const AccountInfor = () => {
         try {
           setDoc(doc(db, USER_COLLECTION, uid), {
             avatar: avatarImg,
-            birthday: '30/05/2023',
+            birthday: '2023-05-14',
             gender: true,
             money: 0,
             name: user.displayName,
@@ -162,10 +171,10 @@ const AccountInfor = () => {
 		i18n.changeLanguage(e.target.value);
 	};
 
+
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        uuid = user.uid;
         showInfor();
       } else {
         dispatch(signout());
@@ -177,10 +186,54 @@ const AccountInfor = () => {
     updateInformation();
   }
 
+  const [typeOne, setTypeOne] = useState("")
+  const [typeTwo, setTypeTwo] = useState("")
 
+  const [iD, setiD] = useState([])
+
+  const updateCurrency = async() => {
+
+      const docRef = collection(db, "spending");
+      const q = query(docRef, where("uuid", "==", user.uid));
+      const querySnapshot = await getDocs(q);
+      let iD = []
+
+      querySnapshot.forEach((doc) => {
+          console.log({...doc.data(), id: doc.id});
+          doc.data().money = Number(doc.data().money)
+          iD.push({
+            ID: doc.id,
+            MONEY: doc.data().money
+          })
+        }
+      );  
+      setiD(iD)
+      for(let i = 0; i < iD.length; i++){
+          fetch(`${API}`)
+              .then(currency => {
+                  return currency.json();
+                }).then(displayResults);
+
+        function displayResults(currency) {
+          handleCurrency(currency)
+        }
+
+        const handleCurrency = async(currency) => { 
+          let fromRate = currency.rates[typeOne.label];
+          let toRate = currency.rates[typeTwo.label];
+          iD[i].MONEY = ((toRate / fromRate) * iD[i].MONEY);
+          console.log(iD[i].MONEY)
+          await updateDoc(doc(db, 'spending', iD[i].ID, ), {money: iD[i].MONEY})
+        }
+      } 
+      window.alert(t('accountInfo.capnhattygiathanhcong'));
+
+     
+  }
+  
   
   return (
-    <div className='mt-4'>
+    <div className='account mt-4'>
       <Box className='row justify-content-center'>
         <h3 className='my-2'>{t('accountInfo.tieude')}</h3>
         <Box className='col-md-3'>
@@ -239,7 +292,6 @@ const AccountInfor = () => {
               value={birthday}
               onChange={(newValue) => setBirthday(newValue)}
               slotProps={{ textField: { variant: 'outlined' } }}
-              format="DD/MM/YYYY"
             />
           </Box>
           <Box className='my-3 w-box'>
@@ -293,17 +345,20 @@ const AccountInfor = () => {
           <Select
             labelId="language-label"
             id="language-select"
-            // value={language}
             value={localStorage.getItem("i18nextLng")}
             label="Ngôn ngữ."
             onChange={handleLanguageChange}
           >
             <MenuItem value="vi" className='languageV'>{t('accountInfo.ngonnguviet')}</MenuItem>
             <MenuItem value="en" className='languageE'>{t('accountInfo.ngonnguanh')}</MenuItem>
-           
           </Select>
+
+         
         </FormControl>
       </Box>
+
+      
+      <hr />
     </div>
   );
 };

@@ -16,7 +16,9 @@
          "ngonnguviet":"Vietnamese",
          "thieusotienhangthang":"Lack of monthly amount",
          "capnhatthongtinthanhcong":"Successfully updated info",
-         "capnhatanhdaidienthanhcong":"Successfully updated image"
+         "capnhatanhdaidienthanhcong":"Successfully updated image",
+         "image":"Image",
+         "tygia":"Currency"
      },
      "nav":{
         "trangchu":"Home",

@@ -16,7 +16,9 @@
         "ngonnguviet":"Tiếng Việt",
         "thieusotienhangthang":"Thiếu số tiền hàng tháng",
         "capnhatthongtinthanhcong":"Cập nhật số tiền thành công",
-        "capnhatanhdaidienthanhcong":"Cập nhật ảnh đại diện thành công"
+        "capnhatanhdaidienthanhcong":"Cập nhật ảnh đại diện thành công",
+        "image":"Chọn ảnh",
+        "tygia":"Tỷ giá"
     },
     "nav":{
         "trangchu":"Trang chủ",
