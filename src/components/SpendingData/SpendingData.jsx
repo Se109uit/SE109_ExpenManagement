@@ -21,7 +21,7 @@ import { useTranslation } from 'react-i18next';
 const SpendingData = ({ spending, setDeleteSpending }) => {
   const { t } = useTranslation()
   const dispatch = useDispatch();
-  const typeOption = options.find(option => option.value === spending.type.toString());
+  const typeOption = options.find(option => option.value === spending.type);
 
     // Modal
     const [openM, setOpenM] = useState(false);

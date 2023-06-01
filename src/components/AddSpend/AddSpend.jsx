@@ -131,12 +131,13 @@ function AddSpend() {
     }
 
     try {
+      console.log("money", typeof money);
       const result = await addDoc(collection(db, SPEND_COLLECTION), {
         money,
         date: datetime,
         location,
         friends: friends,
-        type,
+        type: type,
         note,
         uuid,
         image: url,
