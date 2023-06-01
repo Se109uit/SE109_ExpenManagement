@@ -107,10 +107,10 @@ const SpendingData = ({ spending, setDeleteSpending }) => {
           handleOpen={handleOpenM} 
           handleClose={handleCloseM} 
           handleConfirm={handleConfirm}
-          title="Xoá chi tiêu"
-          textBtnOut="Huỷ"
-          textBtnOk="Xoá"
-          text="Bạn có chắc chắn muốn xoá?"
+          title={t('editSpending.xoachitieu')}
+          textBtnOut={t('editSpending.huy')}
+          textBtnOk={t('editSpending.xoa')}
+          text={t('editSpending.bancochacmuonxoa')}
           />
       }
     </div>

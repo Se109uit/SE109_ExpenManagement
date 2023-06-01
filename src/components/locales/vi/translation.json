@@ -28,7 +28,9 @@
         "lichsu":"Lịch sử",
         "tygia":"Tỷ giá",
         "dangxuat":"Đăng xuất",
-        "themchitieu":"Thêm chi tiêu"
+        "themchitieu":"Thêm chi tiêu",
+        "bancochacchanmuondangxuat":"Bạn có chắc chắc muốn đăng xuất",
+        "huy":"Hủy"
      },
      "home":{
       "trangchu":"Trang chủ",
@@ -60,7 +62,18 @@
       "vuilongnhapsotien":"Vui lòng nhập số tiền",
       "suachitieuthanhcong":"Chỉnh sửa chi tiêu thành công",
       "lichsu":"Lịch sử",
-      "themchitieuthanhcong":"Thêm chi tiêu thành công"
+      "themchitieuthanhcong":"Thêm chi tiêu thành công",
+      "xoachitieu":"Xóa chi tiêu",
+      "huy":"Hủy",
+      "xoa":"Xóa",
+      "bancochacmuonxoa":"Bạn có chắc muốn xóa?",
+      "doitygia":"Đổi tỷ giá",
+      "nhapsotienhientai":"Nhập số tiền hiện tại",
+      "luachon":"Lựa chọn",
+      "tu":"Từ",
+      "qua":"Qua",
+      "chuyendoi":"Chuyển đổi",
+      "giatri":"Giá trị"
    },
      "analysis":{
         "tu": "Từ",

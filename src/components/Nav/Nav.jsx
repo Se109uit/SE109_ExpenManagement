@@ -114,9 +114,9 @@ const Nav = () => {
                 handleClose={handleCloseM} 
                 handleConfirm={handleConfirm}
                 title={t('nav.dangxuat')}
-                textBtnOut="Huỷ"
-                textBtnOk="Đăng xuất"
-                text="Bạn có chắc chắn muốn đăng xuất?"
+                textBtnOut={t('nav.huy')}
+                textBtnOk={t('nav.dangxuat')}
+                text={t('nav.bancochacchanmuondangxuat')}
                 />
             }
         </div>
