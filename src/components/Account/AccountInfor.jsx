@@ -111,7 +111,15 @@ const AccountInfor = () => {
       if (docSnap.exists()) {
         setUserData(docSnap.data());
         setName(docSnap.data().name);
-        const aBirthday = dayjs(docSnap.data().birthday);
+        const userAgent = navigator.userAgent;
+        // let aBirthday = dayjs(Date.now());
+        // if (userAgent.indexOf('Firefox') > -1) {
+        //   aBirthday = dayjs(docSnap.data().birthday, 'DD/MM/YYYY');
+        // } 
+        // else {
+        //   aBirthday = dayjs(docSnap.data().birthday, 'DD/MM/YYYY');
+        // }
+        const aBirthday = dayjs(docSnap.data().birthday, 'DD/MM/YYYY');
         setBirthday(aBirthday);
         const aMoney = docSnap.data().money;
         setMoney(aMoney);
