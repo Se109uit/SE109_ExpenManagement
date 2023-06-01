@@ -7,7 +7,7 @@ export const options = [
     { value: 5, label: 'Tiền điện thoại' },
     { value: 6, label: 'Tiền điện' },
     //Chi tiêu cần thiết
-    { value: 1, label: 'Sửa và trang trí nhà' },
+    { value: 11, label: 'Sửa và trang trí nhà' },
     { value: 12, label: 'Bảo dưỡng xe' },  
     { value: 13, label: 'Khám sức khoẻ' },
     { value: 14, label: 'Bảo hiểm' },

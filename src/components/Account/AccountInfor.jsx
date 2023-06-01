@@ -73,6 +73,7 @@ const AccountInfor = () => {
     }
     else {
       setError(t('accountInfo.vuilongchonanh'));
+      return;
     }
     await updateDoc(doc(db, USER_COLLECTION, user.uid), {
       avatar: imageUrl,
