@@ -9,7 +9,11 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import SpendingData from '../SpendingData/SpendingData'
 
+import { useTranslation } from 'react-i18next';
+
+
 const History = () => {
+  const { t } = useTranslation()
     const [spendingData, setSpendingData] = useState([]);
     const [deleteSpending, setDeleteSpending] = useState(false);
     const _user = useSelector((state) => state.login.user);
@@ -45,11 +49,11 @@ const History = () => {
     return (
         <div className='mt-4'>
             <div className='row justify-content-center'>
-                <h3 className='my-2'>Lịch sử</h3>
+                <h3 className='my-2'>{t('editSpending.lichsu')}</h3>
                 <div className='mt-2'>
                     {Object.entries(spendingData).map(([date, spendings]) => (
                       <div key={date}>
-                        <h4 className='pl-1 text-danger mt-1' style={{ paddingLeft: '1rem' }}>Ngày: {date}</h4>
+                        <h4 className='pl-1 text-danger mt-1' style={{ paddingLeft: '1rem' }}>{t('editSpending.ngay')}: {date}</h4>
                         {Array.isArray(spendings) && spendings.map((spending) => (
                           <SpendingData key={spending.id} spending={spending} setDeleteSpending={setDeleteSpending}/>
                         ))}

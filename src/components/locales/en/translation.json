@@ -28,17 +28,57 @@
         "lichsu":"History",
         "tygia":"Currency",
         "dangxuat":"Logout",
-        "themchitieu":"Add Spending"
+        "themchitieu":"Add Spending",
+        "bancochacchanmuondangxuat":"Are you sure you want to sign out?",
+        "huy":"Cancel"
+        
      },
-     "home":{
-        "sodudau":"Income",
-        "soducuoi":"Spending",
-        "dachi":"Spent",
-        "tienchuyendi":"Money transfer",
-        "sua":"Fix",
-        "chiase":"Share",
-        "xoa":"Delete"
-     },
+      "home":{
+         "trangchu":"Home",
+         "chitieuthang":"Monthly spending",
+         "thunhap":"Income",
+         "chitieu":"Spending",
+         "tong":"Total",
+         "chitieungay":"Daily expenses",
+         "diachi":"Location",
+         "banbe":"Friend",
+         "loai":"Type",
+         "thoigian":"Time",
+         "khongcodulieu":"No data"
+      },
+      "editSpending":{
+         "suachitieu":"Edit spending",
+         "nhapsotien":"Enter the amount",
+         "loai":"Type",
+         "ngay":"Date",
+         "thoigian":"Time",
+         "ghichu":"Note",
+         "diachi":"Location",
+         "banbe":"Friend",
+         "themban":"Add friend",
+         "themanh":"Add image",
+         "xoaanh":"Delete image",
+         "luu":"Save",
+         "thoat":"Exit",
+         "vuilongnhapsotien":"Please enter the amount",
+         "suachitieuthanhcong":"Successful spending adjust",
+         "lichsu":"History",
+         "themchitieuthanhcong":"Successful add spending",
+         "xoachitieu":"Delete spending",
+         "huy":"Cancel",
+         "xoa":"Delete",
+         "bancochacmuonxoa":"Are you sure you want to delete?",
+         "doitygia":"Curency",
+         "nhapsotienhientai":"Enter current amount",
+         "luachon":"Options",
+         "tu":"From",
+         "qua":"To",
+         "chuyendoi":"convert",
+         "giatri":"Value"
+
+
+
+      },
      "analysis":{
         "tu": "To",
         "den":"From"

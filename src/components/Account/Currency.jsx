@@ -42,7 +42,7 @@ const Currency = () => {
       <div className="currency-container">
         <h3 className="my-2 d-flex justify-content-center">{t("accountInfo.tygia")}</h3>
         <div className="currency-body d-flex flex-column">
-          <p>Nhập số tiền hiện tại: </p>
+          <p>{t('editSpending.nhapsotienhientai')}: </p>
           <input
             type="text"
             className="form-control searchBox"
@@ -53,29 +53,29 @@ const Currency = () => {
             {searchError && (
                 <p className="error">Chỉ nhập số</p>
             )}
-          <p>Từ</p>
+          <p>{t('editSpending.tu')}</p>
 
           <Select
             className="w-100"
-            placeholder="lựa chọn"
+            placeholder={t('editSpending.luachon')}
             onChange={setTypeOne}
             value={typeOne}
             options={options}
           />
 
-          <p>Đến</p>
+          <p>{t('editSpending.qua')}</p>
           <Select
             className="w-100"
-            placeholder="lựa chọn"
+            placeholder={t('editSpending.luachon')}
             onChange={setTypeTwo}
             value={typeTwo}
             options={options}
           />
 
           <button className="btn btn-primary mt-4" onClick={updateCurrency}>
-            Chuyển đổi
+          {t('editSpending.chuyendoi')}
           </button>
-          <p>Giá trị</p>
+          <p>{t('editSpending.giatri')}</p>
           <input
             className="form-control value"
             type="text"

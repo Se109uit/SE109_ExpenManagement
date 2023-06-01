@@ -122,7 +122,7 @@ const AccountInfor = () => {
         try {
           setDoc(doc(db, USER_COLLECTION, uid), {
             avatar: avatarUrl,
-            birthday: '2023-05-14',
+            birthday: '01/06/2023',
             gender: true,
             money: 0,
             name: user.displayName,

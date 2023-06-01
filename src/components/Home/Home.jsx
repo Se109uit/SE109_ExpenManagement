@@ -99,23 +99,23 @@ useEffect(() => {
   return (
     <div className='mt-4'>
       {/* top */}
-      <h3 className='my-2 pb-3'>Trang chủ</h3>
+      <h3 className='my-2 pb-3'>{t('home.trangchu')}</h3>
       <div className='spending d-flex justify-content-between' style={{ width: '95%' }}>
         {/* Spending infor */}
         <div className='spending-infor' style={{ paddingLeft: '1rem', width: '50%' }}>
           <div className="card" style={{ paddingRight: '1rem'}}>
             <div className="card-body">
-              <h4 className="card-title mb-2 px-4">Chi tiêu tháng</h4>
+              <h4 className="card-title mb-2 px-4">{t('home.chitieuthang')}:</h4>
               <div className='card-div'>
-                <h5 className="card-title pt-2">Thu nhập: </h5>
+                <h5 className="card-title pt-2">{t('home.thunhap')}: </h5>
                 <p className="card-text income">{incomeMonth}</p>
               </div>
               <div className='card-div'>
-                <h5 className="card-title pt-2">Chi tiêu: </h5>
+                <h5 className="card-title pt-2">{t('home.chitieu')}: </h5>
                 <p className="card-text income">{spendMonth}</p>
               </div>
               <div className='card-div'>
-                <h5 className="card-title pt-2">Tổng tiền: </h5>
+                <h5 className="card-title pt-2">{t('home.tong')}: </h5>
                 <p className="card-text income" style={{fontWeight: 700}}>{incomeMonth + spendMonth}</p>
               </div>
             </div>
@@ -130,12 +130,12 @@ useEffect(() => {
       <div className='spending-infor mt-2' style={{ paddingLeft: '1rem' }}>
           <div className="card" style={{ width: '90%', background: '#73C6B6' }}>
             <div className="card-body d-flex justify-content-between">
-              <h4 className="card-infor mb-2 px-4">Chi tiêu ngày</h4>
-                <p className="card-text income">Thu nhập: </p>
+              <h4 className="card-infor mb-2 px-4">{t('home.chitieungay')}</h4>
+                <p className="card-text income">{t('home.thunhap')}: </p>x 
                 <p className="card-text income">{income}</p>
-                <p className="card-text income">Chi tiêu: </p>
+                <p className="card-text income">{t('home.chitieu')}: </p>
                 <p className="card-text income">{spend}</p>
-                <p className="card-text income">Tổng tiền: </p>
+                <p className="card-text income">{t('home.tong')}: </p>
                 <p className="card-text income" style={{fontWeight: 700, paddingRight: 20}}>{income + spend}</p>
             </div>
           </div>
@@ -144,7 +144,7 @@ useEffect(() => {
         { spendingData.length === 0 ?
         
         <div className='mt-2' style={{ width: '90%'}}>
-          <h5 className='text-center'>Ngày này không có dữ liệu</h5>
+          <h5 className='text-center'>{t('home.khongcodulieu')}</h5>
         </div>
 
         :
