@@ -111,7 +111,15 @@ const AccountInfor = () => {
       if (docSnap.exists()) {
         setUserData(docSnap.data());
         setName(docSnap.data().name);
-        const aBirthday = dayjs(docSnap.data().birthday);
+        const userAgent = navigator.userAgent;
+        // let aBirthday = dayjs(Date.now());
+        // if (userAgent.indexOf('Firefox') > -1) {
+        //   aBirthday = dayjs(docSnap.data().birthday, 'DD/MM/YYYY');
+        // } 
+        // else {
+        //   aBirthday = dayjs(docSnap.data().birthday, 'DD/MM/YYYY');
+        // }
+        const aBirthday = dayjs(docSnap.data().birthday, 'DD/MM/YYYY');
         setBirthday(aBirthday);
         const aMoney = docSnap.data().money;
         setMoney(aMoney);
@@ -127,6 +135,7 @@ const AccountInfor = () => {
             money: 0,
             name: user.displayName,
           });
+          showInfor();
         } catch (e) {
           // console.error("Error adding document: ", e);
           window.alert("Error adding document:" + e);
@@ -144,16 +153,17 @@ const AccountInfor = () => {
   const updateInformation = async () => {
     const usr = user.uid;
     const docRef = doc(db, USER_COLLECTION, usr);
-
     const dob = birthday.format('DD/MM/YYYY');
 
+    console.log(typeof money);
     const moneyInt = parseInt(money.replace(/[^0-9.-]+/g,""));
+    console.log(moneyInt);
 
     await updateDoc(docRef, {
       name: name,
       birthday: dob,
       gender: gender,
-      money: moneyInt
+      money: moneyInt,
     });
 
     window.alert(t('accountInfo.capnhatthongtinthanhcong'));
