@@ -32,7 +32,6 @@ const options = [
   ];
 
   
-  var search = document.querySelector(".searchBox");
   var searchValue;
   const Currency = () => {
     const [typeOne, setTypeOne] = useState("")

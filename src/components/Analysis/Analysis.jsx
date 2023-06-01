@@ -37,6 +37,10 @@ ChartJS.register(
 import { useTranslation } from "react-i18next";
 import { useStateManager } from "react-select";
 import { useAsyncError } from "react-router";
+import { Toys } from "@mui/icons-material";
+
+
+
 const Analysis = () => {
   const { t } = useTranslation();
   const [title, setTitle] = useState([]);
@@ -45,11 +49,21 @@ const Analysis = () => {
   const [expenditure, setExpenditure] = useState([]);
 
   const [dateRevenue, setDateRevenue] = useState([]);
+  const [copydateRevenue, setcopydateRevenue] = useState([])
   const [moneyRevenue, setMoneyRevenue] = useState([]);
 
   const [dateExpend, setDateExpend] = useState([]);
+  const [copydateExpend, setcopydateExpend] = useState([])
   const [moneyExpend, setMoneyExpend] = useState([]);
+
   useEffect(() => {
+
+    changeDayFrom.setDate(1)
+    console.log(changeDayFrom)
+    changeDayTo.setDate(7)
+    console.log(changeDayTo)
+
+
     const user = auth.currentUser;
     const q = query(collection(db, "spending"), where("uuid", "==", user.uid));
     const unsub = onSnapshot(q, (querySnapshot) => {
@@ -64,9 +78,11 @@ const Analysis = () => {
       querySnapshot.forEach((doc) => {
         testArray.push({
           money: doc.data().money,
-          date: doc.data().date.toDate().toLocaleDateString(),
+          date: doc.data().date.toDate(),
         });
       });
+
+      console.log(testArray[0].date)
       for (let i = 0; i < testArray.length; i++) {
         if (testArray[i].money > 0) {
           revenueArray.push(testArray[i]);
@@ -74,6 +90,7 @@ const Analysis = () => {
           expenditureArray.push(testArray[i]);
         }
       }
+      
       // let k = 0;
       // for(let i = 0; i < revenueArray.length; i++){
       //   for(let j = i + 1; j < revenueArray.length; j++){
@@ -94,8 +111,11 @@ const Analysis = () => {
         moneyEx.push(expenditureArray[i].money * -1);
       }
       setDateRevenue(dateRe);
+      setcopydateRevenue(dateRe)
       setMoneyRevenue(moneyRe);
+
       setDateExpend(dateEx);
+      setcopydateExpend(dateEx)
       setMoneyExpend(moneyEx);
 
       setRevenue(revenueArray);
@@ -114,27 +134,96 @@ const Analysis = () => {
 
   const [dateReceiveChange, setDateReceiveChange] = useState([]);
   const [moneyReceiveChange, setMoneyReceiveChange] = useState([]);
+
   const [dateExpendChange, setDateExpendChange] = useState([]);
   const [moneyExpendChange, setMoneyExpendChange] = useState([]);
+
   const [colorReceiveChart, setColorReceiveChart] = useState("");
   const [colorExpendChart, setColorExpandChart] = useState("");
   const [isReceive, setIsReceive] = useState(true);
 
   const changeChartRev = () => {
+    // updateChartRev()
     setDateReceiveChange(dateRevenue);
     setMoneyReceiveChange(moneyRevenue);
     setColorReceiveChart("#1ECCEC");
     setIsReceive(true);
   };
   const changeChartEx = () => {
+    // updateChartEx()
     setDateExpendChange(dateExpend);
     setMoneyExpendChange(moneyExpend);
     setColorExpandChart("#A5191D");
     setIsReceive(false);
   };
 
-  useEffect(() => {}, []);
+  const [changeDayFrom, setChangeDayFrom ]= useState((new Date()))
+  const [changeDayTo, setChangeDayTo]= useState(new Date())
 
+  // function updateChartRev(){
+  //   for(let i = 0; i < copydateRevenue.length; i++){
+  //     const l = copydateRevenue[i].toLocaleDateString()
+  //     copydateRevenue[i] = l
+  //   }
+  // }
+
+  // function updateChartEx(){
+  //   for(let j = 0; j < copydateExpend.length; j++){
+  //     const k = copydateExpend[j].toLocaleDateString()
+  //     copydateExpend[j] = k
+  //   }
+  // }
+
+  function updateDayFrom(e){
+    setChangeDayFrom(e.target.value)
+  }
+
+  function updateDayTo(e){
+    setChangeDayTo(e.target.value)
+  }
+
+  const searchChange = () => {
+    
+    // console.log((new Date(changeDayFrom)).getDate())
+    // console.log(new Date(changeDayTo))
+
+    // if((newDate(changeDayFrom).getMonth()) > (newDate(changeDayTo).getMonth())){
+    //   alert("Ngày không hợp lệ")
+    // }
+    
+    // dateRevenue
+    // moneyRevenue
+
+    // const CDF = new Date(changeDayFrom)
+    // const CDT = new Date(changeDayTo)
+
+    // if(CDF > CDT){
+    //   alert("Tìm kiếm không hợp lệ")
+    //   return;
+    // } 
+    // else{
+    //   let test = []
+    //   for(let i = 0; i < revenue.length; i++){
+    //     const k = new Date(revenue[i].date)
+    //     if( k >= CDF){
+    //     }
+    //     console.log(k)
+    //   }
+      // console.log(test)
+
+      // định dạng lại ngày của 2 input from và to giống với ngày của 2 mảng revenue và expenditure
+      // so sánh, nếu như date của 2 mảng nằm trong khoảng của input from và to thì set lại 2 hàm setDateReciveChange
+      // và setMoneyReciveChange, để hiển thị lên Bar
+
+      if(changeDayFrom < changeDayTo){
+        alert("Hop le")
+      }
+      if(changeDayFrom > changeDayFrom){
+        alert("Khong hop le")
+      }
+      
+
+    }
   return (
     <div className="Analysis align-items-center">
       <div className="nav d-flex flex-row ">
@@ -143,9 +232,7 @@ const Analysis = () => {
           <input
             type="date"
             className="from form-control"
-            aria-label="Username"
-            aria-describedby="basic-addon1"
-            // onChange={setChangeFrom}
+            onInput={updateDayFrom}
           />
         </div>
 
@@ -154,13 +241,11 @@ const Analysis = () => {
           <input
             type="date"
             className=" to form-control"
-            aria-label="Username"
-            aria-describedby="basic-addon1"
-            // onChange={setChangeTo}
+            onInput={updateDayTo}
           />
         </div>
 
-        <button className="btn-search">
+        <button className="btn-search" onClick={searchChange}>
           <img src={search} />
         </button>
       </div>
@@ -219,7 +304,7 @@ const Analysis = () => {
         )}
       </div>
 
-      <div className="">
+      <div className="btn search">
         <button className="btn btn-primary" onClick={changeChartRev}>
           Thu nhập
         </button>

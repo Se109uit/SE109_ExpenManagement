@@ -7,7 +7,7 @@
   background: #ECF0F1;
 }
 .Analysis .nav {
-  margin-bottom: 1rem;
+  margin-left: 2rem;
   width: 100%;
 }
 .Analysis .nav li {
@@ -30,6 +30,7 @@
   background: white;
   width: 60px;
   border-radius: 0.5rem;
+  margin-top: 0px;
 }
 .Analysis .nav .btn-search:hover {
   width: 70px;
