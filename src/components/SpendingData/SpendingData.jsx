@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { doc, updateDoc, deleteDoc } from "firebase/firestore";
 import { db, DATA_COLLECTION, SPEND_COLLECTION } from '../../features/firebase/firebase';
 
@@ -12,28 +12,44 @@ import CreateIcon from '@mui/icons-material/Create';
 import ShareIcon from '@mui/icons-material/Share';
 import { use } from 'i18next';
 
+import { BasicModal } from '../Notification/Notification';
+
 import { options } from '../../utils/data';
 
 const SpendingData = ({ spending, setDeleteSpending }) => {
   const dispatch = useDispatch();
   const typeOption = options.find(option => option.value === spending.type.toString());
-  let sharing = false;
 
-  const handleShare = async () => {
-    window.alert('tinh nang dang hoan thien')
-  };
+    // Modal
+    const [openM, setOpenM] = useState(false);
+    const handleOpenM = () => setOpenM(true);
+    const handleCloseM = () => setOpenM(false);
+    
+    const [isOk, setIsOk] = useState(false);
+    //
 
   const handleChangeSpending = () => {
     dispatch(openchange(spending.id));
   };
 
-  const handleDelete = async () => {
-    const confirmed = window.confirm('Are you sure you want to delete this spending?');
-    if (confirmed) {
-      await deleteDoc(doc(db, SPEND_COLLECTION, spending.id));
-      setDeleteSpending(spending.id);
-    }
+  const handleDelete = () => {
+    handleOpenM();
   };
+
+  const handleConfirm = async () => {
+    await deleteDoc(doc(db, SPEND_COLLECTION, spending.id));
+    setDeleteSpending(spending.id);
+    handleCloseM();
+  };
+
+  // useEffect(async () => {
+  //     if (isOk) {
+  //       await deleteDoc(doc(db, SPEND_COLLECTION, spending.id));
+  //       setDeleteSpending(spending.id);
+  //       handleCloseM();
+  //       setIsOk(false);
+  //     }
+  // }, [isOk])
 
   return (
     <div className='pl-3 mb-1' style={{ paddingLeft: '1rem' }} key={spending.id}>
@@ -81,6 +97,19 @@ const SpendingData = ({ spending, setDeleteSpending }) => {
           </div>
         </div>
       </div>
+      {
+          openM &&
+          <BasicModal 
+          open={openM} 
+          handleOpen={handleOpenM} 
+          handleClose={handleCloseM} 
+          handleConfirm={handleConfirm}
+          title="Xoá chi tiêu"
+          textBtnOut="Huỷ"
+          textBtnOk="Xoá"
+          text="Bạn có chắc chắn muốn xoá?"
+          />
+      }
     </div>
   );
 };

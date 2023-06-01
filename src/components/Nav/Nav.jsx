@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import { Outlet, Link, useNavigate } from "react-router-dom";
 import { Sidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
 import { useProSidebar } from "react-pro-sidebar";
@@ -21,8 +21,10 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 
+import { BasicModal } from '../Notification/Notification';
 import './Nav.css';
 import { useTranslation } from 'react-i18next';
+import { use } from 'i18next';
 
 const Nav = () => {
     const { t } = useTranslation()
@@ -31,11 +33,23 @@ const Nav = () => {
     const dispatch = useDispatch();
     const loginState = useSelector((state) => state.login.isLogin);
 
+    // Modal
+    const [openM, setOpenM] = useState(false);
+    const handleOpenM = () => setOpenM(true);
+    const handleCloseM = () => setOpenM(false);
+    
+    const [isOk, setIsOk] = useState(false);
+    //
+
     function handleLogout ()  {
-        const confirmed = window.confirm('Are you want to logout?');
-        if (confirmed)
-        dispatch(signout());
+        handleOpenM();
     }
+
+    const handleConfirm = () => {
+        dispatch(signout());
+        handleCloseM();
+            // navigate('/login');
+      };
 
     return (
         <div id="app" style={({ height: "100vh" }, { display: "flex" })}>
@@ -91,8 +105,23 @@ const Nav = () => {
             <main className="col">
                 <Outlet></Outlet>
             </main>
+
+            {
+                openM &&
+                <BasicModal 
+                open={openM} 
+                handleOpen={handleOpenM} 
+                handleClose={handleCloseM} 
+                handleConfirm={handleConfirm}
+                title={t('nav.dangxuat')}
+                textBtnOut="Huỷ"
+                textBtnOk="Đăng xuất"
+                text="Bạn có chắc chắn muốn đăng xuất?"
+                />
+            }
         </div>
     )
 }
 
 export default Nav
+
