@@ -16,6 +16,11 @@ import PhanTich from '../../assets/PhanTich.png'
 import addSpending from '../../assets/AddSpending.png'
 import Logout from '../../assets/Logout.png'
 
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import Modal from '@mui/material/Modal';
+
 import './Nav.css';
 import { useTranslation } from 'react-i18next';
 
@@ -71,8 +76,8 @@ const Nav = () => {
                             <MenuItem
                                 onClick={() => handleLogout()}
                             > 
-                            <div className='p-2'></div>
-                            <p className="text-danger">{t('nav.dangxuat')}</p> 
+                            <div className='p-1'></div>
+                            <p className="text-danger pb-2">{t('nav.dangxuat')}</p> 
                             </MenuItem>
                         </SubMenu>
                         <MenuItem 

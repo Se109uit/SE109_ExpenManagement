@@ -1,20 +1,14 @@
 import React, { useState, useEffect } from 'react';
 
-import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
-import { TextField } from '@mui/material';
-import Box from '@mui/material/Box';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
+import CameraAltIcon from '@mui/icons-material/CameraAlt';
+import { CircularProgress, Select,FormControl, MenuItem, InputLabel, Box, TextField, Button, Alert } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers';
 import dayjs from 'dayjs';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { selectUsers, signout } from '../../features/firebase/firebaseSlice';
 import { lang } from '../../features/language/languageSlice';
-
 
 import {
   updateProfile,
@@ -35,29 +29,20 @@ import './Account.css'
 
 import { useTranslation } from 'react-i18next';
 import i18next from "i18next";
-import { DocumentScanner, RemoveRoadTwoTone } from '@mui/icons-material';
-
-
-
-
-
 
 const language = [
   { value: '1', label: 'Tiếng Việt' },
   { value: '2', label: 'Tiếng Anh' },
 ];
 
-
 const AccountInfor = () => {
-
   const { t, i18n } = useTranslation()
-
-    
 
   const loginState = useSelector(selectUsers);
   const uid = useSelector((state) => state.login.user);
   const language = useSelector((state) => state.language.choose);
   const dispatch = useDispatch();
+  const [error, setError] = useState('');
 
   const user = auth.currentUser;
 
@@ -69,12 +54,10 @@ const AccountInfor = () => {
   const [avatar, setAvatar] = useState('/src/assets/female.png');
   const [img, setImg] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
+  const [loadingImg, setLoadingImg] = useState(true);
 
   const formattedMoney = money.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
   const integerMoney = parseInt(formattedMoney.replace(/,/g, ''), 10);
-
-
-  
 
   let imageUrl = null;
 
@@ -89,14 +72,19 @@ const AccountInfor = () => {
       imageUrl = await getDownloadURL(storageRef);
     }
     else {
-      imageUrl = avatarImg;
+      setError(t('accountInfo.vuilongchonanh'));
     }
     await updateDoc(doc(db, USER_COLLECTION, user.uid), {
       avatar: imageUrl,
     }).then(
       setAvatar(imageUrl),
-      window.alert(t('accountInfo.capnhatanhdaidienthanhcong'))
     )
+    if (imageUrl)
+      {
+        setError('')
+        window.alert(t('accountInfo.capnhatanhdaidienthanhcong'))
+      }
+    
   };
 
 
@@ -115,6 +103,10 @@ const AccountInfor = () => {
 
   const showInfor = async () => {
     const docRef = doc(db, USER_COLLECTION, uid);
+    let avatarUrl = null;
+    if (user.photoURL)
+      avatarUrl = user.photoURL;
+    else avatarUrl = avatarImg;
     getDoc(docRef).then(async (docSnap) => {
       if (docSnap.exists()) {
         setUserData(docSnap.data());
@@ -129,7 +121,7 @@ const AccountInfor = () => {
       } else if (user !== null && docSnap.exists() === false) {
         try {
           setDoc(doc(db, USER_COLLECTION, uid), {
-            avatar: avatarImg,
+            avatar: avatarUrl,
             birthday: '2023-05-14',
             gender: true,
             money: 0,
@@ -145,7 +137,7 @@ const AccountInfor = () => {
         window.alert(t('accountInfo.khongtimthaythongtincuaban'));
       }
     });
-
+    setLoadingImg(false);
 
   }
 
@@ -241,22 +233,47 @@ const AccountInfor = () => {
         <Box className='col-md-3'>
           {/* Avatar */}
           <Box className='d-flex align-items-center flex-column mt-3'>
-            <img
-              className="img_avatar img-fluid rounded-circle shadow-4-strong"
-              alt={name}
-              src={avatar}
-            />
-            <Box className='text-center' sx={{ width: 300, overflow: 'hidden' }}>
+            { loadingImg ? <CircularProgress /> :
+            <label htmlFor="imageUpload" className="position-relative mb-2">
+              <img
+                className="img_avatar img-fluid rounded-circle shadow-4-strong"
+                alt={name}
+                src={avatar}
+                style={{ transition: 'transform 0.2s ease-in-out' }}
+                onMouseEnter={() => {
+                  document.querySelector('.img_avatar').style.transform = 'scale(1.1)';
+                }}
+                onMouseLeave={() => {
+                  document.querySelector('.img_avatar').style.transform = 'scale(1)';
+                }}
+              />
               <input
                 accept="image/*"
                 id="imageUpload"
                 multiple
                 type="file"
-                onChange={handleFileChange}
-                alt='avatar'
-                className='py-2 border border-dark'
-                data-i18n="[value]showcase.search-value"
+                onChange={(e) => {
+                  handleFileChange(e);
+                  const file = e.target.files[0];
+                  const imageUrl = URL.createObjectURL(file);
+                  document.querySelector('.img_avatar').src = imageUrl;
+                }}
+                style={{ display: 'none' }}
               />
+              <span
+                className="position-absolute bottom-0 start-50 translate-middle"
+                style={{ fontSize: '1.5rem' }}
+              >
+                <i className="bi bi-camera-fill">
+                  <CameraAltIcon />
+                </i>
+              </span>
+            </label>
+            }
+            {
+              error && <Alert severity="error">{error}</Alert>
+            }
+            <Box className='text-center' sx={{ width: 300, overflow: 'hidden', marginTop: 2 }}>
               <Button
                 type="file"
                 className='my-2'
@@ -334,11 +351,11 @@ const AccountInfor = () => {
       <Box className='d-flex justify-content-center mb-4'>
         <button className='button-logout' onClick={handleUpdate}>{t('accountInfo.luu')}</button>
       </Box>
-      <hr />
+      {/* <hr />
       <h3 className='my-2'>{t('accountInfo.xuatcsv')}:</h3>
       <Box className="mx-3 text-center">
         <Button variant="contained">{t('accountInfo.xuatcsv')}</Button>
-      </Box>
+      </Box> */}
       <hr />
       <h3 className='my-2'>{t('accountInfo.ngonngu')}:</h3>
       <Box className="mx-3 text-center">
@@ -358,9 +375,6 @@ const AccountInfor = () => {
          
         </FormControl>
       </Box>
-
-      
-      <hr />
     </div>
   );
 };

@@ -1,0 +1,23 @@
+.currency-container {
+    width: 100%;
+    max-width: 500px;
+    margin-top: 50px;
+    padding: 20px;
+    border-radius: 5px;
+  }
+  
+  .currency-body {
+    margin-top: 20px;
+  }
+  
+  .currency-body p {
+    margin-bottom: 5px;
+  }
+  
+  .searchBox {
+    margin-bottom: 10px;
+  }
+  
+  .value {
+    margin-top: 10px;
+  }

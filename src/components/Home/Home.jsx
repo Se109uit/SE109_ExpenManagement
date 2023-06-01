@@ -55,18 +55,22 @@ const Home = () => {
   }
 
   const caculateIncome = (spendingData) => {
+    add = 0;
+    del = 0;
     spendingData.forEach((spending) => {
       if (spending.type > 20) {
         add += spending.money;
       } else {
         del += spending.money;
       }
-      setIncome(add);
-      setSpend(del);
     });
+    setIncome(add);
+    setSpend(del);
   }
 
   const caculateIncomeMonth = (spendingData) => {
+    // addMonth = 0;
+    // delMonth = 0;
     spendingData.forEach((spending) => {
       if (spending.date.toDate().getMonth() === date.getMonth()) {
         if (spending.type > 20) {
@@ -74,9 +78,9 @@ const Home = () => {
         } else {
           delMonth += spending.money;
         }
-        setIncomeMonth(addMonth);
-        setSpendMonth(delMonth);
       }
+      setIncomeMonth(addMonth);
+      setSpendMonth(delMonth);
     });
   }
 
@@ -101,7 +105,7 @@ useEffect(() => {
         <div className='spending-infor' style={{ paddingLeft: '1rem', width: '50%' }}>
           <div className="card" style={{ paddingRight: '1rem'}}>
             <div className="card-body">
-              <h4 className="card-info mb-2 px-4">Chi tiêu tháng</h4>
+              <h4 className="card-title mb-2 px-4">Chi tiêu tháng</h4>
               <div className='card-div'>
                 <h5 className="card-title pt-2">Thu nhập: </h5>
                 <p className="card-text income">{incomeMonth}</p>
@@ -112,7 +116,7 @@ useEffect(() => {
               </div>
               <div className='card-div'>
                 <h5 className="card-title pt-2">Tổng tiền: </h5>
-                <p className="card-text income" style={{fontWeight: 700}}>{incomeMonth - spendMonth}</p>
+                <p className="card-text income" style={{fontWeight: 700}}>{incomeMonth + spendMonth}</p>
               </div>
             </div>
           </div>
@@ -127,11 +131,11 @@ useEffect(() => {
           <div className="card" style={{ width: '90%', background: '#73C6B6' }}>
             <div className="card-body d-flex justify-content-between">
               <h4 className="card-infor mb-2 px-4">Chi tiêu ngày</h4>
-                <h5 className="card-title">Thu nhập: </h5>
+                <p className="card-text income">Thu nhập: </p>
                 <p className="card-text income">{income}</p>
-                <h5 className="card-title">Chi tiêu: </h5>
+                <p className="card-text income">Chi tiêu: </p>
                 <p className="card-text income">{spend}</p>
-                <h5 className="card-title">Tổng tiền: </h5>
+                <p className="card-text income">Tổng tiền: </p>
                 <p className="card-text income" style={{fontWeight: 700, paddingRight: 20}}>{income + spend}</p>
             </div>
           </div>

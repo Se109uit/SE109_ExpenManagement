@@ -50,7 +50,7 @@ function ChangeSpend() {
   const spendId = useSelector((state) => state.change.changeId);
   const [spendData, setSpendData] = useState({});
 
-  let [money, setMoney] = useState(null);
+  let [money, setMoney] = useState(0);
   const [moneyError, setMoneyError] = useState(false);
   // const [date, setDate] = useState(dayjs('2022-04-17T15:30'));
   const now = dayjs();
@@ -147,7 +147,7 @@ function ChangeSpend() {
   async function handleSpendSubmit(event) {
     event.preventDefault();
     // Checking
-    if (money === null) {
+    if (money === null || money === "" || money === 0 || isNaN(money)) {
       setMoneyError(true);
       return;
     }
