@@ -56,8 +56,8 @@ const AccountInfor = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [loadingImg, setLoadingImg] = useState(true);
 
-  const formattedMoney = money.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
-  const integerMoney = parseInt(formattedMoney.replace(/,/g, ''), 10);
+  // const formattedMoney = money.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+  // const integerMoney = parseInt(formattedMoney.replace(/,/g, ''), 10);
 
   let imageUrl = null;
 
@@ -113,7 +113,7 @@ const AccountInfor = () => {
         setName(docSnap.data().name);
         const aBirthday = dayjs(docSnap.data().birthday);
         setBirthday(aBirthday);
-        const aMoney = docSnap.data().money.toString();
+        const aMoney = docSnap.data().money;
         setMoney(aMoney);
         setGender(docSnap.data().gender);
         // console.log("Document data:", docSnap.data());
@@ -147,11 +147,13 @@ const AccountInfor = () => {
 
     const dob = birthday.format('DD/MM/YYYY');
 
+    const moneyInt = parseInt(money.replace(/[^0-9.-]+/g,""));
+
     await updateDoc(docRef, {
       name: name,
       birthday: dob,
       gender: gender,
-      money: money
+      money: moneyInt
     });
 
     window.alert(t('accountInfo.capnhatthongtinthanhcong'));
@@ -185,45 +187,45 @@ const AccountInfor = () => {
 
   const [iD, setiD] = useState([])
 
-  const updateCurrency = async() => {
+  // const updateCurrency = async() => {
 
-      const docRef = collection(db, "spending");
-      const q = query(docRef, where("uuid", "==", user.uid));
-      const querySnapshot = await getDocs(q);
-      let iD = []
+  //     const docRef = collection(db, "spending");
+  //     const q = query(docRef, where("uuid", "==", user.uid));
+  //     const querySnapshot = await getDocs(q);
+  //     let iD = []
 
-      querySnapshot.forEach((doc) => {
-          // console.log({...doc.data(), id: doc.id});
-          doc.data().money = Number(doc.data().money)
-          iD.push({
-            ID: doc.id,
-            MONEY: doc.data().money
-          })
-        }
-      );  
-      setiD(iD)
-      for(let i = 0; i < iD.length; i++){
-          fetch(`${API}`)
-              .then(currency => {
-                  return currency.json();
-                }).then(displayResults);
+  //     querySnapshot.forEach((doc) => {
+  //         // console.log({...doc.data(), id: doc.id});
+  //         doc.data().money = Number(doc.data().money)
+  //         iD.push({
+  //           ID: doc.id,
+  //           MONEY: doc.data().money
+  //         })
+  //       }
+  //     );  
+  //     setiD(iD)
+  //     for(let i = 0; i < iD.length; i++){
+  //         fetch(`${API}`)
+  //             .then(currency => {
+  //                 return currency.json();
+  //               }).then(displayResults);
 
-        function displayResults(currency) {
-          handleCurrency(currency)
-        }
+  //       function displayResults(currency) {
+  //         handleCurrency(currency)
+  //       }
 
-        const handleCurrency = async(currency) => { 
-          let fromRate = currency.rates[typeOne.label];
-          let toRate = currency.rates[typeTwo.label];
-          iD[i].MONEY = ((toRate / fromRate) * iD[i].MONEY);
-          // console.log(iD[i].MONEY)
-          await updateDoc(doc(db, 'spending', iD[i].ID, ), {money: iD[i].MONEY})
-        }
-      } 
-      window.alert(t('accountInfo.capnhattygiathanhcong'));
+  //       const handleCurrency = async(currency) => { 
+  //         let fromRate = currency.rates[typeOne.label];
+  //         let toRate = currency.rates[typeTwo.label];
+  //         iD[i].MONEY = ((toRate / fromRate) * iD[i].MONEY);
+  //         // console.log(iD[i].MONEY)
+  //         await updateDoc(doc(db, 'spending', iD[i].ID, ), {money: iD[i].MONEY})
+  //       }
+  //     } 
+  //     window.alert(t('accountInfo.capnhattygiathanhcong'));
 
      
-  }
+  // }
   
   
   return (
@@ -339,6 +341,7 @@ const AccountInfor = () => {
               label={t('accountInfo.tienhangthang')}
               variant="outlined"
               fullWidth
+              type='number'
               value={money}
               onChange={handleMoneyChange}
               helperText={money ? "" : t('accountInfo.thieusotienhangthang')}
@@ -367,12 +370,11 @@ const AccountInfor = () => {
             value={localStorage.getItem("i18nextLng")}
             label="Ngôn ngữ."
             onChange={handleLanguageChange}
+            sx={{ minWidth: 120 }}
           >
             <MenuItem value="vi" className='languageV'>{t('accountInfo.ngonnguviet')}</MenuItem>
             <MenuItem value="en" className='languageE'>{t('accountInfo.ngonnguanh')}</MenuItem>
-          </Select>
-
-         
+          </Select>    
         </FormControl>
       </Box>
     </div>
