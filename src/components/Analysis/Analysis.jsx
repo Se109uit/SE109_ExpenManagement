@@ -62,7 +62,7 @@ const Analysis = () => {
     console.log(changeDayFrom)
     changeDayTo.setDate(7)
     console.log(changeDayTo)
-
+    searchChange()
 
     const user = auth.currentUser;
     const q = query(collection(db, "spending"), where("uuid", "==", user.uid));
@@ -157,7 +157,7 @@ const Analysis = () => {
     setIsReceive(false);
   };
 
-  const [changeDayFrom, setChangeDayFrom ]= useState((new Date()))
+  const [changeDayFrom, setChangeDayFrom ]= useState(new Date())
   const [changeDayTo, setChangeDayTo]= useState(new Date())
 
   // function updateChartRev(){
@@ -175,53 +175,42 @@ const Analysis = () => {
   // }
 
   function updateDayFrom(e){
-    setChangeDayFrom(e.target.value)
+    setChangeDayFrom(new Date(e.target.value))
   }
 
   function updateDayTo(e){
-    setChangeDayTo(e.target.value)
+    setChangeDayTo(new Date(e.target.value))
   }
 
   const searchChange = () => {
-    
-    // console.log((new Date(changeDayFrom)).getDate())
-    // console.log(new Date(changeDayTo))
-
-    // if((newDate(changeDayFrom).getMonth()) > (newDate(changeDayTo).getMonth())){
-    //   alert("Ngày không hợp lệ")
-    // }
-    
-    // dateRevenue
-    // moneyRevenue
-
-    // const CDF = new Date(changeDayFrom)
-    // const CDT = new Date(changeDayTo)
-
-    // if(CDF > CDT){
-    //   alert("Tìm kiếm không hợp lệ")
-    //   return;
-    // } 
-    // else{
-    //   let test = []
-    //   for(let i = 0; i < revenue.length; i++){
-    //     const k = new Date(revenue[i].date)
-    //     if( k >= CDF){
-    //     }
-    //     console.log(k)
-    //   }
-      // console.log(test)
-
-      // định dạng lại ngày của 2 input from và to giống với ngày của 2 mảng revenue và expenditure
-      // so sánh, nếu như date của 2 mảng nằm trong khoảng của input from và to thì set lại 2 hàm setDateReciveChange
-      // và setMoneyReciveChange, để hiển thị lên Bar
-
-      console.log(typeof(changeDayFrom))
-      console.log(typeof(revenue[0].date))
-      if(changeDayFrom < revenue[0].date){
-        alert("hop le")
+    if(changeDayFrom > changeDayTo){
+      alert("Nhập cho đúng ngày!")
+    }else{
+      let revDay = []
+      let revMo = []
+      for(let i = 0; i < revenue.length; i++){
+        if(revenue[i].date >= changeDayFrom && revenue[i].date <= changeDayTo){
+          revDay.push(revenue[i].date.toLocaleDateString())
+          revMo.push(revenue[i].money)
+        }
       }
+      setDateReceiveChange(revDay);
+      setMoneyReceiveChange(revMo);
 
+      let exDay = []
+      let exMo = []
+      for(let i = 0; i < expenditure.length; i++){
+        if(expenditure[i].date >= changeDayFrom && expenditure[i].date <= changeDayTo){
+          exDay.push(expenditure[i].date.toLocaleDateString())
+          exMo.push(expenditure[i].money*-1)
+        }
+      }
+      setDateExpendChange(exDay);
+      setMoneyExpendChange(exMo);
     }
+  }
+
+
   return (
     <div className="Analysis align-items-center">
       <div className="nav d-flex flex-row ">
