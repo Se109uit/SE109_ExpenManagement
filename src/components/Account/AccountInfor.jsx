@@ -127,6 +127,7 @@ const AccountInfor = () => {
             money: 0,
             name: user.displayName,
           });
+          showInfor();
         } catch (e) {
           // console.error("Error adding document: ", e);
           window.alert("Error adding document:" + e);
@@ -144,16 +145,17 @@ const AccountInfor = () => {
   const updateInformation = async () => {
     const usr = user.uid;
     const docRef = doc(db, USER_COLLECTION, usr);
-
     const dob = birthday.format('DD/MM/YYYY');
 
+    console.log(typeof money);
     const moneyInt = parseInt(money.replace(/[^0-9.-]+/g,""));
+    console.log(moneyInt);
 
     await updateDoc(docRef, {
       name: name,
       birthday: dob,
       gender: gender,
-      money: moneyInt
+      money: moneyInt,
     });
 
     window.alert(t('accountInfo.capnhatthongtinthanhcong'));

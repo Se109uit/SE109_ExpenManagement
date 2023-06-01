@@ -86,6 +86,7 @@ const Home = () => {
           delMonth += spending.money;
         }
       }
+      console.log('bafa' ,delMonth);
       setIncomeMonth(addMonth + moneyMonth);
       setSpendMonth(delMonth);
     });
