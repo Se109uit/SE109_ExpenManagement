@@ -215,13 +215,11 @@ const Analysis = () => {
       // so sánh, nếu như date của 2 mảng nằm trong khoảng của input from và to thì set lại 2 hàm setDateReciveChange
       // và setMoneyReciveChange, để hiển thị lên Bar
 
-      if(changeDayFrom < changeDayTo){
-        alert("Hop le")
+      console.log(typeof(changeDayFrom))
+      console.log(typeof(revenue[0].date))
+      if(changeDayFrom < revenue[0].date){
+        alert("hop le")
       }
-      if(changeDayFrom > changeDayFrom){
-        alert("Khong hop le")
-      }
-      
 
     }
   return (
