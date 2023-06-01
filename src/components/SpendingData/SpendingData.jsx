@@ -16,7 +16,10 @@ import { BasicModal } from '../Notification/Notification';
 
 import { options } from '../../utils/data';
 
+import { useTranslation } from 'react-i18next';
+
 const SpendingData = ({ spending, setDeleteSpending }) => {
+  const { t } = useTranslation()
   const dispatch = useDispatch();
   const typeOption = options.find(option => option.value === spending.type.toString());
 
@@ -61,7 +64,7 @@ const SpendingData = ({ spending, setDeleteSpending }) => {
                 {spending.money} VND
               </span>
               <span style={{ fontSize: '1.1rem' }}>
-                <span style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>Time: </span> {spending.date.toDate().toLocaleTimeString()}
+                <span style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>{t('editSpending.thoigian')}: </span> {spending.date.toDate().toLocaleTimeString()}
               </span>
               <span style={{ display: 'flex', justifyContent: 'flex-end', width: '50%' }}>
                 {/* <IconButton aria-label="share" color="primary" onClick={handleShare}>
@@ -78,20 +81,20 @@ const SpendingData = ({ spending, setDeleteSpending }) => {
             <hr />
             <span style={{ display: 'flex', justifyContent: 'space-between', marginRight: 100 }}>
               <span>
-                <span style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>Location: </span> 
+                <span style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>{t('editSpending.diachi')}: </span> 
                 {spending.location}
                 </span>
               <span>
-                <span style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>Friends: </span>
+                <span style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>{t('editSpending.banbe')}: </span>
                 {spending.friends.join(', ')}
                 </span>
               <span>
-              <span style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>Type: </span>
+              <span style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>{t('editSpending.loai')}: </span>
                {typeOption ? typeOption.label : spending.type}
                </span>
             </span>
               <span>
-                <span style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>Note: </span> 
+                <span style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>{t('editSpending.ghichu')}: </span> 
                 {spending.note}
                 </span>
           </div>

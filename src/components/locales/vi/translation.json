@@ -31,14 +31,37 @@
         "themchitieu":"Thêm chi tiêu"
      },
      "home":{
-        "sodudau":"Số dư đầu",
-        "soducuoi":"Số dư cuối",
-        "dachi":"Đã chi",
-        "tienchuyendi":"Tiền chuyển đi",
-        "sua":"Sửa",
-        "chiase":"Chia sẻ",
-        "xoa":"Xóa"
-     },
+      "trangchu":"Trang chủ",
+      "chitieuthang":"Chi tiêu tháng",
+      "thunhap":"Thu nhập",
+      "chitieu":"Chi tiêu",
+      "tong":"Tổng",
+      "chitieungay":"Chi tiêu ngày",
+      "diachi":"Địa chỉ",
+      "banbe":"Bạn bè",
+      "loai":"Loại",
+      "thoigian":"Thời gian",
+      "khongcodulieu":"Không có dữ liệu"
+   },
+   "editSpending":{
+      "suachitieu":"Chỉnh sửa chi tiêu",
+      "nhapsotien":"Nhập số tiền",
+      "loai":"Loại",
+      "ngay":"Ngày",
+      "thoigian":"Thời gian",
+      "ghichu":"Ghi chú",
+      "diachi":"Địa chỉ",
+      "banbe":"Bạn bè",
+      "themban":"Thêm bạn bè",
+      "themanh":"Thêm ảnh",
+      "xoaanh":"Xóa ảnh",
+      "luu":"Lưu",
+      "thoat":"Thoát",
+      "vuilongnhapsotien":"Vui lòng nhập số tiền",
+      "suachitieuthanhcong":"Chỉnh sửa chi tiêu thành công",
+      "lichsu":"Lịch sử",
+      "themchitieuthanhcong":"Thêm chi tiêu thành công"
+   },
      "analysis":{
         "tu": "Từ",
         "den":"Đến"

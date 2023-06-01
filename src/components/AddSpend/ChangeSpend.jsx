@@ -27,6 +27,8 @@ import {
   avatarImg,
 } from "../../features/firebase/firebase";
 
+import { useTranslation } from 'react-i18next';
+
 import { Button, Dialog, DialogActions, 
     DialogContent, DialogTitle, TextField, 
     FormControl, Select, MenuItem, InputLabel, Box, IconButton  } from '@mui/material';
@@ -42,6 +44,8 @@ import { options } from '../../utils/data';
 import ManageFriend from "./friend";
 
 function ChangeSpend() {
+
+  const { t } = useTranslation()
   const dispatch = useDispatch();
   const openState = useSelector((state) => state.change.isChange);
   const [open, setOpen] = useState(false);
@@ -170,7 +174,7 @@ function ChangeSpend() {
     }
 
     updateSpend().then(() => {
-        window.alert("Sửa chi tiêu thành công");
+        window.alert( t('editSpending.suachitieuthanhcong'));
     });
     
     // Close the dialog
@@ -194,7 +198,7 @@ function ChangeSpend() {
         sx={{ maxHeight: "calc(100vh - 64px)" }}
       >
         <DialogTitle>
-          Sửa chi tiêu
+        {t('editSpending.suachitieu')}
           <IconButton
             aria-label="close"
             onClick={handleClose}
@@ -217,7 +221,7 @@ function ChangeSpend() {
             }}
           >
             {/* Money */}
-            <label htmlFor="">Nhập số tiền:</label>
+            <label htmlFor="">{t('editSpending.nhapsotien')}:</label>
             <CurrencyInput
               id="input-example"
               name="input-name"
@@ -230,19 +234,19 @@ function ChangeSpend() {
               style={{ maxWidth: "300px" }}
             />
             {moneyError && (
-              <p style={{ color: "red" }}>Vui lòng nhập số tiền</p>
+              <p style={{ color: "red" }}>{t('editSpending.vuilongnhapsotien')}</p>
             )}
             {/* Type */}
             <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
               <InputLabel id="demo-simple-select-standard-label">
-                Loại
+              {t('editSpending.loai')}
               </InputLabel>
               <Select
                 labelId="demo-simple-select-standard-label"
                 id="demo-simple-select-standard"
                 value={type}
                 onChange={handleChangeType}
-                label="Loại"
+                label={t('editSpending.loai')}
                 required
               >
                 {options.map((option) => (
@@ -254,7 +258,7 @@ function ChangeSpend() {
             </FormControl>
             {/* Date */}
             <DatePicker
-              label="Ngày"
+              label={t('editSpending.ngay')}
               value={date}
               format="DD/MM/YYYY"
               onChange={(newValue) => {
@@ -265,7 +269,7 @@ function ChangeSpend() {
             />
             {/* Time */}
             <TimePicker
-              label="Thời gian"
+              label={t('editSpending.thoigian')}
               value={date}
               onChange={(newValue) => {
                 setDate(newValue);
@@ -277,7 +281,7 @@ function ChangeSpend() {
               {/* Note */}
               <TextField
                 id="outlined-multiline-static"
-                label="Ghi chú"
+                label={t('editSpending.ghichu')}
                 rows={4}
                 value={note}
                 variant="standard"
@@ -287,7 +291,7 @@ function ChangeSpend() {
               {/* Location */}
               <TextField
                 id="outlined-location"
-                label="Vị trí"
+                label={t('editSpending.diachi')}
                 rows={4}
                 value={location}
                 variant="standard"
@@ -339,7 +343,7 @@ function ChangeSpend() {
                       onClick={onImageUpload}
                       {...dragProps}
                     >
-                      Thêm ảnh
+                      {t('editSpending.themanh')}
                     </Button>
                     &nbsp;
                     <Button
@@ -351,7 +355,7 @@ function ChangeSpend() {
                         fontWeight: "bold",
                       }}
                     >
-                      Xoá ảnh
+                      {t('editSpending.xoaanh')}
                     </Button>
                     {imageList.map((image, index) => (
                       <div key={index} className="image-item">
@@ -377,7 +381,7 @@ function ChangeSpend() {
             variant="contained"
             color="error"
           >
-            Thoát
+            {t('editSpending.thoat')}
           </Button>
           <Button
             variant="contained"
@@ -385,7 +389,7 @@ function ChangeSpend() {
             onClick={handleSpendSubmit}
             color="primary"
           >
-            Lưu
+            {t('editSpending.luu')}
           </Button>
         </DialogActions>
       </Dialog>
