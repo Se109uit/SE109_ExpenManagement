@@ -3,7 +3,7 @@ import React, {useState, useEffect} from 'react'
 import Calendar from 'react-calendar'
 import 'react-calendar/dist/Calendar.css';
 import { useTranslation } from 'react-i18next';
-import { db , storage, auth, DATA_COLLECTION, SPEND_COLLECTION } from '../../features/firebase/firebase'
+import { db , storage, auth, DATA_COLLECTION, SPEND_COLLECTION, USER_COLLECTION } from '../../features/firebase/firebase'
 import { collection, addDoc, setDoc, doc, updateDoc, getDoc, getDocs, query, where, Timestamp } from 'firebase/firestore'
 import { getStorage, ref, uploadBytes} from 'firebase/storage'
 import { useSelector, useDispatch } from 'react-redux';
@@ -32,11 +32,18 @@ const Home = () => {
   let del = 0;
   let addMonth = 0;
   let delMonth = 0;
+  let moneyMonth = 0;
 
   const [incomeMonth, setIncomeMonth] = useState(0);
   const [spendMonth, setSpendMonth] = useState(0);
 
   const getAllSpending = async () => {
+    getDoc(doc(db, USER_COLLECTION, _user)).then((docS) => {
+      if (docS.exists()) {
+        const mMonth = docS.data().money;
+        moneyMonth = parseInt(mMonth);
+      }
+    });
     const docRef = collection(db, SPEND_COLLECTION);
     const q = query(docRef, where("uuid", "==", _user));
     const querySnapshot = await getDocs(q);
@@ -79,7 +86,7 @@ const Home = () => {
           delMonth += spending.money;
         }
       }
-      setIncomeMonth(addMonth);
+      setIncomeMonth(addMonth + moneyMonth);
       setSpendMonth(delMonth);
     });
   }
@@ -131,7 +138,7 @@ useEffect(() => {
           <div className="card" style={{ width: '90%', background: '#73C6B6' }}>
             <div className="card-body d-flex justify-content-between">
               <h4 className="card-infor mb-2 px-4">{t('home.chitieungay')}</h4>
-                <p className="card-text income">{t('home.thunhap')}: </p>x 
+                <p className="card-text income">{t('home.thunhap')}: </p>
                 <p className="card-text income">{income}</p>
                 <p className="card-text income">{t('home.chitieu')}: </p>
                 <p className="card-text income">{spend}</p>
