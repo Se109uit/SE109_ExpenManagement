@@ -55,18 +55,22 @@ const Home = () => {
   }
 
   const caculateIncome = (spendingData) => {
+    add = 0;
+    del = 0;
     spendingData.forEach((spending) => {
       if (spending.type > 20) {
         add += spending.money;
       } else {
         del += spending.money;
       }
-      setIncome(add);
-      setSpend(del);
     });
+    setIncome(add);
+    setSpend(del);
   }
 
   const caculateIncomeMonth = (spendingData) => {
+    // addMonth = 0;
+    // delMonth = 0;
     spendingData.forEach((spending) => {
       if (spending.date.toDate().getMonth() === date.getMonth()) {
         if (spending.type > 20) {
@@ -74,9 +78,9 @@ const Home = () => {
         } else {
           delMonth += spending.money;
         }
-        setIncomeMonth(addMonth);
-        setSpendMonth(delMonth);
       }
+      setIncomeMonth(addMonth);
+      setSpendMonth(delMonth);
     });
   }
 
@@ -112,7 +116,7 @@ useEffect(() => {
               </div>
               <div className='card-div'>
                 <h5 className="card-title pt-2">Tổng tiền: </h5>
-                <p className="card-text income" style={{fontWeight: 700}}>{incomeMonth - spendMonth}</p>
+                <p className="card-text income" style={{fontWeight: 700}}>{incomeMonth + spendMonth}</p>
               </div>
             </div>
           </div>

@@ -16,6 +16,11 @@ import PhanTich from '../../assets/PhanTich.png'
 import addSpending from '../../assets/AddSpending.png'
 import Logout from '../../assets/Logout.png'
 
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import Modal from '@mui/material/Modal';
+
 import './Nav.css';
 import { useTranslation } from 'react-i18next';
 
