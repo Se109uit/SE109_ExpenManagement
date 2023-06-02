@@ -165,7 +165,7 @@ const AccountInfor = () => {
       name: name,
       birthday: dob,
       gender: gender,
-      money: money
+      money: moneyInt
     });
 
     window.alert(t('accountInfo.capnhatthongtinthanhcong'));
@@ -322,7 +322,7 @@ const AccountInfor = () => {
                 type="file"
                 className='saveImage'
                 variant="contained"
-                startIcon={<AddIcon />}
+                starticon={<AddIcon />}
                 onClick={handleUpload}
               >
                 <p className='title-save-img fs-6 fw-normal'>{t('accountInfo.anh')}</p>
