@@ -27,6 +27,8 @@ import {
   avatarImg,
 } from "../../features/firebase/firebase";
 
+import "./AddSpend.css";
+
 import { useTranslation } from 'react-i18next';
 
 import { Button, Dialog, DialogActions, 
@@ -42,6 +44,10 @@ import CurrencyInput from 'react-currency-input-field';
 import "./AddSpend.css";
 import { options } from '../../utils/data';
 import ManageFriend from "./friend";
+
+import Cancel from '../../assets/Cancel.png'
+import Save from '../../assets/Save.png'
+
 
 function ChangeSpend() {
 
@@ -231,7 +237,7 @@ function ChangeSpend() {
               onValueChange={(value) => setMoney(Number(value))}
               intlConfig={{ locale: "vi-VN", currency: "VND" }}
               className="currency-input"
-              style={{ maxWidth: "300px" }}
+              style={{ maxWidth: "420px" }}
             />
             {moneyError && (
               <p style={{ color: "red" }}>{t('editSpending.vuilongnhapsotien')}</p>
@@ -249,58 +255,82 @@ function ChangeSpend() {
                 label={t('editSpending.loai')}
                 required
               >
-                {options.map((option) => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
-                  </MenuItem>
-                ))}
+               <MenuItem key="1" value="1">{t('editSpending.anuong')}</MenuItem>
+                <MenuItem key="2" value="2">{t('editSpending.dichuyen')}</MenuItem>
+                <MenuItem key="3" value="3">{t('editSpending.tiennha')}</MenuItem>
+                <MenuItem key="4" value="4">{t('editSpending.tiennuoc')}</MenuItem>
+                <MenuItem key="5" value="5">{t('editSpending.tiendienthoai')}</MenuItem>
+                <MenuItem key="6" value="6">{t('editSpending.tiendien')}</MenuItem>
+                <MenuItem key="7" value="7">{t('editSpending.suavatrangtrinha')}</MenuItem>
+                <MenuItem key="8" value="8">{t('editSpending.baohiem')}</MenuItem>
+                <MenuItem key="9" value="9">{t('editSpending.khamsuckhoe')}</MenuItem>
+                <MenuItem key="10" value="10">{t('editSpending.baoduongxe')}</MenuItem>
+                <MenuItem key="11" value="11">{t('editSpending.giaoduc')}</MenuItem>
+                <MenuItem key="12" value="12">{t('editSpending.thucung')}</MenuItem>
+                <MenuItem key="13" value="13">{t('editSpending.dichvuvagiadinh')}</MenuItem>
+                <MenuItem key="14" value="14">{t('editSpending.chiphikhac')}</MenuItem>
+                <MenuItem key="15" value="15">{t('editSpending.dautu')}</MenuItem>
+                <MenuItem key="16" value="16">{t('editSpending.thunhapkhac')}</MenuItem>
+                <MenuItem key="17" value="17">{t('editSpending.nhommoi')}</MenuItem>
               </Select>
             </FormControl>
-            {/* Date */}
-            <DatePicker
-              label={t('editSpending.ngay')}
-              value={date}
-              format="DD/MM/YYYY"
-              onChange={(newValue) => {
-                setDate(newValue);
-              }}
-              slotProps={{ textField: { variant: "outlined" } }}
-              sx={{ m: 1, minWidth: 120 }}
-            />
-            {/* Time */}
-            <TimePicker
-              label={t('editSpending.thoigian')}
-              value={date}
-              onChange={(newValue) => {
-                setDate(newValue);
-              }}
-              slotProps={{ textField: { variant: "outlined" } }}
-              sx={{ m: 1, minWidth: 120 }}
-            />
+
+            <div className="d-flex flex-row">
+              {/* Date */}
+              <DatePicker className="datetime"
+                label={t('editSpending.ngay')}
+                value={date}
+                format="DD/MM/YYYY"
+                onChange={(newValue) => {
+                  setDate(newValue);
+                }}
+                slotProps={{ textField: { variant: "outlined" } }}
+                sx={{ m: 1, minWidth: 120 }}
+              />
+              {/* Time */}
+              <TimePicker className="datetime"
+                label={t('editSpending.thoigian')}
+                value={date}
+                onChange={(newValue) => {
+                  setDate(newValue);
+                }}
+                slotProps={{ textField: { variant: "outlined" } }}
+                sx={{ m: 1, minWidth: 120 }}
+              />
+            </div>
+            
             <Box sx={{ display: "flex", flex: 1 }}>
-              {/* Note */}
-              <TextField
-                id="outlined-multiline-static"
-                label={t('editSpending.ghichu')}
-                rows={4}
+            <div className="location-note d-flex flex-column">
+              <TextField className="text-note"
+                  id="outlined-location"
+                  label={t('editSpending.diachi')}
+                  rows={4}
+                  value={location}
+                  variant="standard"
+                  sx={{ m: 1, minWidth: 120 }}
+                  onChange={handleChangeLocation}
+                />
+                {/* <TextField className="text-note"
+                  id="outlined-multiline-static"
+                  placeholder={t('editSpending.ghichu')}
+                  rows={4}
+                  value={note}
+                  variant="standard"
+                  sx={{ m: 1, minWidth: 120 }}
+                  onChange={handleChangeNote}
+                /> */}
+                <textarea class="form-control note" id="exampleFormControlTextarea1" rows="3"
+                placeholder={t('editSpending.ghichu')}
                 value={note}
                 variant="standard"
                 sx={{ m: 1, minWidth: 120 }}
                 onChange={handleChangeNote}
               />
-              {/* Location */}
-              <TextField
-                id="outlined-location"
-                label={t('editSpending.diachi')}
-                rows={4}
-                value={location}
-                variant="standard"
-                sx={{ m: 1, minWidth: 120 }}
-                onChange={handleChangeLocation}
-              />
+            </div>
+              
             </Box>
             {/* My friend */}
-            <Box>
+            <Box className='text-fr'>
               <ManageFriend data={friends} setData={setFriends} />
             </Box>
             {/* <TextField
@@ -334,7 +364,6 @@ function ChangeSpend() {
                   <div className="upload__image-wrapper">
                     <Button
                       sx={{
-                        fontFamily: "Montserrat",
                         m: 1,
                         minWidth: 120,
                         fontWeight: "bold",
@@ -349,7 +378,6 @@ function ChangeSpend() {
                     <Button
                       onClick={onImageRemoveAll}
                       sx={{
-                        fontFamily: "Montserrat",
                         m: 1,
                         minWidth: 120,
                         fontWeight: "bold",
@@ -377,18 +405,18 @@ function ChangeSpend() {
         >
           <Button
             onClick={handleClose}
-            sx={{ fontFamily: "Montserrat", minWidth: 120, fontWeight: "bold" }}
             variant="contained"
-            color="error"
+            color="primary"
           >
+          <img className="imageCancelSave" src={Cancel}/>
             {t('editSpending.thoat')}
           </Button>
           <Button
             variant="contained"
-            sx={{ fontFamily: "Montserrat", minWidth: 120, fontWeight: "bold" }}
             onClick={handleSpendSubmit}
             color="primary"
           >
+          <img className="imageCancelSave" src={Save}/>
             {t('editSpending.luu')}
           </Button>
         </DialogActions>

@@ -1,30 +1,80 @@
 .img_avatar{
-    height: 150px;
-    width: 150px;
+    height: 120px;
+    width: 120px;
 }
-.button-logout {
-    font-weight: 500;
-    background-color: rgb(252, 107, 104);
-    color: #ffffff;
-    height: 40px;
-    width: 240px;
-    border: 2px solid rgb(252, 107, 104);
-    border-radius: 40px;
-    }  
-.button-logout:hover {
-    background-color: #d76b6b;
-    color: rgb(230, 216, 216);
-    }
-    .w-box{
-        width: 200px;
-    }
-    .t-box{
-        width: 400px;
-    }
     
 .currency{
     width: 60%;
 }
 p, button, .value{
     margin-top: 1rem;
+}
+.account{
+    overflow: auto;
+    /* width: 99vh; */
+    height: 99vh;
+}
+.saveImage{
+    height: 35px;
+    margin: 0px;
+    align-items: center;
+    background: none;
+    border-radius: 0.5rem;
+}
+.title-save{
+    margin-top: 4px;
+}
+.boxImage2{
+    width: 200px;
+}
+.boxImage1{
+    height: 200px;
+    margin-right: 1rem;
+}
+.information{
+    margin: 1rem;
+    padding: 1rem;
+    width: 700px;
+    
+}
+.infor{
+    margin-bottom: 1rem;
+}
+.input-na{
+    width: 200px;
+    margin-right: 1rem;
+}
+.btn-save{
+    height: 55px;
+    border-radius: 0.5rem;
+    margin-left: 2rem;
+    margin-top: 0px;
+}
+.image-save{
+    width: 20px;
+    margin-right: 1rem;
+    margin-top: 0.8rem;
+}
+.title-save{
+    margin-top: 0.8rem;
+}
+body{
+    background: #ECF0F1;
+}
+
+.account-info{
+    background: #FFFF;
+}
+.history{
+    height: 95vh;
+    background: #ECF0F1;
+    padding-top: 1.5rem;
+    width: 1200px;
+    padding-left: 4rem;
+}
+.title{
+    margin-left: 2rem;
+}
+.title-save-img{
+    margin-top: 5px;
 }

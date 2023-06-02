@@ -34,12 +34,17 @@ import {useDispatch, useSelector} from 'react-redux'
 import {signout} from '../../features/firebase/firebaseSlice'
 import {openadd} from '../../features/spend/spendSlice'
 
-import Home from '../../assets/Home.png'
-import User from '../../assets/User.png'
-import Calendar from '../../assets/Calendar.png'
-import PhanTich from '../../assets/PhanTich.png'
-import addSpending from '../../assets/AddSpending.png'
-import Logout from '../../assets/Logout.png'
+import Home from '../../assets/newHome.png'
+import User from '../../assets/Setting.png'
+import PhanTich from '../../assets/newAnalysis.png'
+import addSpending from '../../assets/newAddSpending.png'
+
+import newUser from '../../assets/newUser2.png'
+import Currency from '../../assets/currency.png'
+import History from '../../assets/history.png'
+import resetPass from '../../assets/resetPass.png'
+import logOut from '../../assets/logOut.jpg'
+
 
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -48,7 +53,7 @@ import Modal from '@mui/material/Modal';
 
 import { BasicModal } from '../Notification/Notification';
 import { InputModal } from '../Notification/InputModal';
-import './Nav.css';
+import './nav.css';
 import { useTranslation } from 'react-i18next';
 import { use } from 'i18next';
 import { set } from 'date-fns';
@@ -130,9 +135,9 @@ const Nav = () => {
     return (
         <div id="app" style={({ height: "100vh" }, { display: "flex" })}>
             <div className='nav-bar col-2' style={{ height: "100vh", width: 'auto' }}>
-                <Sidebar className="side-bar" style={{ height: "100vh" }}>
+                <Sidebar className="side-bar d-flex flex-column justify-content-between">
                     <Menu>
-                        <MenuItem
+                        <MenuItem className='sider'
                         icon={<MenuOutlinedIcon />}
                         onClick={() => {
                         collapseSidebar();
@@ -141,41 +146,47 @@ const Nav = () => {
                         >
                         {" "}
                         </MenuItem>
-                        <MenuItem 
+                        <MenuItem className='menuItems'
                             icon={<img className="img-nav" src={Home}/>}
                             component={<Link to="home" />}
-                            > {t('nav.trangchu')} </MenuItem>
-                        <MenuItem 
+                            > <p className='fs-6 fw-bold'>{t('nav.trangchu')}</p> </MenuItem>
+                        <MenuItem className='menuItems'
                             icon={<img className="img-nav" src={PhanTich}/>}
                             component={<Link to="analysis" />}
-                        > {t('nav.thongke')} </MenuItem>
-                        <SubMenu icon={<img className="img-nav" src={User}/>} label={t('nav.taikhoan')}>
-                            <MenuItem
+                        > <p className='fs-6 fw-bold'>{t('nav.thongke')}</p> </MenuItem>
+                        <SubMenu className='sub' icon={<img className="img-nav" src={User}/>} label={<p className='fs-6 fw-bold'>{t('nav.taikhoan')}</p>}>
+                            <MenuItem className='item-user'
+                                icon={<img className="img-user" src={newUser}/>}
                                 component={<Link to="accountinfor" />}
-                            > {t('nav.taikhoan')}</MenuItem>
-                            <MenuItem
+                            > <p className='fs-6 fw-normal'>{t('nav.taikhoan')}</p></MenuItem>
+                            <MenuItem className='item-user'
+                            icon={<img className="img-user" src={resetPass}/>}
                                 component={<Link to="resetpassword" />}
                             > {t('nav.doimatkhau')}</MenuItem>
                             {/* <MenuItem> Ngôn ngữ </MenuItem> */}
-                            <MenuItem
+                            {/* <MenuItem className='item-user'
+                            icon={<img className="img-user" src={History}/>}
                                 component={<Link to="history" />}
-                            > {t('nav.lichsu')} </MenuItem>
-                            <MenuItem
+                            > {t('nav.lichsu')} </MenuItem> */}
+                            <MenuItem className='item-user'
+                            icon={<img className="img-user" src={Currency}/>}
                                 component={<Link to="currency" />}
                             > {t('nav.tygia')} </MenuItem>
-                            <MenuItem
+                            <MenuItem className='item-user'
+                            icon={<img className="img-user" src={logOut}/>}
                                 onClick={() => handleLogout()}
                             > 
                             <div className='p-1'></div>
                             <p className="text-danger pb-2">{t('nav.dangxuat')}</p> 
                             </MenuItem>
                         </SubMenu>
-                        <MenuItem 
+                        <MenuItem className='menuItems'
                             icon={<img className="img-nav" src={addSpending}/>}
                             onClick={() => dispatch(openadd())}
                             // component={<Link to="addSpending" />}
-                        > {t('nav.themchitieu')} </MenuItem>
+                        > <p className='fs-6 fw-bold'>{t('nav.themchitieu')}</p></MenuItem>
                     </Menu>
+                    
                 </Sidebar>
             </div>
             <main className="col">

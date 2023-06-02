@@ -1,0 +1,46 @@
+.spending-history p {
+  margin: 0px;
+}
+.spending-history span {
+  font-weight: normal;
+}
+.spending-history .money-type {
+  background: white;
+  width: 100%;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 1rem;
+}
+.spending-history .money-type .money {
+  margin-top: 1rem;
+}
+.spending-history .money-type .image-s {
+  width: 23px;
+  height: 25px;
+  margin-right: 5px;
+}
+.spending-history .money-type .infor {
+  margin-left: 25%;
+}
+.spending-history .money-type .infor .type-time {
+  margin-bottom: 1rem;
+}
+.spending-history .money-type .infor .type-time .type {
+  margin-right: 10rem;
+}
+.spending-history .money-type .friend {
+  margin-bottom: 0.5rem;
+}
+.spending-history .dele-set {
+  margin-left: 2rem;
+  padding-top: 2.5rem;
+}
+.spending-history .dele-set .image-set {
+  width: 35px;
+}
+.spending-history .dele-set .btn {
+  margin-bottom: 2rem;
+  background: white;
+  padding: 3px;
+  border-radius: 0.5rem;
+}/*# sourceMappingURL=spendingData.css.map */

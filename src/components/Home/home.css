@@ -1,45 +1,135 @@
 .Home {
-  padding: 2rem;
-  display: flex;
-  flex-direction: column;
   width: 100%;
-  height: 812px;
+  height: 99vh;
   background: #ECF0F1;
+  overflow: auto;
+  padding-left: 1rem;
+  /* .react-calendar__month-view__days__day--weekend {
+   color: #d10000;
+  } */
 }
 .Home .spending {
   margin-bottom: 2rem;
+  width: 100%;
+  padding-top: 1rem;
 }
-.Home .spending .money-spending {
-  width: 30%;
-}
-.Home .spending .money-spending .total {
-  align-items: center;
-  width: 370px;
-  border-radius: 1rem;
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
-  background: #73C6B6;
-  margin-bottom: 1.5rem;
-}
-.Home .spending .money-spending .total .title {
-  margin-top: 1rem;
-  width: 140px;
-  padding: 0.5rem;
-}
-.Home .spending .money-spending .total .money {
-  margin-top: 1rem;
-  padding: 0.5rem;
-  border-radius: 0.5rem;
+.Home .spending .spending-infor {
+  width: 470px;
+  height: 300px;
+  margin-left: 1rem;
   background: white;
+  padding: 1rem;
+  border-radius: 1rem;
+}
+.Home .spending .spending-infor .title {
+  margin-top: 7px;
+}
+.Home .spending .spending-infor .image-infor {
+  width: 30px;
+  height: 35px;
+  margin-top: 5px;
+  margin-right: 1rem;
+}
+.Home .spending .calend {
+  width: auto;
+  margin-left: 12rem;
+}
+.Home .daily-expend {
+  border-radius: 1rem;
+  padding: 1rem;
+  width: 99%;
+  background: white;
+  margin-bottom: 2rem;
+  margin-left: 1rem;
+}
+.Home .daily-expend .image-day {
+  width: 22px;
+  height: 25px;
+  margin-top: 1rem;
+  margin-right: 5px;
 }
 .Home .react-calendar {
-  border-radius: 1rem;
-  padding: 0.5rem;
-  width: 450px;
+  width: 460px;
+  height: 300px;
   max-width: 100%;
-  margin-left: 3rem;
+  background-color: #fff;
+  color: #222;
+  border-radius: 8px;
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.125em;
 }
-.Home .react-calendar__navigation {
-  background: #73C6B6;
-  border-radius: 1rem;
+.Home .react-calendar__navigation button {
+  color: #6f48eb;
+  min-width: 44px;
+  background: none;
+  font-size: 16px;
+  margin-top: 8px;
+}
+.Home .react-calendar__navigation button:enabled:hover,
+.Home .react-calendar__navigation button:enabled:focus {
+  background-color: #f8f8fa;
+}
+.Home .react-calendar__navigation button[disabled] {
+  background-color: #f0f0f0;
+}
+.Home abbr[title] {
+  text-decoration: none;
+}
+.Home .react-calendar__tile:enabled:hover,
+.Home .react-calendar__tile:enabled:focus {
+  background: #f8f8fa;
+  color: #6f48eb;
+  border-radius: 6px;
+}
+.Home .react-calendar__tile--now {
+  background: rgba(111, 72, 235, 0.2);
+  border-radius: 6px;
+  font-weight: bold;
+  color: #6f48eb;
+}
+.Home .react-calendar__tile--now:enabled:hover,
+.Home .react-calendar__tile--now:enabled:focus {
+  background: rgba(111, 72, 235, 0.2);
+  border-radius: 6px;
+  font-weight: bold;
+  color: #6f48eb;
+}
+.Home .react-calendar__tile--hasActive:enabled:hover,
+.Home .react-calendar__tile--hasActive:enabled:focus {
+  background: #f8f8fa;
+}
+.Home .react-calendar__tile--active {
+  background: #6f48eb;
+  border-radius: 6px;
+  font-weight: bold;
+  color: white;
+}
+.Home .react-calendar__tile--active:enabled:hover,
+.Home .react-calendar__tile--active:enabled:focus {
+  background: #6f48eb;
+  color: white;
+}
+.Home .react-calendar--selectRange .react-calendar__tile--hover {
+  background-color: #f8f8fa;
+}
+.Home .react-calendar__tile--range {
+  background: #f8f8fa;
+  color: #6f48eb;
+  border-radius: 0;
+}
+.Home .react-calendar__tile--rangeStart {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-top-left-radius: 6px;
+  border-bottom-left-radius: 6px;
+  background: #6f48eb;
+  color: white;
+}
+.Home .react-calendar__tile--rangeEnd {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-top-right-radius: 6px;
+  border-bottom-right-radius: 6px;
+  background: #6f48eb;
+  color: white;
 }/*# sourceMappingURL=home.css.map */
