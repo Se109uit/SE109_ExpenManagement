@@ -226,7 +226,7 @@ const Analysis = () => {
   return (
     <div className="Analysis align-items-center">
       <div className="nav d-flex flex-row">
-        <p>{t("analysis.tu")}:</p>
+        {/* <p>{t("analysis.tu")}:</p> */}
         <div className="option d-flex flex-row">
           <input
             type="date"
@@ -235,7 +235,7 @@ const Analysis = () => {
           />
         </div>
 
-        <p>{t("analysis.den")}:</p>
+        {/* <p>{t("analysis.den")}:</p> */}
         <div className="option d-flex flex-row">
           <input
             type="date"
