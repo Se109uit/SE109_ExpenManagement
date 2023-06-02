@@ -110,22 +110,25 @@ useEffect(() => {
           <div className="info">
             <div className="spending-monthly">
               <p className="fs-2 fw-bold">{t('home.chitieuthang')}:</p>
-              <div className='income-home d-flex flex-row justify-content-between'>
-                <div className='d-flex  flex-row'>
+
+              <div className='d-flex flex-row justify-content-between'>
+                <div className='iet-home d-flex  flex-row'>
                   <img className='image-infor' src={incomE}/>
                   <p className="title fs-4 fw-bold">{t('home.thunhap')}: </p>
                 </div>
                 <p className="value fs-4 fw-normal">{incomeMonth} VND</p>
               </div>
-              <div className='expend-home d-flex flex-row justify-content-between'>
-                <div className='d-flex flex-row'>
+
+              <div className='d-flex flex-row justify-content-between'>
+                <div className='iet-home d-flex flex-row'>
                   <img className='image-infor' src={expend}/>
                   <p className="title fs-4 fw-bold">{t('home.chitieu')}: </p>
                 </div>
                 <p className="value fs-4 fw-normal">{spendMonth} VND</p>
               </div>
-              <div className='total-home d-flex flex-row justify-content-between'>
-                <div className='d-flex flex-row'>
+
+              <div className='d-flex flex-row justify-content-between'>
+                <div className='iet-home d-flex flex-row'>
                   <img className='image-infor' src={total}/>
                   <p className="title fs-4 fw-bold">{t('home.tong')}: </p>
                 </div>
@@ -144,7 +147,7 @@ useEffect(() => {
           <p className="fs-5 fw-bold">{t('home.chitieungay')}</p>
           <div className='d-flex flex-row justify-content-between'>
             <div className='d-flex flex-row'>
-            <img src={incomE} className='image-day'/>
+              <img src={incomE} className='image-day'/>
               <p className="fs-5 fw-bold">{t('home.thunhap')}: </p>
             </div>
             <p className="fs-5 fw-normal">{income}</p>
@@ -152,16 +155,16 @@ useEffect(() => {
 
           <div className='d-flex flex-row justify-content-between'>
             <div className='d-flex flex-row'>
-            <img src={expend} className='image-day'/>
-            <p className="fs-5 fw-bold">{t('home.chitieu')}: </p>
+              <img src={expend} className='image-day'/>
+              <p className="fs-5 fw-bold">{t('home.chitieu')}: </p>
             </div>
             <p className="fs-5 fw-normal">{spend}</p>
           </div>
           
           <div className='d-flex flex-row justify-content-between'>
             <div className='d-flex flex-row'>
-            <img src={total} className='image-day'/>
-            <p className="fs-5 fw-bold">{t('home.tong')}: </p>
+              <img src={total} className='image-day'/>
+              <p className="fs-5 fw-bold">{t('home.tong')}: </p>
             </div>
             <p className="fs-5 fw-normal" style={{fontWeight: 700, paddingRight: 20}}>{income + spend}</p>
           </div>

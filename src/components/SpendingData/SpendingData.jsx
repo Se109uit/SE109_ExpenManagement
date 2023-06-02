@@ -114,7 +114,7 @@ const SpendingData = ({ spending, setDeleteSpending }) => {
       <div className='spending-history d-flex flex-row justify-content-between'>
         <div className='money-type d-flex flex-column'>
           <div className='d-flex flex-row'>
-            <p className='money fs-4 fw-bold'>{spending.money} VND</p>
+            <p className='money fs-5 fw-bold'>{spending.money} VND</p>
             <div className='infor d-flex flex-column'>
               <div className='type-time d-flex flex-row'>
                 <img className='image-s' src={type}/>

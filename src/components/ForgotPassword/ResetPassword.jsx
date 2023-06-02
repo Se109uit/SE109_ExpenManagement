@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next';
 
 // import { MyPPassword } from '../SmallFunction/MyPPassword';
 import changePass from '../../assets/change-pass.png'
+import './resetPassword.css'
 
 function ForgotPassword() {
     const [email, setEmail] = useState('');
@@ -74,6 +75,8 @@ function ForgotPassword() {
     }
 
   return (
+    <div className='ResetPassword'>
+
     <Form className='container mt-5 forgot-pass' noValidate validated={validated} onSubmit={handleSubmit}>
       <div className="">
           <p className="titlePass fs-2 fw-bold d-flex justify-content-center mt-5">
@@ -191,6 +194,7 @@ function ForgotPassword() {
         {t('resetpassword.luu')}
       </Button>
     </Form>
+    </div>
   );
 }
 

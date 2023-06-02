@@ -28,7 +28,9 @@
   width: 30px;
   height: 35px;
   margin-top: 5px;
-  margin-right: 1rem;
+}
+.Home .spending .spending-infor .spending-monthly .iet-home {
+  padding-top: 0.3rem;
 }
 .Home .spending .calend {
   width: auto;
@@ -37,7 +39,7 @@
 .Home .daily-expend {
   border-radius: 1rem;
   padding: 1rem;
-  width: 99%;
+  width: 97%;
   background: white;
   margin-bottom: 2rem;
   margin-left: 1rem;

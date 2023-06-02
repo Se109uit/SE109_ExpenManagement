@@ -35,7 +35,7 @@ const Currency = () => {
       let fromRate = currency.rates[typeOne.label];
       let toRate = currency.rates[typeTwo.label];
 
-      setChangeValue(((toRate / fromRate) * searchValue).toFixed(2));
+      setChangeValue(((toRate / fromRate) * searchValue));
     }
   };
 
