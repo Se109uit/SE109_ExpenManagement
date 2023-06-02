@@ -102,8 +102,9 @@ const AccountInfor = () => {
   }
 
   function handleMoneyChange(event) {
-    // const onlyNums = event.target.value.replace(/[^0-9]/g, '');
-    setMoney(event.target.value);
+    const onlyNums = event.target.value.replace(/[^0-9]/g, '');
+    setMoney(onlyNums);
+    // setMoney(event.target.value);
   }
 
   const showInfor = async () => {
@@ -114,6 +115,8 @@ const AccountInfor = () => {
     else avatarUrl = avatarImg;
     getDoc(docRef).then(async (docSnap) => {
       if (docSnap.exists()) {
+        console.log("Document data:", docSnap.data());
+        console.log("Document data type:", typeof docSnap.data().money);
         setUserData(docSnap.data());
         setName(docSnap.data().name);
         const userAgent = navigator.userAgent;
@@ -163,13 +166,20 @@ const AccountInfor = () => {
     if (typeof money === 'string') {
       moneyInt = parseInt(money.replace(/[^0-9.-]+/g,""));
     }
+    else if (typeof money === 'number') {
+      moneyInt = money;
+    }
 
-    await updateDoc(docRef, {
+    const resultUp = await updateDoc(docRef, {
       name: name,
       birthday: dob,
       gender: gender,
       money: moneyInt,
     });
+
+    console.log('resultUp', resultUp);
+    console.log('resultUp.money', resultUp.money);
+    console.log(typeof resultUp.money);
 
     // setMoneyChange(false);
 
@@ -330,6 +340,7 @@ const AccountInfor = () => {
               value={birthday}
               onChange={(newValue) => setBirthday(newValue)}
               slotProps={{ textField: { variant: 'outlined' } }}
+              format='DD/MM/YYYY'
             />
           </Box>
           <Box className='my-3 w-box'>
@@ -358,7 +369,6 @@ const AccountInfor = () => {
               label={t('accountInfo.tienhangthang')}
               variant="outlined"
               fullWidth
-              type='number'
               value={money}
               onChange={handleMoneyChange}
               helperText={money ? "" : t('accountInfo.thieusotienhangthang')}

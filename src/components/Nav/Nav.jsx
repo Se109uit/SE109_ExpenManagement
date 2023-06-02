@@ -1,5 +1,30 @@
 import React, {useEffect, useState} from 'react'
 import { Outlet, Link, useNavigate } from "react-router-dom";
+
+import {
+    collection,
+    doc,
+    getDoc,
+    updateDoc,
+    setDoc,
+    addDoc,
+    where,
+    onSnapshot,
+    query,
+    documentId,
+    getDocs,
+    QuerySnapshot,
+  } from "firebase/firestore";
+  import {
+    auth,
+    db,
+    storage,
+    SPEND_COLLECTION,
+    WALLET_COLLECTION,
+    DATA_COLLECTION,
+    avatarImg,
+  } from "../../features/firebase/firebase";
+
 import { Sidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
 import { useProSidebar } from "react-pro-sidebar";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
@@ -22,9 +47,11 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 
 import { BasicModal } from '../Notification/Notification';
+import { InputModal } from '../Notification/InputModal';
 import './Nav.css';
 import { useTranslation } from 'react-i18next';
 import { use } from 'i18next';
+import { set } from 'date-fns';
 
 const Nav = () => {
     const { t } = useTranslation()
@@ -32,6 +59,7 @@ const Nav = () => {
     const { collapseSidebar} = useProSidebar();
     const dispatch = useDispatch();
     const loginState = useSelector((state) => state.login.isLogin);
+    const user = auth.currentUser;
 
     // Modal
     const [openM, setOpenM] = useState(false);
@@ -39,7 +67,6 @@ const Nav = () => {
     const handleCloseM = () => setOpenM(false);
     
     const [isOk, setIsOk] = useState(false);
-    //
 
     function handleLogout ()  {
         handleOpenM();
@@ -50,6 +77,54 @@ const Nav = () => {
         handleCloseM();
             // navigate('/login');
       };
+
+    // Input modal
+    const [openI, setOpenI] = useState(false);
+    const [errorTF, setErrorTF] = useState(false);
+    const datetime = new Date();
+    const handleOpenI = () => setOpenI(true);
+    function handleCloseI(event, reason) {
+        if (reason && reason == "backdropClick") return;
+        setOpenI(false);
+      }
+    const [valueTF, setValueTF] = useState('');
+    const handleChangeTF = (event) => {
+        const onlyNums = event.target.value.replace(/[^0-9]/g, '');
+        setValueTF(onlyNums);
+    };
+
+    let moneyNow =  0;
+    const handleConfirmTF = async () => {
+        //check money
+        if (valueTF === '' || valueTF === 0 || valueTF === null) {
+            setErrorTF(true);
+            return;
+        }
+        setErrorTF(false);
+        //transfer money to number
+        if (typeof valueTF === 'string') {
+            moneyNow = parseInt(valueTF.replace(/[^0-9.-]+/g,""));
+          }
+          else if (typeof valueTF === 'number') {
+            moneyNow = valueTF;
+          }
+          //update money
+          await setDoc(doc(db, WALLET_COLLECTION, user.uid), {
+            [format(datetime, "MM_yyyy")]: [moneyNow],
+          });
+
+    };
+    
+    // useEffect(async () => {
+    //     const docRef = collection(db, WALLET_COLLECTION);
+    //     const q = query(docRef, where(documentId(), "==", user.uid));
+    //     const querySnapshot = await getDocs(q);
+    //     const formattedDate = format(datetime, "MM_yyyy");
+
+    //     if (querySnapshot.empty == true) {
+    //         handleOpenI();
+    //     } 
+    //   }, [loginState]);
 
     return (
         <div id="app" style={({ height: "100vh" }, { display: "flex" })}>
@@ -117,6 +192,21 @@ const Nav = () => {
                 textBtnOut={t('nav.huy')}
                 textBtnOk={t('nav.dangxuat')}
                 text={t('nav.bancochacchanmuondangxuat')}
+                />
+            }
+            {
+                openI &&
+                <InputModal
+                open={openI}
+                handleOpen={handleOpenI}
+                handleClose={handleCloseI}
+                handleConfirm={handleConfirmTF}
+                title={'Nhập thu nhập của bạn:'}
+                textBtnOk={'OK'}
+                text={'Thu nhập'}
+                valueTF={valueTF}
+                handleChangeTF={handleChangeTF}
+                errorTF={errorTF}
                 />
             }
         </div>
