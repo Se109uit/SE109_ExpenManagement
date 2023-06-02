@@ -173,7 +173,7 @@ function ChangeSpend() {
         }
       });
     }
-    if (type < 20) {
+    if (type <= 20) {
       money = -Math.abs(money);
     } else {
       money = Math.abs(money);

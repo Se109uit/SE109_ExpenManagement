@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { doc, updateDoc, deleteDoc } from "firebase/firestore";
+import { doc, updateDoc, deleteDoc, arrayRemove } from "firebase/firestore";
 import { db, DATA_COLLECTION, SPEND_COLLECTION } from '../../features/firebase/firebase';
 
 import { useDispatch } from 'react-redux';
@@ -11,6 +11,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import CreateIcon from '@mui/icons-material/Create';
 import ShareIcon from '@mui/icons-material/Share';
 import { use } from 'i18next';
+import { format } from 'date-fns';
 
 import type from '../../assets/Type.png'
 import time from '../../assets/Time.png'
@@ -33,7 +34,6 @@ import { LogoDev } from '@mui/icons-material';
 const SpendingData = ({ spending, setDeleteSpending }) => {
   const { t } = useTranslation()
   const dispatch = useDispatch();
-  
   const typeOption = options.find(option => option.value === spending.type.toString());
 
     // Modal
@@ -52,10 +52,16 @@ const SpendingData = ({ spending, setDeleteSpending }) => {
     handleOpenM();
   };
 
+  const timeDel = format(spending.date.toDate(), "MM_yyyy");
+
   const handleConfirm = async () => {
-    await deleteDoc(doc(db, SPEND_COLLECTION, spending.id));
+    await deleteDoc(doc(db, SPEND_COLLECTION, spending.id)).then(async () => {
+      await updateDoc(doc(db, DATA_COLLECTION, spending.uuid), {
+        [timeDel]: arrayRemove(spending.id),
+    });
     setDeleteSpending(spending.id);
     handleCloseM();
+    });
   };
 
   // useEffect(async () => {

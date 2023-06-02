@@ -3,7 +3,7 @@ import React, {useState, useEffect} from 'react'
 import Calendar from 'react-calendar'
 import 'react-calendar/dist/Calendar.css';
 import { useTranslation } from 'react-i18next';
-import { db , storage, auth, DATA_COLLECTION, SPEND_COLLECTION } from '../../features/firebase/firebase'
+import { db , storage, auth, DATA_COLLECTION, SPEND_COLLECTION, USER_COLLECTION } from '../../features/firebase/firebase'
 import { collection, addDoc, setDoc, doc, updateDoc, getDoc, getDocs, query, where, Timestamp } from 'firebase/firestore'
 import { getStorage, ref, uploadBytes} from 'firebase/storage'
 import { useSelector, useDispatch } from 'react-redux';
@@ -36,11 +36,21 @@ const Home = () => {
   let del = 0;
   let addMonth = 0;
   let delMonth = 0;
+  let moneyMonth = 0;
 
   const [incomeMonth, setIncomeMonth] = useState(0);
   const [spendMonth, setSpendMonth] = useState(0);
 
   const getAllSpending = async () => {
+    getDoc(doc(db, DATA_COLLECTION, _user)).then((docS) => {
+      console.log(docS.data());
+    });
+    getDoc(doc(db, USER_COLLECTION, _user)).then((docS) => {
+      if (docS.exists()) {
+        const mMonth = docS.data().money;
+        moneyMonth = parseInt(mMonth);
+      }
+    });
     const docRef = collection(db, SPEND_COLLECTION);
     const q = query(docRef, where("uuid", "==", _user));
     const querySnapshot = await getDocs(q);
@@ -83,7 +93,8 @@ const Home = () => {
           delMonth += spending.money;
         }
       }
-      setIncomeMonth(addMonth);
+      console.log('bafa' ,delMonth);
+      setIncomeMonth(addMonth + moneyMonth);
       setSpendMonth(delMonth);
     });
   }
@@ -140,20 +151,16 @@ useEffect(() => {
         </div>
       </div>
 
-      <div className="daily-expend d-flex flex-row justify-content-between">
-          <p className="fs-5 fw-bold">{t('home.chitieungay')}</p>
-          <div className='d-flex flex-row justify-content-between'>
-            <div className='d-flex flex-row'>
-            <img src={incomE} className='image-day'/>
-              <p className="fs-5 fw-bold">{t('home.thunhap')}: </p>
-            </div>
-            <p className="fs-5 fw-normal">{income}</p>
-          </div>
-
-          <div className='d-flex flex-row justify-content-between'>
-            <div className='d-flex flex-row'>
-            <img src={expend} className='image-day'/>
-            <p className="fs-5 fw-bold">{t('home.chitieu')}: </p>
+      <div className='spending-infor mt-2' style={{ paddingLeft: '1rem' }}>
+          <div className="card" style={{ width: '90%', background: '#73C6B6' }}>
+            <div className="card-body d-flex justify-content-between">
+              <h4 className="card-infor mb-2 px-4">{t('home.chitieungay')}</h4>
+                <p className="card-text income">{t('home.thunhap')}: </p>x 
+                <p className="card-text income">{income}</p>
+                <p className="card-text income">{t('home.chitieu')}: </p>
+                <p className="card-text income">{spend}</p>
+                <p className="card-text income">{t('home.tong')}: </p>
+                <p className="card-text income" style={{fontWeight: 700, paddingRight: 20}}>{income + spend}</p>
             </div>
             <p className="fs-5 fw-normal">{spend}</p>
           </div>

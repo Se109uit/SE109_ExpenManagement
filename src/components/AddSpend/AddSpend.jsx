@@ -139,19 +139,20 @@ function AddSpend() {
         }
       });
     }
-    if (type < 20) {
+    if (type <= 20) {
       money = -Math.abs(money);
     } else {
       money = Math.abs(money);
     }
 
     try {
+      console.log("money", typeof money);
       const result = await addDoc(collection(db, SPEND_COLLECTION), {
         money,
         date: datetime,
         location,
         friends: friends,
-        type,
+        type: type,
         note,
         uuid,
         image: url,
