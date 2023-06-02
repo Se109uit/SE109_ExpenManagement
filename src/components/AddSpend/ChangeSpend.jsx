@@ -148,7 +148,7 @@ function ChangeSpend() {
         money: money,
         location: location,
         note: note,
-        type: type,
+        type: parseInt(type),
         date: date.toDate(),
         friends: friends
     });
