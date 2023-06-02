@@ -47,6 +47,7 @@ export default auth;
 export const USER_COLLECTION = "info";
 export const SPEND_COLLECTION = "spending";
 export const DATA_COLLECTION = "data";
+export const WALLET_COLLECTION = "wallet";
 
 const ggProvider = new GoogleAuthProvider();
 const fbProvider = new FacebookAuthProvider();
