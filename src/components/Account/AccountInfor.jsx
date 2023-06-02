@@ -116,6 +116,7 @@ const AccountInfor = () => {
     getDoc(docRef).then(async (docSnap) => {
       if (docSnap.exists()) {
         console.log("Document data:", docSnap.data());
+        console.log("Document data type:", typeof docSnap.data().money);
         setUserData(docSnap.data());
         setName(docSnap.data().name);
         const userAgent = navigator.userAgent;
@@ -169,12 +170,16 @@ const AccountInfor = () => {
       moneyInt = money;
     }
 
-    await updateDoc(docRef, {
+    const resultUp = await updateDoc(docRef, {
       name: name,
       birthday: dob,
       gender: gender,
       money: moneyInt,
     });
+
+    console.log('resultUp', resultUp);
+    console.log('resultUp.money', resultUp.money);
+    console.log(typeof resultUp.money);
 
     // setMoneyChange(false);
 
