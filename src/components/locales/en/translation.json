@@ -1,61 +1,124 @@
 {
-     "accountInfo": {
-         "tieude": "User Information",
-         "anh":"Change Image",
-         "ten":"Name",
-         "thieuten":"Missing name",
-         "ngaysinh":"Bith day",
-         "gioitinh":"Gender",
-         "gioitinhnam":"Man",
-         "gioitinhnu":"Woman",
-         "tienhangthang":"Monthly money",
-         "luu":"Save",
-         "xuatcsv":"Export CSV",
-         "ngonngu":"Language",
-         "ngonnguanh":"English",
-         "ngonnguviet":"Vietnamese",
-         "thieusotienhangthang":"Lack of monthly amount",
-         "capnhatthongtinthanhcong":"Successfully updated info",
-         "capnhatanhdaidienthanhcong":"Successfully updated image",
-         "image":"Image",
-         "tygia":"Currency"
-     },
-     "nav":{
-        "trangchu":"Home",
-        "thongke":"Analysis",
-        "taikhoan":"User",
-        "doimatkhau":"Reset password",
-        "lichsu":"History",
-        "tygia":"Currency",
-        "dangxuat":"Logout",
-        "themchitieu":"Add Spending"
-     },
-     "home":{
-        "sodudau":"Income",
-        "soducuoi":"Spending",
-        "dachi":"Spent",
-        "tienchuyendi":"Money transfer",
-        "sua":"Fix",
-        "chiase":"Share",
-        "xoa":"Delete"
-     },
-     "analysis":{
-        "tu": "To",
-        "den":"From"
-     },
-     "resetpassword":{
-        "banmuondoimatkhau":"You want to change your password",
-        "vuilongnhapmatkhauhientai":"Please enter current password and new password",
-        "matkhau":"Password",
-        "matkhaumoi":"New Password",
-        "nhaplaimatkhaumoi":"Enter a new password",
-        "luu":"Save",
-        "matkhaukhongkhop":"Password incorrect",
-        "matkhaumoikhongduoctrungmatkhaucu":"The new password cannot be the same as the old password",
-        "matkhauphaicoitnhat6kytu":"Passwords must be at least 6 characters"
-     },
-     "addspending":{
-        "themchitieu":"Add Spending",
-        "loai":"Type"
-     }
- }
+   "accountInfo": {
+       "tieude": "User Information",
+       "anh":"Change Image",
+       "ten":"Name",
+       "thieuten":"Missing name",
+       "ngaysinh":"Birthday",
+       "gioitinh":"Gender",
+       "gioitinhnam":"Man",
+       "gioitinhnu":"Woman",
+       "tienhangthang":"Monthly money",
+       "luu":"Save",
+       "xuatcsv":"Export CSV",
+       "ngonngu":"Language",
+       "ngonnguanh":"English",
+       "ngonnguviet":"Vietnamese",
+       "thieusotienhangthang":"Lack of monthly amount",
+       "capnhatthongtinthanhcong":"Successfully updated info",
+       "capnhatanhdaidienthanhcong":"Successfully updated image",
+       "image":"Image",
+       "tygia":"Currency"
+   },
+   "nav":{
+      "trangchu":"Home",
+      "thongke":"Analysis",
+      "taikhoan":"User",
+      "doimatkhau":"Reset password",
+      "lichsu":"History",
+      "tygia":"Currency",
+      "dangxuat":"Logout",
+      "themchitieu":"Add Spending",
+      "bancochacchanmuondangxuat":"Are you sure you want to sign out?",
+      "huy":"Cancel"
+      
+   },
+    "home":{
+       "trangchu":"Home",
+       "chitieuthang":"Monthly spending",
+       "thunhap":"Income",
+       "chitieu":"Spending",
+       "tong":"Total",
+       "chitieungay":"Daily expenses",
+       "diachi":"Location",
+       "banbe":"Friend",
+       "loai":"Type",
+       "thoigian":"Time",
+       "khongcodulieu":"No data"
+    },
+    "editSpending":{
+       "suachitieu":"Edit spending",
+       "nhapsotien":"Enter the amount",
+       "loai":"Type",
+       "ngay":"Date",
+       "thoigian":"Time",
+       "ghichu":"Note",
+       "diachi":"Location",
+       "banbe":"Friend",
+       "themban":"Add friend",
+       "themanh":"Add image",
+       "xoaanh":"Delete image",
+       "luu":"Save",
+       "thoat":"Exit",
+       "vuilongnhapsotien":"Please enter the amount",
+       "suachitieuthanhcong":"Successful spending adjust",
+       "lichsu":"History",
+       "themchitieuthanhcong":"Successful add spending",
+       "xoachitieu":"Delete spending",
+       "huy":"Cancel",
+       "xoa":"Delete",
+       "bancochacmuonxoa":"Are you sure you want to delete?",
+       "doitygia":"Curency",
+       "nhapsotienhientai":"Enter current amount",
+       "luachon":"Options",
+       "tu":"From",
+       "qua":"To",
+       "chuyendoi":"convert",
+       "giatri":"Value",
+       "themchitieu":"Add Spending",
+       "banchuanhaptenbanbe":"You haven't added friends yet",
+       "anuong":"Eat & Drink",
+       "dichuyen":"Transfer",
+       "tiennha":"Rent",
+       "tiennuoc":"Water money",
+       "tiendienthoai":"Phone charges",
+       "tiendien":"Electric bill",
+       "suavatrangtrinha":"Home repair and decoration",
+       "baoduongxe":"Vehicle maintenance",
+       "khamsuckhoe":"Physical examination",
+       "baohiem":"Insurance",
+       "giaoduc":"Education",
+       "thucung":"Pet",
+       "dichvuvagiadinh":"Service and family",
+       "chiphikhac":"Other costs",
+       "dautu":"Invest",
+       "thunhapkhac":"Other income",
+       "nhommoi":"New group"
+
+
+
+
+
+
+    },
+   "analysis":{
+      "tu": "To",
+      "den":"From"
+   },
+   "resetpassword":{
+       "doimatkhau":"Change Password",
+      "banmuondoimatkhau":"You want to change your password",
+      "vuilongnhapmatkhauhientai":"Please enter current password and new password",
+      "matkhau":"Password",
+      "matkhaumoi":"New Password",
+      "nhaplaimatkhaumoi":"Enter a new password",
+      "luu":"Save",
+      "matkhaukhongkhop":"Password incorrect",
+      "matkhaumoikhongduoctrungmatkhaucu":"The new password cannot be the same as the old password",
+      "matkhauphaicoitnhat6kytu":"Passwords must be at least 6 characters"
+   },
+   "addspending":{
+      "themchitieu":"Add Spending",
+      "loai":"Type"
+   }
+}

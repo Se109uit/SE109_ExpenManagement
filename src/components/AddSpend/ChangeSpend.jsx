@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { openadd, closeadd } from "../../features/spend/spendSlice";
-import { format } from "date-fns";
+import { openchange, closechange } from "../../features/change/changeSlice";
+import { format, set } from "date-fns";
 import {
   collection,
   doc,
@@ -27,6 +27,10 @@ import {
   avatarImg,
 } from "../../features/firebase/firebase";
 
+import "./AddSpend.css";
+
+import { useTranslation } from 'react-i18next';
+
 import { Button, Dialog, DialogActions, 
     DialogContent, DialogTitle, TextField, 
     FormControl, Select, MenuItem, InputLabel, Box, IconButton  } from '@mui/material';
@@ -38,30 +42,23 @@ import ImageUploading from 'react-images-uploading';
 import CurrencyInput from 'react-currency-input-field';
 
 import "./AddSpend.css";
-// import { options } from '../../utils/data';
+import { options } from '../../utils/data';
 import ManageFriend from "./friend";
+
 import Cancel from '../../assets/Cancel.png'
 import Save from '../../assets/Save.png'
 
-import { useTranslation } from 'react-i18next';
 
-function AddSpend() {
-  // useEffect(() => {
-  //   for(let i = 0; i < options.length; i++){
-  //     options[i].label = t('editSpending.')
-  //   }
-  // }, [])
+function ChangeSpend() {
 
-  
-  
-
-
-  const { t } = useTranslation();
+  const { t } = useTranslation()
   const dispatch = useDispatch();
-  const openState = useSelector((state) => state.spend.isOpen);
+  const openState = useSelector((state) => state.change.isChange);
   const [open, setOpen] = useState(false);
   const [spend, setSpend] = useState({ title: "", amount: 0 });
   const uuid = useSelector((state) => state.login.user);
+  const spendId = useSelector((state) => state.change.changeId);
+  const [spendData, setSpendData] = useState({});
 
   let [money, setMoney] = useState(0);
   const [moneyError, setMoneyError] = useState(false);
@@ -79,7 +76,7 @@ function AddSpend() {
   const [scroll, setScroll] = useState("body");
 
   function handleOpen() {
-    dispatch(openadd());
+    dispatch(openchange());
     setOpen(true);
   }
 
@@ -90,7 +87,7 @@ function AddSpend() {
 
   function handleClose(event, reason) {
     if (reason && reason == "backdropClick") return;
-    dispatch(closeadd());
+    dispatch(closechange());
     setOpen(false);
   }
 
@@ -120,14 +117,51 @@ function AddSpend() {
     setDate(value);
   }
 
+  const addFriend = (friends) => {
+    friends.map((friend) => {
+        setFriends((old) => [...old, friend]);
+    });
+  };
+
+    async function showSpend() {
+    const docRef = doc(db, SPEND_COLLECTION, spendId);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+        setSpendData(docSnap.data());
+        setMoney(docSnap.data().money);
+        setLocation(docSnap.data().location);
+        setNote(docSnap.data().note);
+        setType(docSnap.data().type);
+        const datetime = dayjs(docSnap.data().date.toDate());
+        setDate(datetime);
+        setFriends(docSnap.data().friends);
+        console.log("Document data:", docSnap.data().datetime);
+    } else {
+        // doc.data() will be undefined in this case
+        console.log("No such document!");
+    }
+    }
+
+    async function updateSpend() {
+    const docRef = doc(db, SPEND_COLLECTION, spendId);
+    await updateDoc(docRef, {
+        money: money,
+        location: location,
+        note: note,
+        type: type,
+        date: date.toDate(),
+        friends: friends
+    });
+    }
+
   async function handleSpendSubmit(event) {
     event.preventDefault();
     // Checking
-    if (money === null || money === 0 || money === "" || isNaN(money)) {
+    if (money === null || money === "" || money === 0 || isNaN(money)) {
       setMoneyError(true);
       return;
     }
-    // Add spending to Firebase
+    // Change spending
     let imageRef = null;
     let url = null;
     const datetime = dayjs(date).toDate();
@@ -145,47 +179,19 @@ function AddSpend() {
       money = Math.abs(money);
     }
 
-    try {
-      const result = await addDoc(collection(db, SPEND_COLLECTION), {
-        money,
-        date: datetime,
-        location,
-        friends: friends,
-        type,
-        note,
-        uuid,
-        image: url,
-      }).then(async (old) => {
-        alert(t('editSpending.themchitieuthanhcong'));
-        const docRef = collection(db, DATA_COLLECTION);
-        const q = query(docRef, where(documentId(), "==", user.uid));
-        const querySnapshot = await getDocs(q);
-        const formattedDate = format(datetime, "MM_yyyy");
-
-        if (querySnapshot.empty == true) {
-          await setDoc(doc(db, DATA_COLLECTION, user.uid), {
-            [format(datetime, "MM_yyyy")]: [old.id],
-          });
-        } else {
-          var dataSpending = [];
-          querySnapshot.forEach(async (value) => {
-            const data = value.data();
-            if (data[formattedDate] !== null) {
-              dataSpending = data[formattedDate].map((e) => e.toString());
-            }
-          });
-          dataSpending.push(old.id)
-          updateDoc(doc(db, DATA_COLLECTION, user.uid), {
-            [formattedDate]: dataSpending,
-          });
-        }
-      });
-    } catch (error) {
-      console.log(error);
-    }
+    updateSpend().then(() => {
+        window.alert( t('editSpending.suachitieuthanhcong'));
+    });
+    
     // Close the dialog
     handleClose();
   }
+
+    useEffect(() => {
+        if (spendId !== null) {
+            showSpend();
+        }
+    }, [spendId]);
 
   return (
     <>
@@ -198,8 +204,10 @@ function AddSpend() {
         sx={{ maxHeight: "calc(100vh - 64px)" }}
       >
         <DialogTitle>
-        {t('editSpending.themchitieu')}
-          <IconButton aria-label="close" onClick={handleClose}
+        {t('editSpending.suachitieu')}
+          <IconButton
+            aria-label="close"
+            onClick={handleClose}
             sx={{
               position: "absolute",
               right: 8,
@@ -211,7 +219,12 @@ function AddSpend() {
           </IconButton>
         </DialogTitle>
         <DialogContent>
-          <div style={{display: "flex",flexDirection: "column",alignItems: "center", }}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
           >
             {/* Money */}
             <label htmlFor="">{t('editSpending.nhapsotien')}:</label>
@@ -234,7 +247,7 @@ function AddSpend() {
               <InputLabel id="demo-simple-select-standard-label">
               {t('editSpending.loai')}
               </InputLabel>
-              <Select className="optionsItem"
+              <Select
                 labelId="demo-simple-select-standard-label"
                 id="demo-simple-select-standard"
                 value={type}
@@ -242,12 +255,7 @@ function AddSpend() {
                 label={t('editSpending.loai')}
                 required
               >
-                {/* {options.map((option) => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
-                  </MenuItem>
-                ))} */}
-                <MenuItem key="1" value="1">{t('editSpending.anuong')}</MenuItem>
+               <MenuItem key="1" value="1">{t('editSpending.anuong')}</MenuItem>
                 <MenuItem key="2" value="2">{t('editSpending.dichuyen')}</MenuItem>
                 <MenuItem key="3" value="3">{t('editSpending.tiennha')}</MenuItem>
                 <MenuItem key="4" value="4">{t('editSpending.tiennuoc')}</MenuItem>
@@ -264,63 +272,61 @@ function AddSpend() {
                 <MenuItem key="15" value="15">{t('editSpending.dautu')}</MenuItem>
                 <MenuItem key="16" value="16">{t('editSpending.thunhapkhac')}</MenuItem>
                 <MenuItem key="17" value="17">{t('editSpending.nhommoi')}</MenuItem>
-
-
               </Select>
             </FormControl>
-            {/* Date */}
-            <div className="d-flex flex-row">
-            <DatePicker className="datetime"
-              label={t('editSpending.ngay')}
-              value={date}
-              format="DD/MM/YYYY"
-              onChange={(newValue) => {
-                setDate(newValue);
-              }}
-              slotProps={{ textField: { variant: "outlined" } }}
-              sx={{ m: 1, minWidth: 120 }}
-            />
-            {/* Time */}
-            <TimePicker className="datetime"
-              label={t('editSpending.thoigian')}
-              value={date}
-              onChange={(newValue) => {
-                setDate(newValue);
-              }}
-              slotProps={{ textField: { variant: "outlined" } }}
-              sx={{ m: 1, minWidth: 120 }}
-            />
-            </div>
-            <Box sx={{ display: "flex", flex: 1 }}>
-              <div className="location-note d-flex flex-column">
-              <TextField className="text-note"
-                id="outlined-location"
-                label={t('editSpending.diachi')}
-                rows={4}
-                value={location}
-                variant="standard"
-                sx={{ m: 1, minWidth: 120 }}
-                onChange={handleChangeLocation}
-              />
-              {/* <TextField className="text-note"
-                id="outlined-multiline-static"
-                label={t('editSpending.ghichu')}
-                rows={4}
-                value={note}
-                variant="standard"
-                sx={{ m: 1, minWidth: 120 }}
-                onChange={handleChangeNote}
-              /> */}
 
-              <textarea class="form-control note" id="exampleFormControlTextarea1" rows="3"
+            <div className="d-flex flex-row">
+              {/* Date */}
+              <DatePicker className="datetime"
+                label={t('editSpending.ngay')}
+                value={date}
+                format="DD/MM/YYYY"
+                onChange={(newValue) => {
+                  setDate(newValue);
+                }}
+                slotProps={{ textField: { variant: "outlined" } }}
+                sx={{ m: 1, minWidth: 120 }}
+              />
+              {/* Time */}
+              <TimePicker className="datetime"
+                label={t('editSpending.thoigian')}
+                value={date}
+                onChange={(newValue) => {
+                  setDate(newValue);
+                }}
+                slotProps={{ textField: { variant: "outlined" } }}
+                sx={{ m: 1, minWidth: 120 }}
+              />
+            </div>
+            
+            <Box sx={{ display: "flex", flex: 1 }}>
+            <div className="location-note d-flex flex-column">
+              <TextField className="text-note"
+                  id="outlined-location"
+                  label={t('editSpending.diachi')}
+                  rows={4}
+                  value={location}
+                  variant="standard"
+                  sx={{ m: 1, minWidth: 120 }}
+                  onChange={handleChangeLocation}
+                />
+                {/* <TextField className="text-note"
+                  id="outlined-multiline-static"
+                  placeholder={t('editSpending.ghichu')}
+                  rows={4}
+                  value={note}
+                  variant="standard"
+                  sx={{ m: 1, minWidth: 120 }}
+                  onChange={handleChangeNote}
+                /> */}
+                <textarea class="form-control note" id="exampleFormControlTextarea1" rows="3"
                 placeholder={t('editSpending.ghichu')}
                 value={note}
                 variant="standard"
                 sx={{ m: 1, minWidth: 120 }}
                 onChange={handleChangeNote}
               />
-              </div>
-              
+            </div>
               
             </Box>
             {/* My friend */}
@@ -366,7 +372,7 @@ function AddSpend() {
                       onClick={onImageUpload}
                       {...dragProps}
                     >
-                     {t('editSpending.themanh')}
+                      {t('editSpending.themanh')}
                     </Button>
                     &nbsp;
                     <Button
@@ -377,7 +383,7 @@ function AddSpend() {
                         fontWeight: "bold",
                       }}
                     >
-                     {t('editSpending.xoaanh')}
+                      {t('editSpending.xoaanh')}
                     </Button>
                     {imageList.map((image, index) => (
                       <div key={index} className="image-item">
@@ -399,7 +405,6 @@ function AddSpend() {
         >
           <Button
             onClick={handleClose}
-            sx={{minWidth: 120, fontWeight: "bold" }}
             variant="contained"
             color="primary"
           >
@@ -408,7 +413,6 @@ function AddSpend() {
           </Button>
           <Button
             variant="contained"
-            sx={{minWidth: 120, fontWeight: "bold" }}
             onClick={handleSpendSubmit}
             color="primary"
           >
@@ -421,4 +425,4 @@ function AddSpend() {
   );
 }
 
-export default AddSpend;
+export default ChangeSpend;

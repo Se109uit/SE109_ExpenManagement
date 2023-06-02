@@ -7,11 +7,9 @@
   background: #ECF0F1;
 }
 .Analysis .nav {
-  margin-bottom: 1rem;
   width: 100%;
 }
 .Analysis .nav li {
-  padding: 5px;
   width: 70px;
   text-align: center;
   border-radius: 0.5rem;
@@ -22,6 +20,7 @@
 }
 .Analysis .nav .option {
   margin-left: 1rem;
+  margin-top: 0px;
   margin-right: 1rem;
 }
 .Analysis .nav .btn-search {
@@ -36,6 +35,23 @@
 }
 .Analysis .nav .btn-search img {
   width: 30px;
+}
+.Analysis .nav .test {
+  margin-left: 4rem;
+}
+.Analysis .nav .test .back {
+  width: 50px;
+}
+.Analysis .nav .test .arrow {
+  width: 50px;
+}
+.Analysis .nav .test .from {
+  width: 100px;
+  padding: 0px;
+}
+.Analysis .nav .test .to {
+  width: 100px;
+  padding: 0px;
 }
 .Analysis .chart {
   width: 1200px;
