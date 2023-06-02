@@ -9,7 +9,7 @@
          "gioitinhnam":"Man",
          "gioitinhnu":"Woman",
          "tienhangthang":"Monthly money",
-         "luu":"Save",
+         "luu":"Update",
          "xuatcsv":"Export CSV",
          "ngonngu":"Language",
          "ngonnguanh":"English",
@@ -74,7 +74,29 @@
          "tu":"From",
          "qua":"To",
          "chuyendoi":"convert",
-         "giatri":"Value"
+         "giatri":"Value",
+         "themchitieu":"Add Spending",
+         "banchuanhaptenbanbe":"You haven't added friends yet",
+         "anuong":"Eat & Drink",
+         "dichuyen":"Transfer",
+         "tiennha":"Rent",
+         "tiennuoc":"Water money",
+         "tiendienthoai":"Phone charges",
+         "tiendien":"Electric bill",
+         "suavatrangtrinha":"Home repair and decoration",
+         "baoduongxe":"Vehicle maintenance",
+         "khamsuckhoe":"Physical examination",
+         "baohiem":"Insurance",
+         "giaoduc":"Education",
+         "thucung":"Pet",
+         "dichvuvagiadinh":"Service and family",
+         "chiphikhac":"Other costs",
+         "dautu":"Invest",
+         "thunhapkhac":"Other income",
+         "nhommoi":"New group"
+
+
+
 
 
 
@@ -84,6 +106,7 @@
         "den":"From"
      },
      "resetpassword":{
+         "doimatkhau":"Change Password",
         "banmuondoimatkhau":"You want to change your password",
         "vuilongnhapmatkhauhientai":"Please enter current password and new password",
         "matkhau":"Password",

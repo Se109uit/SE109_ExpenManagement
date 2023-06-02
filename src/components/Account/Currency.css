@@ -18,6 +18,13 @@
     margin-bottom: 10px;
   }
   
-  .value {
+  
+  .imageCurrency{
+    width: 60px;
+    margin-right: 1rem;
+  }
+
+  .valueChangeCurr{
     margin-top: 10px;
+    height: 90px;
   }

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { openadd, closeadd } from "../../features/spend/spendSlice";
 import { format } from "date-fns";
@@ -38,10 +38,25 @@ import ImageUploading from 'react-images-uploading';
 import CurrencyInput from 'react-currency-input-field';
 
 import "./AddSpend.css";
-import { options } from '../../utils/data';
+// import { options } from '../../utils/data';
 import ManageFriend from "./friend";
+import Cancel from '../../assets/Cancel.png'
+import Save from '../../assets/Save.png'
+
+import { useTranslation } from 'react-i18next';
 
 function AddSpend() {
+  // useEffect(() => {
+  //   for(let i = 0; i < options.length; i++){
+  //     options[i].label = t('editSpending.')
+  //   }
+  // }, [])
+
+  
+  
+
+
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const openState = useSelector((state) => state.spend.isOpen);
   const [open, setOpen] = useState(false);
@@ -141,7 +156,7 @@ function AddSpend() {
         uuid,
         image: url,
       }).then(async (old) => {
-        alert("Thêm chi tiêu thành công");
+        alert(t('editSpending.themchitieuthanhcong'));
         const docRef = collection(db, DATA_COLLECTION);
         const q = query(docRef, where(documentId(), "==", user.uid));
         const querySnapshot = await getDocs(q);
@@ -183,10 +198,8 @@ function AddSpend() {
         sx={{ maxHeight: "calc(100vh - 64px)" }}
       >
         <DialogTitle>
-          Thêm chi tiêu
-          <IconButton
-            aria-label="close"
-            onClick={handleClose}
+        {t('editSpending.themchitieu')}
+          <IconButton aria-label="close" onClick={handleClose}
             sx={{
               position: "absolute",
               right: 8,
@@ -198,15 +211,10 @@ function AddSpend() {
           </IconButton>
         </DialogTitle>
         <DialogContent>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
+          <div style={{display: "flex",flexDirection: "column",alignItems: "center", }}
           >
             {/* Money */}
-            <label htmlFor="">Nhập số tiền:</label>
+            <label htmlFor="">{t('editSpending.nhapsotien')}:</label>
             <CurrencyInput
               id="input-example"
               name="input-name"
@@ -216,34 +224,54 @@ function AddSpend() {
               onValueChange={(value) => setMoney(Number(value))}
               intlConfig={{ locale: "vi-VN", currency: "VND" }}
               className="currency-input"
-              style={{ maxWidth: "300px" }}
+              style={{ maxWidth: "420px" }}
             />
             {moneyError && (
-              <p style={{ color: "red" }}>Vui lòng nhập số tiền</p>
+              <p style={{ color: "red" }}>{t('editSpending.vuilongnhapsotien')}</p>
             )}
             {/* Type */}
             <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
               <InputLabel id="demo-simple-select-standard-label">
-                Loại
+              {t('editSpending.loai')}
               </InputLabel>
-              <Select
+              <Select className="optionsItem"
                 labelId="demo-simple-select-standard-label"
                 id="demo-simple-select-standard"
                 value={type}
                 onChange={handleChangeType}
-                label="Loại"
+                label={t('editSpending.loai')}
                 required
               >
-                {options.map((option) => (
+                {/* {options.map((option) => (
                   <MenuItem key={option.value} value={option.value}>
                     {option.label}
                   </MenuItem>
-                ))}
+                ))} */}
+                <MenuItem key="1" value="1">{t('editSpending.anuong')}</MenuItem>
+                <MenuItem key="2" value="2">{t('editSpending.dichuyen')}</MenuItem>
+                <MenuItem key="3" value="3">{t('editSpending.tiennha')}</MenuItem>
+                <MenuItem key="4" value="4">{t('editSpending.tiennuoc')}</MenuItem>
+                <MenuItem key="5" value="5">{t('editSpending.tiendienthoai')}</MenuItem>
+                <MenuItem key="6" value="6">{t('editSpending.tiendien')}</MenuItem>
+                <MenuItem key="7" value="7">{t('editSpending.suavatrangtrinha')}</MenuItem>
+                <MenuItem key="8" value="8">{t('editSpending.baohiem')}</MenuItem>
+                <MenuItem key="9" value="9">{t('editSpending.khamsuckhoe')}</MenuItem>
+                <MenuItem key="10" value="10">{t('editSpending.baoduongxe')}</MenuItem>
+                <MenuItem key="11" value="11">{t('editSpending.giaoduc')}</MenuItem>
+                <MenuItem key="12" value="12">{t('editSpending.thucung')}</MenuItem>
+                <MenuItem key="13" value="13">{t('editSpending.dichvuvagiadinh')}</MenuItem>
+                <MenuItem key="14" value="14">{t('editSpending.chiphikhac')}</MenuItem>
+                <MenuItem key="15" value="15">{t('editSpending.dautu')}</MenuItem>
+                <MenuItem key="16" value="16">{t('editSpending.thunhapkhac')}</MenuItem>
+                <MenuItem key="17" value="17">{t('editSpending.nhommoi')}</MenuItem>
+
+
               </Select>
             </FormControl>
             {/* Date */}
-            <DatePicker
-              label="Ngày"
+            <div className="d-flex flex-row">
+            <DatePicker className="datetime"
+              label={t('editSpending.ngay')}
               value={date}
               format="DD/MM/YYYY"
               onChange={(newValue) => {
@@ -253,8 +281,8 @@ function AddSpend() {
               sx={{ m: 1, minWidth: 120 }}
             />
             {/* Time */}
-            <TimePicker
-              label="Thời gian"
+            <TimePicker className="datetime"
+              label={t('editSpending.thoigian')}
               value={date}
               onChange={(newValue) => {
                 setDate(newValue);
@@ -262,30 +290,41 @@ function AddSpend() {
               slotProps={{ textField: { variant: "outlined" } }}
               sx={{ m: 1, minWidth: 120 }}
             />
+            </div>
             <Box sx={{ display: "flex", flex: 1 }}>
-              {/* Note */}
-              <TextField
-                id="outlined-multiline-static"
-                label="Ghi chú"
-                rows={4}
-                value={note}
-                variant="standard"
-                sx={{ m: 1, minWidth: 120 }}
-                onChange={handleChangeNote}
-              />
-              {/* Location */}
-              <TextField
+              <div className="location-note d-flex flex-column">
+              <TextField className="text-note"
                 id="outlined-location"
-                label="Vị trí"
+                label={t('editSpending.diachi')}
                 rows={4}
                 value={location}
                 variant="standard"
                 sx={{ m: 1, minWidth: 120 }}
                 onChange={handleChangeLocation}
               />
+              {/* <TextField className="text-note"
+                id="outlined-multiline-static"
+                label={t('editSpending.ghichu')}
+                rows={4}
+                value={note}
+                variant="standard"
+                sx={{ m: 1, minWidth: 120 }}
+                onChange={handleChangeNote}
+              /> */}
+
+              <textarea class="form-control note" id="exampleFormControlTextarea1" rows="3"
+                placeholder={t('editSpending.ghichu')}
+                value={note}
+                variant="standard"
+                sx={{ m: 1, minWidth: 120 }}
+                onChange={handleChangeNote}
+              />
+              </div>
+              
+              
             </Box>
             {/* My friend */}
-            <Box>
+            <Box className='text-fr'>
               <ManageFriend data={friends} setData={setFriends} />
             </Box>
             {/* <TextField
@@ -319,7 +358,6 @@ function AddSpend() {
                   <div className="upload__image-wrapper">
                     <Button
                       sx={{
-                        fontFamily: "Montserrat",
                         m: 1,
                         minWidth: 120,
                         fontWeight: "bold",
@@ -328,19 +366,18 @@ function AddSpend() {
                       onClick={onImageUpload}
                       {...dragProps}
                     >
-                      Thêm ảnh
+                     {t('editSpending.themanh')}
                     </Button>
                     &nbsp;
                     <Button
                       onClick={onImageRemoveAll}
                       sx={{
-                        fontFamily: "Montserrat",
                         m: 1,
                         minWidth: 120,
                         fontWeight: "bold",
                       }}
                     >
-                      Xoá ảnh
+                     {t('editSpending.xoaanh')}
                     </Button>
                     {imageList.map((image, index) => (
                       <div key={index} className="image-item">
@@ -362,19 +399,21 @@ function AddSpend() {
         >
           <Button
             onClick={handleClose}
-            sx={{ fontFamily: "Montserrat", minWidth: 120, fontWeight: "bold" }}
+            sx={{minWidth: 120, fontWeight: "bold" }}
             variant="contained"
-            color="error"
+            color="primary"
           >
-            Thoát
+          <img className="imageCancelSave" src={Cancel}/>
+            {t('editSpending.thoat')}
           </Button>
           <Button
             variant="contained"
-            sx={{ fontFamily: "Montserrat", minWidth: 120, fontWeight: "bold" }}
+            sx={{minWidth: 120, fontWeight: "bold" }}
             onClick={handleSpendSubmit}
             color="primary"
           >
-            Lưu
+          <img className="imageCancelSave" src={Save}/>
+            {t('editSpending.luu')}
           </Button>
         </DialogActions>
       </Dialog>

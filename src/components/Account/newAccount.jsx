@@ -6,9 +6,6 @@ import { CircularProgress, Select,FormControl, MenuItem, InputLabel, Box, TextFi
 import { DatePicker } from '@mui/x-date-pickers';
 import dayjs from 'dayjs';
 
-import save from '../../assets/Save.png'
-import SpendingData from '../SpendingData/SpendingData'
-
 import { useSelector, useDispatch } from 'react-redux';
 import { selectUsers, signout } from '../../features/firebase/firebaseSlice';
 import { lang } from '../../features/language/languageSlice';
@@ -26,9 +23,9 @@ import {
 import { collection, onSnapshot, doc, getDoc, getDocs, updateDoc, setDoc, query, where } from "firebase/firestore";
 import { v4 } from 'uuid';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { auth, db, USER_COLLECTION, avatarImg, SPEND_COLLECTION } from '../../features/firebase/firebase';
+import { auth, db, USER_COLLECTION, avatarImg } from '../../features/firebase/firebase';
 
-import './Account.css'
+import './newAccount.css'
 
 import { useTranslation } from 'react-i18next';
 import i18next from "i18next";
@@ -38,8 +35,11 @@ const language = [
   { value: '2', label: 'Tiếng Anh' },
 ];
 
-const AccountInfor = () => {
-  const { t, i18n } = useTranslation()
+
+
+
+const newAccount = () => {
+     const { t, i18n } = useTranslation()
 
   const loginState = useSelector(selectUsers);
   const uid = useSelector((state) => state.login.user);
@@ -227,45 +227,12 @@ const AccountInfor = () => {
 
      
   }
-
-    const [spendingData, setSpendingData] = useState([]);
-    const [deleteSpending, setDeleteSpending] = useState(false);
-    const _user = useSelector((state) => state.login.user);
-    const _addSpending = useSelector((state) => state.spend.isOpen);
-
-    //   const useruid = user.uid;
-    const getAllSpending = async () => {
-        const docRef = collection(db, SPEND_COLLECTION);
-        const q = query(docRef, where("uuid", "==", _user));
-        const querySnapshot = await getDocs(q);
-        const data = [];
-        querySnapshot.forEach((doc) => {
-            console.log(doc.id, " => ", doc.data());
-            data.push({ id: doc.id, ...doc.data() });
-        });
-        data.sort((a, b) => b.date.toDate() - a.date.toDate()); // Sort by date
-        const groupedData = data.reduce((acc, spending) => {
-          const date = spending.date.toDate().toLocaleDateString();
-          if (!acc[date]) {
-            acc[date] = [];
-          }
-          acc[date].push(spending);
-          return acc;
-        }, {});
-        setSpendingData(groupedData);
-    }
-
-    useEffect(() => {
-        getAllSpending();
-    }, [_addSpending, deleteSpending]);
-  
-  
   return (
-    <div className='account'>
-      <div className='account-info d-flex flex-row'>
-      {/* image */}
-        <div className='boxImage1 col-md-2'>
-          <Box className='boxImage2 d-flex align-items-center flex-column mt-1'>
+    <div className='account mt-4'>
+      <Box className='row justify-content-center'>
+        <h3 className='my-2'>{t('accountInfo.tieude')}</h3>
+        <Box className='col-md-3'>
+          <Box className='d-flex align-items-center flex-column mt-3'>
             { loadingImg ? <CircularProgress /> :
             <label htmlFor="imageUpload" className="position-relative mb-2">
               <img
@@ -306,45 +273,46 @@ const AccountInfor = () => {
             {
               error && <Alert severity="error">{error}</Alert>
             }
-            <Box className='text-center' sx={{ width: 300, overflow: 'hidden'}}>
-              <button
+            <Box className='text-center' sx={{ width: 300, overflow: 'hidden', marginTop: 2 }}>
+              <Button
                 type="file"
-                className='saveImage'
+                className='my-2'
                 variant="contained"
                 startIcon={<AddIcon />}
                 onClick={handleUpload}
               >
-                <p className='title-save-img fs-6 fw-normal'>{t('accountInfo.anh')}</p>
-              </button>
+                {t('accountInfo.anh')}
+              </Button>
             </Box>
 
           </Box>
-        </div>
-
-        {/* user information */}
-        <div className='information d-flex flex-column'>
-          <div className='infor d-flex flex-row justify-content-between'>
+        </Box>
+        <Box className='col-md-6'>
+          <Box className='my-3 t-box'>
             <TextField
-              className='input-na'
               InputLabelProps={{ shrink: true }}
               required
               hiddenLabel
-              // id="name-input"
+              id="name-input"
               label={t('accountInfo.ten')}
               variant="outlined"
+              fullWidth
               value={name}
               onChange={handleNameChange}
               helperText={name ? "" : t('accountInfo.thieuten')}
               error={name ? false : true}
             />
+          </Box>
+          <Box className='my-3'>
             <DatePicker
               label={t('accountInfo.ngaysinh')}
               value={birthday}
-              className='input-na'
               onChange={(newValue) => setBirthday(newValue)}
               slotProps={{ textField: { variant: 'outlined' } }}
             />
-             <FormControl className='input-na'>
+          </Box>
+          <Box className='my-3 w-box'>
+            <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label">{t('accountInfo.gioitinh')}</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
@@ -357,66 +325,49 @@ const AccountInfor = () => {
                 <MenuItem value={false}>{t('accountInfo.gioitinhnu')}</MenuItem>
               </Select>
             </FormControl>
-          </div>
-            <div className='d-flex flex-row justify-content-between'>
-
-              <TextField
-                input="text"
-                InputLabelProps={{ shrink: true, inputMode: 'numeric', pattern: '[0-9]*' }}
-                required
-                hiddenLabel
-                id="standard-basic"
-                label={t('accountInfo.tienhangthang')}
-                variant="outlined"
-                className='input-na'
-                value={money}
-                onChange={handleMoneyChange}
-                helperText={money ? "" : t('accountInfo.thieusotienhangthang')}
-                error={money ? false : true}
-              />
-              <FormControl className='input-na'>
-                  <InputLabel id="language-label" sx={{ fontFamily: "Montserrat", fontWeight: "bold" }}>{t('accountInfo.ngonngu')}</InputLabel>
-                  <Select
-                    labelId="language-label"
-                    id="language-select"
-                    value={localStorage.getItem("i18nextLng")}
-                    label="Ngôn ngữ."
-                    onChange={handleLanguageChange}
-                  >
-                    <MenuItem value="vi" className='languageV'>{t('accountInfo.ngonnguviet')}</MenuItem>
-                    <MenuItem value="en" className='languageE'>{t('accountInfo.ngonnguanh')}</MenuItem>
-                  </Select>
-                </FormControl>
-                  <button className='btn-save d-flex flex-row' onClick={handleUpdate}><img className='image-save' src={save}/>
-                  <p className='title-save fs-6 fw-bold'>{t('accountInfo.luu')}</p>
-                  </button>
-                
-            </div>
-          </div>
-        </div>
-
-
-    
+          </Box>
+          <Box className='my-3 t-box'>
+            <TextField
+              input="text"
+              InputLabelProps={{ shrink: true, inputMode: 'numeric', pattern: '[0-9]*' }}
+              required
+              hiddenLabel
+              id="standard-basic"
+              label={t('accountInfo.tienhangthang')}
+              variant="outlined"
+              fullWidth
+              value={money}
+              onChange={handleMoneyChange}
+              helperText={money ? "" : t('accountInfo.thieusotienhangthang')}
+              error={money ? false : true}
+            />
+          </Box>
+        </Box>
+      </Box>
+      <Box className='d-flex justify-content-center mb-4'>
+        <button className='button-logout' onClick={handleUpdate}>{t('accountInfo.luu')}</button>
+      </Box>
       
-      {/* <hr /> */}
-        <div className='history'>
-            <div className='row justify-content-center'>
-                <p className='title fs-2 fw-bold'>{t('editSpending.lichsu')}</p>
-                <div className='mt-2'>
-                    {Object.entries(spendingData).map(([date, spendings]) => (
-                      <div key={date}>
-                        <h4 className='pl-1 text-danger mt-1' style={{ paddingLeft: '1rem' }}>{t('editSpending.ngay')}: {date}</h4>
-                        {Array.isArray(spendings) && spendings.map((spending) => (
-                          <SpendingData key={spending.id} spending={spending} setDeleteSpending={setDeleteSpending}/>
-                        ))}
-                      </div>
-                    ))}
-                </div>
-            </div>
-        </div>
+      <hr />
+      <h3 className='my-2'>{t('accountInfo.ngonngu')}:</h3>
+      <Box className="mx-3 text-center">
+        <FormControl>
+          <InputLabel id="language-label" sx={{ fontFamily: "Montserrat", fontWeight: "bold" }}>{t('accountInfo.ngonngu')}</InputLabel>
+          <Select
+            labelId="language-label"
+            id="language-select"
+            value={localStorage.getItem("i18nextLng")}
+            label="Ngôn ngữ."
+            onChange={handleLanguageChange}
+          >
+            <MenuItem value="vi" className='languageV'>{t('accountInfo.ngonnguviet')}</MenuItem>
+            <MenuItem value="en" className='languageE'>{t('accountInfo.ngonnguanh')}</MenuItem>
+          </Select>
+
+         
+        </FormControl>
+      </Box>
     </div>
-
-  );
-};
-
-export default AccountInfor;
+  )
+}
+export default newAccount

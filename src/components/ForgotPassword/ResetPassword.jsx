@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 // import { MyPPassword } from '../SmallFunction/MyPPassword';
+import changePass from '../../assets/change-pass.png'
 
 function ForgotPassword() {
     const [email, setEmail] = useState('');
@@ -75,20 +76,21 @@ function ForgotPassword() {
   return (
     <Form className='container mt-5 forgot-pass' noValidate validated={validated} onSubmit={handleSubmit}>
       <div className="">
-          <h2 className="d-flex justify-content-center mt-5">
-          {t('resetpassword.banmuondoimatkhau')}
-          </h2>
+          <p className="titlePass fs-2 fw-bold d-flex justify-content-center mt-5">
+          <img className='changePass' src={changePass}/>
+          {t('resetpassword.doimatkhau')}
+          </p>
           <div className="d-flex justify-content-center greeting-log mb-4">
-          {t('resetpassword.vuilongnhapmatkhauhientai')}
+          <p className='titlePass fs-6 fw-bold'>{t('resetpassword.vuilongnhapmatkhauhientai')}</p>
           </div>
         </div>
         <Form.Label>
           <div className="weight-label">
-          {t('resetpassword.matkhau')}
+          <p className='titlePass fs-6 fw-bold'>{t('resetpassword.matkhau')}</p>
           </div>
         </Form.Label>
         <Form.Group className="mb-2" controlId="formBasicPassword">
-          <InputGroup className="">
+          <InputGroup className="groupPass">
               <Form.Control
               placeholder={t('resetpassword.matkhau')}
               aria-label="Password"
@@ -114,11 +116,11 @@ function ForgotPassword() {
         </Form.Group>
         <Form.Label>
           <div className="weight-label">
-          {t('resetpassword.matkhaumoi')}
+          <p className='titlePass fs-6 fw-bold'>{t('resetpassword.matkhaumoi')}</p>
           </div>
         </Form.Label>
         <Form.Group className="mb-2" controlId="formBasicPassword">
-          <InputGroup className="">
+          <InputGroup className="groupPass">
               <Form.Control
               placeholder={t('resetpassword.matkhaumoi')}
               aria-label="Password"
@@ -144,11 +146,11 @@ function ForgotPassword() {
         </Form.Group>
         <Form.Label>
           <div className="weight-label">
-          {t('resetpassword.nhaplaimatkhaumoi')}
+          <p className='titlePass fs-6 fw-bold'>{t('resetpassword.nhaplaimatkhaumoi')}</p>
           </div>
         </Form.Label>
         <Form.Group className="mb-2" controlId="formBasicPassword">
-          <InputGroup className="">
+          <InputGroup className="groupPass">
               <Form.Control
               placeholder={t('resetpassword.matkhau')}
               aria-label="Password"

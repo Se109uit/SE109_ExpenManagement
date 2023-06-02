@@ -18,3 +18,44 @@
     border-color: #1e456c;
     box-shadow: 0 0 0 0.1rem rgba(12, 42, 140, 0.25);
   }
+.datetime{
+  width: 200px;
+}
+.optionsItem{
+  width: 200px;
+}
+.text-note{
+  width: 400px;
+}
+
+.note{
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+}
+.text-friend{
+  width: 280px;
+}
+.nameFriend{
+  margin-right: 1rem;
+}
+.list-friend{
+  padding-left: 5px;
+  /* border: 2px solid black; */
+}
+.imageDelete{
+  width: 30px;
+}
+.btn-deleteFriend{
+  color: black;
+  padding-top: 0rem;
+  height: 30px;
+  margin-top: 0.8rem;
+  background: none;
+  border: none;
+}
+
+
+.imageCancelSave{
+  width: 25px;
+  margin-right: 0.5rem;
+}

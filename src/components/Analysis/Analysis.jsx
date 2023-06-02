@@ -39,6 +39,9 @@ import { useStateManager } from "react-select";
 import { useAsyncError } from "react-router";
 import { Toys } from "@mui/icons-material";
 
+const dayname = ['CN','T2','T3','T4','T5','T6','T7'];
+const monthname = ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9']
+
 
 
 const Analysis = () => {
@@ -60,9 +63,13 @@ const Analysis = () => {
 
     changeDayFrom.setDate(1)
     console.log(changeDayFrom)
-    changeDayTo.setDate(7)
+    changeDayTo.setDate(8)
     console.log(changeDayTo)
     searchChange()
+
+    // setCdf(dayname[(changeDayFrom).getDay()] + '/' + (changeDayFrom).getDate())
+    // setCdt(dayname[(changeDayTo).getDay()] + '/' + (changeDayTo).getDate())
+
 
     const user = auth.currentUser;
     const q = query(collection(db, "spending"), where("uuid", "==", user.uid));
@@ -82,7 +89,6 @@ const Analysis = () => {
         });
       });
 
-      console.log(testArray[0].date)
       for (let i = 0; i < testArray.length; i++) {
         if (testArray[i].money > 0) {
           revenueArray.push(testArray[i]);
@@ -208,12 +214,18 @@ const Analysis = () => {
       setDateExpendChange(exDay);
       setMoneyExpendChange(exMo);
     }
-  }
 
+    console.log(changeDayFrom.getDay())
+    console.log(changeDayTo)
+
+    
+
+
+  }
 
   return (
     <div className="Analysis align-items-center">
-      <div className="nav d-flex flex-row ">
+      <div className="nav d-flex flex-row">
         <li>{t("analysis.tu")}:</li>
         <div className="option d-flex flex-row">
           <input
@@ -235,6 +247,8 @@ const Analysis = () => {
         <button className="btn-search" onClick={searchChange}>
           <img src={search} />
         </button>
+
+
       </div>
 
       <div className="chart">
@@ -304,54 +318,3 @@ const Analysis = () => {
 };
 
 export default Analysis;
-
-// import React from 'react'
-// import './analysis.css'
-// import { Line, Bar } from 'react-chartjs-2'
-// import {
-//   Chart as ChartJS,
-//   LineElement,
-//   CategoryScale,
-//   LinearScale,
-//   PointElement,
-//   BarElement
-// } from 'chart.js'
-
-// ChartJS.register(
-//   LineElement,
-//   CategoryScale,
-//   LinearScale,
-//   PointElement,
-//   BarElement
-// )
-// const Analysis = () => {
-//   return (
-//     <div className='Analysis'>
-//       <Bar className='chart'
-//         data={{
-//           labels: ['Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7', 'Chủ Nhật'],
-//           datasets: [
-//             {
-//               data: [900000],
-//               label: "Africa",
-//               backgroundColor: "red",
-//               fill: false
-//             },
-//           ]
-//         }}
-//         options={{
-//           title: {
-//             display: true,
-//             text: "World population per region (in millions)"
-//           },
-//           legend: {
-//             display: true,
-//             position: "bottom"
-//           }
-//         }}
-//       ></Bar>
-//     </div>
-//   )
-// }
-
-// export default Analysis

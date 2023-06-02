@@ -1,8 +1,14 @@
 import React, { useState } from 'react';
 
 import { TextField, Button, IconButton } from '@mui/material';
+import { useTranslation } from 'react-i18next';
+
+import './AddSpend.css'
+import Delete from '../../assets/Delete.png'
+import Remove from '../../assets/Remove.png'
 
 function Friend(props) {
+  const { t } = useTranslation();
 //   const [data, setData] = useState(props.data);
   const [inputValue, setInputValue] = useState('');
   const [error , setError] = useState('');
@@ -13,7 +19,7 @@ function Friend(props) {
 
   const handleAddData = () => {
     if (!inputValue) {
-        setError('Bạn chưa nhập tên bạn bè');
+        setError(t('editSpending.banchuanhaptenbanbe'));
         return;
     }
     setError('');
@@ -32,8 +38,9 @@ function Friend(props) {
     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
       {/* <input type="text" value={inputValue} onChange={handleInputChange} /> */}
         <TextField
+        className='text-friend'
         id="outlined-friend"
-        label="Bạn bè"
+        label={t('editSpending.banbe')}
         rows={4}
         value={inputValue}
         variant="standard"
@@ -45,21 +52,21 @@ function Friend(props) {
         variant="contained"
         sx={{ minWidth: 40, maxHeight: 40, marginTop: 2 }}
         >
-            Thêm bạn
+            {t('editSpending.themban')}
         </Button>
       {/* <button onClick={handleAddData}>Add Data</button> */}
     </div>
         {/* error */}
         {error && <p style={{ color: 'red' }}>{error}</p>}
-      <ul>
+      <ul className='list-friend'>
         {props.data.map((item, index) => (
-          <li key={index}>
-            {item}
-            <Button 
+          <li key={index} className='d-flex flex-row'>
+            <p className='nameFriend fs-6 fw-bold'>{item}</p>
+
+            <button className='btn-deleteFriend'
             onClick={() => handleDeleteData(index)}
-            variant="contained"
-            color='error'
-            >Xóa</Button>
+            ><img className='imageDelete' src={Remove}/></button>
+
           </li>
         ))}
       </ul>

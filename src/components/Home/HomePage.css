@@ -6,6 +6,7 @@
     border-radius: 10px;
   }
 
+
   .card-div{
     margin-top: 4px;
     margin-bottom: 4px;
@@ -21,7 +22,7 @@
     color: #548b80;
     font-weight: 700;
   }
-
+  
 .react-calendar {
     border-radius: 10px;
     padding: 0.5rem;
@@ -43,3 +44,6 @@
       margin-right: 4rem;
     }
   }
+.home{
+  overflow: auto;
+}
