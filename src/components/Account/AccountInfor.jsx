@@ -76,6 +76,7 @@ const AccountInfor = () => {
     }
     else {
       setError(t('accountInfo.vuilongchonanh'));
+      return;
     }
     await updateDoc(doc(db, USER_COLLECTION, user.uid), {
       avatar: imageUrl,
@@ -114,7 +115,8 @@ const AccountInfor = () => {
       if (docSnap.exists()) {
         setUserData(docSnap.data());
         setName(docSnap.data().name);
-        const aBirthday = dayjs(docSnap.data().birthday);
+        const userAgent = navigator.userAgent;
+        const aBirthday = dayjs(docSnap.data().birthday, 'DD/MM/YYYY');
         setBirthday(aBirthday);
         const aMoney = docSnap.data().money.toString();
         setMoney(aMoney);
@@ -125,7 +127,7 @@ const AccountInfor = () => {
         try {
           setDoc(doc(db, USER_COLLECTION, uid), {
             avatar: avatarUrl,
-            birthday: '2023-05-14',
+            birthday: '01/06/2023',
             gender: true,
             money: 0,
             name: user.displayName,
@@ -149,6 +151,13 @@ const AccountInfor = () => {
     const docRef = doc(db, USER_COLLECTION, usr);
 
     const dob = birthday.format('DD/MM/YYYY');
+
+    if (typeof money === 'string') {
+      moneyInt = parseInt(money.replace(/[^0-9.-]+/g,""));
+    }
+    else if (typeof money === 'number') {
+      moneyInt = money;
+    }
 
     await updateDoc(docRef, {
       name: name,
@@ -343,6 +352,7 @@ const AccountInfor = () => {
               className='input-na'
               onChange={(newValue) => setBirthday(newValue)}
               slotProps={{ textField: { variant: 'outlined' } }}
+              format='DD/MM/YYYY'
             />
              <FormControl className='input-na'>
               <InputLabel id="demo-simple-select-label">{t('accountInfo.gioitinh')}</InputLabel>

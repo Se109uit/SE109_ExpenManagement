@@ -18,7 +18,8 @@
        "capnhatthongtinthanhcong":"Cập nhật số tiền thành công",
        "capnhatanhdaidienthanhcong":"Cập nhật ảnh đại diện thành công",
        "image":"Chọn ảnh",
-       "tygia":"Tỷ giá"
+       "tygia":"Tỷ giá",
+       "vuilongchonanh": "Vui lòng chọn ảnh"
    },
    "nav":{
        "trangchu":"Trang chủ",

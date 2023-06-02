@@ -18,7 +18,8 @@
        "capnhatthongtinthanhcong":"Successfully updated info",
        "capnhatanhdaidienthanhcong":"Successfully updated image",
        "image":"Image",
-       "tygia":"Currency"
+       "tygia":"Currency",
+       "vuilongchonanh":"Please choose an image"
    },
    "nav":{
       "trangchu":"Home",

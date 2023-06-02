@@ -67,48 +67,6 @@ const SpendingData = ({ spending, setDeleteSpending }) => {
 
   return (
     <div className='pl-3 mb-1' style={{ paddingLeft: '1rem' }} key={spending.id}>
-      {/* <div className="card" style={{ width: '90%' }}>
-        <div className="card-body">
-          <div className="card-text" style={{ display: 'flex', flexDirection: 'column' }}>
-            <p className="card-text" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <span style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>
-                {spending.money} VND
-              </span>
-              <span style={{ fontSize: '1.1rem' }}>
-                <span style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>Time: </span> {spending.date.toDate().toLocaleTimeString()}
-              </span>
-              <span style={{ display: 'flex', justifyContent: 'flex-end', width: '50%' }}>
-                <IconButton aria-label="add">
-                  <CreateIcon />
-                </IconButton>
-                <IconButton aria-label="delete" color="error" onClick={handleDelete}>
-                  <DeleteIcon />
-                </IconButton>
-              </span>
-            </p>
-            <hr />
-            <span style={{ display: 'flex', justifyContent: 'space-between', marginRight: 100 }}>
-              <span>
-                <span style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>Location: </span> 
-                {spending.location}
-                </span>
-              <span>
-                 <span style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>{t('editSpending.banbe')}: </span>
-                 {spending.friends.join(', ')}
-                 </span>
-               <span>
-               <span style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>{t('editSpending.loai')}: </span>
-                {typeOption ? typeOption.label : spending.type}
-                </span>
-             </span>
-               <span>
-                 <span style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>{t('editSpending.ghichu')}: </span> 
-                 {spending.note}
-                 </span>
-           </div>
-         </div>
-       </div>  */}
-
       <div className='spending-history d-flex flex-row justify-content-between'>
         <div className='money-type d-flex flex-column'>
           <div className='d-flex flex-row'>
