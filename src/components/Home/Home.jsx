@@ -38,6 +38,9 @@ const Home = () => {
   const [spendMonth, setSpendMonth] = useState(0);
 
   const getAllSpending = async () => {
+    getDoc(doc(db, DATA_COLLECTION, _user)).then((docS) => {
+      console.log(docS.data());
+    });
     getDoc(doc(db, USER_COLLECTION, _user)).then((docS) => {
       if (docS.exists()) {
         const mMonth = docS.data().money;
