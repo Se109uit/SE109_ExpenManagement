@@ -1,5 +1,4 @@
 .Analysis {
-  padding: 1rem;
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -7,21 +6,23 @@
   background: #ECF0F1;
 }
 .Analysis .nav {
+  margin-left: 8rem;
   width: 100%;
-}
-.Analysis .nav li {
-  width: 70px;
-  text-align: center;
-  border-radius: 0.5rem;
-  cursor: pointer;
-}
-.Analysis .nav li:hover {
-  background: white;
 }
 .Analysis .nav .option {
   margin-left: 1rem;
   margin-top: 0px;
   margin-right: 1rem;
+}
+.Analysis .nav .option .fromI {
+  width: 130px;
+  padding-top: 0px;
+  margin: 0px;
+}
+.Analysis .nav .option .toI {
+  width: 130px;
+  padding-top: 0px;
+  padding: 0px;
 }
 .Analysis .nav .btn-search {
   margin-left: 2rem;
@@ -35,23 +36,6 @@
 }
 .Analysis .nav .btn-search img {
   width: 30px;
-}
-.Analysis .nav .test {
-  margin-left: 4rem;
-}
-.Analysis .nav .test .back {
-  width: 50px;
-}
-.Analysis .nav .test .arrow {
-  width: 50px;
-}
-.Analysis .nav .test .from {
-  width: 100px;
-  padding: 0px;
-}
-.Analysis .nav .test .to {
-  width: 100px;
-  padding: 0px;
 }
 .Analysis .chart {
   width: 1200px;

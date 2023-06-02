@@ -226,20 +226,20 @@ const Analysis = () => {
   return (
     <div className="Analysis align-items-center">
       <div className="nav d-flex flex-row">
-        <li>{t("analysis.tu")}:</li>
+        <p>{t("analysis.tu")}:</p>
         <div className="option d-flex flex-row">
           <input
             type="date"
-            className="from form-control"
+            className="fromI form-control"
             onInput={updateDayFrom}
           />
         </div>
 
-        <li>{t("analysis.den")}:</li>
+        <p>{t("analysis.den")}:</p>
         <div className="option d-flex flex-row">
           <input
             type="date"
-            className=" to form-control"
+            className="toI form-control"
             onInput={updateDayTo}
           />
         </div>

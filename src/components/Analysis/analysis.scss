@@ -1,5 +1,5 @@
 .Analysis{
-     padding: 1rem;
+     // padding: 1rem;
      display: flex;
      flex-direction: column;
      width: 100%;
@@ -8,21 +8,22 @@
      .nav{
           // border: 2px solid black;
           // margin-bottom: 1rem;
+          margin-left: 8rem;
           width:100%;
-          li{
-               // border: 2px solid black;
-               width: 70px;
-               text-align: center;
-               border-radius: 0.5rem;
-               cursor: pointer;
-               &:hover{
-                    background: #ffff;
-               }
-          }
           .option{
                margin-left: 1rem;
                margin-top: 0px;
                margin-right: 1rem;
+               .fromI{
+                    width: 130px;
+                    padding-top: 0px;
+                    margin: 0px;
+               }
+               .toI{
+                    width: 130px;
+                    padding-top: 0px;
+                    padding: 0px;
+               }
           }
           .btn-search{
                margin-left: 2rem;
@@ -37,25 +38,11 @@
                     width: 30px;
                }
           }
-          .test{
-               margin-left: 4rem;
-               .back{
-                    width: 50px;
-               }
-               .arrow{
-                    width: 50px;
-               }
-               .from{
-                    width: 100px;
-                    padding: 0px;
-               }
-               .to{
-                    width: 100px;
-                    padding: 0px;
-               }
-          }
+               
+          
      }
      .chart{
           width: 1200px;
      }
+     
 }
