@@ -1,5 +1,30 @@
 import React, {useEffect, useState} from 'react'
 import { Outlet, Link, useNavigate } from "react-router-dom";
+
+import {
+    collection,
+    doc,
+    getDoc,
+    updateDoc,
+    setDoc,
+    addDoc,
+    where,
+    onSnapshot,
+    query,
+    documentId,
+    getDocs,
+    QuerySnapshot,
+  } from "firebase/firestore";
+  import {
+    auth,
+    db,
+    storage,
+    SPEND_COLLECTION,
+    WALLET_COLLECTION,
+    DATA_COLLECTION,
+    avatarImg,
+  } from "../../features/firebase/firebase";
+
 import { Sidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
 import { useProSidebar } from "react-pro-sidebar";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
@@ -26,10 +51,8 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 
-import { BasicModal } from '../Notification/Notification';
-import './nav.css';
+import './Nav.css';
 import { useTranslation } from 'react-i18next';
-import { use } from 'i18next';
 
 const Nav = () => {
     const { t } = useTranslation()
@@ -37,14 +60,22 @@ const Nav = () => {
     const { collapseSidebar} = useProSidebar();
     const dispatch = useDispatch();
     const loginState = useSelector((state) => state.login.isLogin);
+    const user = auth.currentUser;
 
-    // Modal
-    const [openM, setOpenM] = useState(false);
-    const handleOpenM = () => setOpenM(true);
-    const handleCloseM = () => setOpenM(false);
+    // // Modal
+    // const [openM, setOpenM] = useState(false);
+    // const handleOpenM = () => setOpenM(true);
+    // const handleCloseM = () => setOpenM(false);
     
-    const [isOk, setIsOk] = useState(false);
-    //
+    // const [isOk, setIsOk] = useState(false);
+
+    // // Modal
+    // const [openM, setOpenM] = useState(false);
+    // const handleOpenM = () => setOpenM(true);
+    // const handleCloseM = () => setOpenM(false);
+    
+    // const [isOk, setIsOk] = useState(false);
+    // //
 
     function handleLogout ()  {
         handleOpenM();
@@ -52,9 +83,7 @@ const Nav = () => {
 
     const handleConfirm = () => {
         dispatch(signout());
-        handleCloseM();
-            // navigate('/login');
-      };
+    }
 
     return (
         <div id="app" style={({ height: "100vh" }, { display: "flex" })}>
@@ -116,20 +145,6 @@ const Nav = () => {
             <main className="col">
                 <Outlet></Outlet>
             </main>
-
-            {
-                openM &&
-                <BasicModal 
-                open={openM} 
-                handleOpen={handleOpenM} 
-                handleClose={handleCloseM} 
-                handleConfirm={handleConfirm}
-                title={t('nav.dangxuat')}
-                textBtnOut={t('nav.huy')}
-                textBtnOk={t('nav.dangxuat')}
-                text={t('nav.bancochacchanmuondangxuat')}
-                />
-            }
         </div>
     )
 }

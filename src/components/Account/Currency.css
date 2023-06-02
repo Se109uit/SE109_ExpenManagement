@@ -1,4 +1,5 @@
 .currency-container {
+<<<<<<< HEAD
      width: 100%;
      max-width: 500px;
      margin-top: 50px;
@@ -28,3 +29,34 @@
      margin-top: 10px;
      height: 90px;
    }
+=======
+    width: 100%;
+    max-width: 500px;
+    margin-top: 50px;
+    padding: 20px;
+    border-radius: 5px;
+  }
+  
+  .currency-body {
+    margin-top: 20px;
+  }
+  
+  .currency-body p {
+    margin-bottom: 5px;
+  }
+  
+  .searchBox {
+    margin-bottom: 10px;
+  }
+  
+  
+  .imageCurrency{
+    width: 60px;
+    margin-right: 1rem;
+  }
+
+  .valueChangeCurr{
+    margin-top: 10px;
+    height: 90px;
+  }
+>>>>>>> 08549ce2a688d4abe429aaf63e120731666f0a6d

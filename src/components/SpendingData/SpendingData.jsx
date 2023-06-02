@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { doc, updateDoc, deleteDoc } from "firebase/firestore";
 import { db, DATA_COLLECTION, SPEND_COLLECTION } from '../../features/firebase/firebase';
 
@@ -11,6 +11,18 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import CreateIcon from '@mui/icons-material/Create';
 import ShareIcon from '@mui/icons-material/Share';
 import { use } from 'i18next';
+import { format } from 'date-fns';
+
+import type from '../../assets/Type.png'
+import time from '../../assets/Time.png'
+import note from '../../assets/Note.png'
+import friend from '../../assets/Friend.png'
+import location from '../../assets/Location.png'
+import Delete from '../../assets/Delete.png'
+import edit from '../../assets/Edit.png'
+
+
+import { BasicModal } from '../Notification/Notification';
 
 import type from '../../assets/Type.png'
 import time from '../../assets/Time.png'
@@ -31,9 +43,6 @@ import './spendingData.css'
 import { LogoDev } from '@mui/icons-material';
 
 const SpendingData = ({ spending, setDeleteSpending }) => {
-  const { t } = useTranslation()
-  const dispatch = useDispatch();
-  
   const typeOption = options.find(option => option.value === spending.type.toString());
 
     // Modal
@@ -48,15 +57,17 @@ const SpendingData = ({ spending, setDeleteSpending }) => {
     dispatch(openchange(spending.id));
   };
 
-  const handleDelete = () => {
-    handleOpenM();
-  };
+  // const handleDelete = () => {
+  //   handleOpenM();
+  // };
 
-  const handleConfirm = async () => {
-    await deleteDoc(doc(db, SPEND_COLLECTION, spending.id));
-    setDeleteSpending(spending.id);
-    handleCloseM();
-  };
+  // const handleDelete = async () => {
+  //   const confirmed = window.confirm('Are you sure you want to delete this spending?');
+  //   if (confirmed) {
+  //     await deleteDoc(doc(db, SPEND_COLLECTION, spending.id));
+  //     setDeleteSpending(spending.id);
+  //   }
+  // };
 
   // useEffect(async () => {
   //     if (isOk) {

@@ -6,9 +6,6 @@ import { CircularProgress, Select,FormControl, MenuItem, InputLabel, Box, TextFi
 import { DatePicker } from '@mui/x-date-pickers';
 import dayjs from 'dayjs';
 
-import save from '../../assets/Save.png'
-import SpendingData from '../SpendingData/SpendingData'
-
 import { useSelector, useDispatch } from 'react-redux';
 import { selectUsers, signout } from '../../features/firebase/firebaseSlice';
 import { lang } from '../../features/language/languageSlice';
@@ -26,21 +23,23 @@ import {
 import { collection, onSnapshot, doc, getDoc, getDocs, updateDoc, setDoc, query, where } from "firebase/firestore";
 import { v4 } from 'uuid';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { auth, db, USER_COLLECTION, avatarImg, SPEND_COLLECTION } from '../../features/firebase/firebase';
+import { auth, db, USER_COLLECTION, avatarImg } from '../../features/firebase/firebase';
 
-import './Account.css'
+import './newAccount.css'
 
 import { useTranslation } from 'react-i18next';
 import i18next from "i18next";
-import { set } from 'lodash';
 
 const language = [
   { value: '1', label: 'Tiếng Việt' },
   { value: '2', label: 'Tiếng Anh' },
 ];
 
-const AccountInfor = () => {
-  const { t, i18n } = useTranslation()
+
+
+
+const newAccount = () => {
+     const { t, i18n } = useTranslation()
 
   const loginState = useSelector(selectUsers);
   const uid = useSelector((state) => state.login.user);
@@ -59,12 +58,9 @@ const AccountInfor = () => {
   const [img, setImg] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
   const [loadingImg, setLoadingImg] = useState(true);
-  const [moneyChange, setMoneyChange] = useState(false); // check if money change
 
-  let moneyInt = 0;
-
-  // const formattedMoney = money.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
-  // const integerMoney = parseInt(formattedMoney.replace(/,/g, ''), 10);
+  const formattedMoney = money.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+  const integerMoney = parseInt(formattedMoney.replace(/,/g, ''), 10);
 
   let imageUrl = null;
 
@@ -80,7 +76,6 @@ const AccountInfor = () => {
     }
     else {
       setError(t('accountInfo.vuilongchonanh'));
-      return;
     }
     await updateDoc(doc(db, USER_COLLECTION, user.uid), {
       avatar: imageUrl,
@@ -107,7 +102,6 @@ const AccountInfor = () => {
   function handleMoneyChange(event) {
     const onlyNums = event.target.value.replace(/[^0-9]/g, '');
     setMoney(onlyNums);
-    // setMoney(event.target.value);
   }
 
   const showInfor = async () => {
@@ -120,36 +114,29 @@ const AccountInfor = () => {
       if (docSnap.exists()) {
         setUserData(docSnap.data());
         setName(docSnap.data().name);
-        const userAgent = navigator.userAgent;
-        // let aBirthday = dayjs(Date.now());
-        // if (userAgent.indexOf('Firefox') > -1) {
-        //   aBirthday = dayjs(docSnap.data().birthday, 'DD/MM/YYYY');
-        // } 
-        // else {
-        //   aBirthday = dayjs(docSnap.data().birthday, 'DD/MM/YYYY');
-        // }
-        const aBirthday = dayjs(docSnap.data().birthday, 'DD/MM/YYYY');
+        const aBirthday = dayjs(docSnap.data().birthday);
         setBirthday(aBirthday);
-        const aMoney = docSnap.data().money;
+        const aMoney = docSnap.data().money.toString();
         setMoney(aMoney);
         setGender(docSnap.data().gender);
+        // console.log("Document data:", docSnap.data());
         setAvatar(docSnap.data().avatar);
       } else if (user !== null && docSnap.exists() === false) {
         try {
           setDoc(doc(db, USER_COLLECTION, uid), {
             avatar: avatarUrl,
-            birthday: '01/06/2023',
+            birthday: '2023-05-14',
             gender: true,
             money: 0,
             name: user.displayName,
           });
-          showInfor();
         } catch (e) {
           // console.error("Error adding document: ", e);
           window.alert("Error adding document:" + e);
         }
       }
       else {
+        console.log("No such document!");
         window.alert(t('accountInfo.khongtimthaythongtincuaban'));
       }
     });
@@ -160,23 +147,15 @@ const AccountInfor = () => {
   const updateInformation = async () => {
     const usr = user.uid;
     const docRef = doc(db, USER_COLLECTION, usr);
+
     const dob = birthday.format('DD/MM/YYYY');
 
-    if (typeof money === 'string') {
-      moneyInt = parseInt(money.replace(/[^0-9.-]+/g,""));
-    }
-    else if (typeof money === 'number') {
-      moneyInt = money;
-    }
-
-    const resultUp = await updateDoc(docRef, {
+    await updateDoc(docRef, {
       name: name,
       birthday: dob,
       gender: gender,
-      money: moneyInt,
+      money: money
     });
-
-    // setMoneyChange(false);
 
     window.alert(t('accountInfo.capnhatthongtinthanhcong'));
   }
@@ -209,49 +188,51 @@ const AccountInfor = () => {
 
   const [iD, setiD] = useState([])
 
-  // const updateCurrency = async() => {
+  const updateCurrency = async() => {
 
-  //     const docRef = collection(db, "spending");
-  //     const q = query(docRef, where("uuid", "==", user.uid));
-  //     const querySnapshot = await getDocs(q);
-  //     let iD = []
+      const docRef = collection(db, "spending");
+      const q = query(docRef, where("uuid", "==", user.uid));
+      const querySnapshot = await getDocs(q);
+      let iD = []
 
-  //     querySnapshot.forEach((doc) => {
-  //         // console.log({...doc.data(), id: doc.id});
-  //         doc.data().money = Number(doc.data().money)
-  //         iD.push({
-  //           ID: doc.id,
-  //           MONEY: doc.data().money
-  //         })
-  //       }
-  //     );  
-  //     setiD(iD)
-  //     for(let i = 0; i < iD.length; i++){
-  //         fetch(`${API}`)
-  //             .then(currency => {
-  //                 return currency.json();
-  //               }).then(displayResults);
+      querySnapshot.forEach((doc) => {
+          // console.log({...doc.data(), id: doc.id});
+          doc.data().money = Number(doc.data().money)
+          iD.push({
+            ID: doc.id,
+            MONEY: doc.data().money
+          })
+        }
+      );  
+      setiD(iD)
+      for(let i = 0; i < iD.length; i++){
+          fetch(`${API}`)
+              .then(currency => {
+                  return currency.json();
+                }).then(displayResults);
 
-  //       function displayResults(currency) {
-  //         handleCurrency(currency)
-  //       }
+        function displayResults(currency) {
+          handleCurrency(currency)
+        }
 
-  //       const handleCurrency = async(currency) => { 
-  //         let fromRate = currency.rates[typeOne.label];
-  //         let toRate = currency.rates[typeTwo.label];
-  //         iD[i].MONEY = ((toRate / fromRate) * iD[i].MONEY);
-  //         // console.log(iD[i].MONEY)
-  //         await updateDoc(doc(db, 'spending', iD[i].ID, ), {money: iD[i].MONEY})
-  //       }
-  //     } 
-  //     window.alert(t('accountInfo.capnhattygiathanhcong'));
-  
+        const handleCurrency = async(currency) => { 
+          let fromRate = currency.rates[typeOne.label];
+          let toRate = currency.rates[typeTwo.label];
+          iD[i].MONEY = ((toRate / fromRate) * iD[i].MONEY);
+          // console.log(iD[i].MONEY)
+          await updateDoc(doc(db, 'spending', iD[i].ID, ), {money: iD[i].MONEY})
+        }
+      } 
+      window.alert(t('accountInfo.capnhattygiathanhcong'));
+
+     
+  }
   return (
-    <div className='account'>
-      <div className='account-info d-flex flex-row'>
-      {/* image */}
-        <div className='boxImage1 col-md-2'>
-          <Box className='boxImage2 d-flex align-items-center flex-column mt-1'>
+    <div className='account mt-4'>
+      <Box className='row justify-content-center'>
+        <h3 className='my-2'>{t('accountInfo.tieude')}</h3>
+        <Box className='col-md-3'>
+          <Box className='d-flex align-items-center flex-column mt-3'>
             { loadingImg ? <CircularProgress /> :
             <label htmlFor="imageUpload" className="position-relative mb-2">
               <img
@@ -292,46 +273,46 @@ const AccountInfor = () => {
             {
               error && <Alert severity="error">{error}</Alert>
             }
-            <Box className='text-center' sx={{ width: 300, overflow: 'hidden'}}>
-              <button
+            <Box className='text-center' sx={{ width: 300, overflow: 'hidden', marginTop: 2 }}>
+              <Button
                 type="file"
-                className='saveImage'
+                className='my-2'
                 variant="contained"
                 startIcon={<AddIcon />}
                 onClick={handleUpload}
               >
-                <p className='title-save-img fs-6 fw-normal'>{t('accountInfo.anh')}</p>
-              </button>
+                {t('accountInfo.anh')}
+              </Button>
             </Box>
 
           </Box>
-        </div>
-
-        {/* user information */}
-        <div className='information d-flex flex-column'>
-          <div className='infor d-flex flex-row justify-content-between'>
+        </Box>
+        <Box className='col-md-6'>
+          <Box className='my-3 t-box'>
             <TextField
-              className='input-na'
               InputLabelProps={{ shrink: true }}
               required
               hiddenLabel
-              // id="name-input"
+              id="name-input"
               label={t('accountInfo.ten')}
               variant="outlined"
+              fullWidth
               value={name}
               onChange={handleNameChange}
               helperText={name ? "" : t('accountInfo.thieuten')}
               error={name ? false : true}
             />
+          </Box>
+          <Box className='my-3'>
             <DatePicker
               label={t('accountInfo.ngaysinh')}
               value={birthday}
-              className='input-na'
               onChange={(newValue) => setBirthday(newValue)}
               slotProps={{ textField: { variant: 'outlined' } }}
-              format='DD/MM/YYYY'
             />
-             <FormControl className='input-na'>
+          </Box>
+          <Box className='my-3 w-box'>
+            <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label">{t('accountInfo.gioitinh')}</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
@@ -344,7 +325,7 @@ const AccountInfor = () => {
                 <MenuItem value={false}>{t('accountInfo.gioitinhnu')}</MenuItem>
               </Select>
             </FormControl>
-          </div>
+          </Box>
           <Box className='my-3 t-box'>
             <TextField
               input="text"
@@ -361,17 +342,12 @@ const AccountInfor = () => {
               error={money ? false : true}
             />
           </Box>
-        </div>
-      </div>
-      {/* Button */}
+        </Box>
+      </Box>
       <Box className='d-flex justify-content-center mb-4'>
         <button className='button-logout' onClick={handleUpdate}>{t('accountInfo.luu')}</button>
       </Box>
-      {/* <hr />
-      <h3 className='my-2'>{t('accountInfo.xuatcsv')}:</h3>
-      <Box className="mx-3 text-center">
-        <Button variant="contained">{t('accountInfo.xuatcsv')}</Button>
-      </Box> */}
+      
       <hr />
       <h3 className='my-2'>{t('accountInfo.ngonngu')}:</h3>
       <Box className="mx-3 text-center">
@@ -392,8 +368,6 @@ const AccountInfor = () => {
         </FormControl>
       </Box>
     </div>
-
-  );
+  )
 }
-
-export default AccountInfor;
+export default newAccount
