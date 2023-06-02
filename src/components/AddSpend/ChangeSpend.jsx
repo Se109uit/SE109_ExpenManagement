@@ -269,9 +269,9 @@ function ChangeSpend() {
                 <MenuItem key="12" value="12">{t('editSpending.thucung')}</MenuItem>
                 <MenuItem key="13" value="13">{t('editSpending.dichvuvagiadinh')}</MenuItem>
                 <MenuItem key="14" value="14">{t('editSpending.chiphikhac')}</MenuItem>
-                <MenuItem key="15" value="15">{t('editSpending.dautu')}</MenuItem>
-                <MenuItem key="16" value="16">{t('editSpending.thunhapkhac')}</MenuItem>
-                <MenuItem key="17" value="17">{t('editSpending.nhommoi')}</MenuItem>
+                <MenuItem key="21" value="15">{t('editSpending.dautu')}</MenuItem>
+                <MenuItem key="36" value="16">{t('editSpending.thunhapkhac')}</MenuItem>
+                <MenuItem key="40" value="17">{t('editSpending.nhommoi')}</MenuItem>
               </Select>
             </FormControl>
 
