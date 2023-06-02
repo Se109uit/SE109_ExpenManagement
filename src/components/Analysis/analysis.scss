@@ -7,11 +7,10 @@
      background: #ECF0F1;
      .nav{
           // border: 2px solid black;
-          margin-bottom: 1rem;
+          // margin-bottom: 1rem;
           width:100%;
           li{
                // border: 2px solid black;
-               padding: 5px;
                width: 70px;
                text-align: center;
                border-radius: 0.5rem;
@@ -22,7 +21,7 @@
           }
           .option{
                margin-left: 1rem;
-               // margin-top: 4px;
+               margin-top: 0px;
                margin-right: 1rem;
           }
           .btn-search{
@@ -36,6 +35,23 @@
                }
                img{
                     width: 30px;
+               }
+          }
+          .test{
+               margin-left: 4rem;
+               .back{
+                    width: 50px;
+               }
+               .arrow{
+                    width: 50px;
+               }
+               .from{
+                    width: 100px;
+                    padding: 0px;
+               }
+               .to{
+                    width: 100px;
+                    padding: 0px;
                }
           }
      }
