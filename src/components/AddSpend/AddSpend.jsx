@@ -139,6 +139,7 @@ function AddSpend() {
         }
       });
     }
+    
     if (type <= 20) {
       money = -Math.abs(money);
     } else {
@@ -152,7 +153,7 @@ function AddSpend() {
         date: datetime,
         location,
         friends: friends,
-        type: type,
+        type: parseInt(type),
         note,
         uuid,
         image: url,
