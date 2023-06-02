@@ -29,6 +29,7 @@ import './Account.css'
 
 import { useTranslation } from 'react-i18next';
 import i18next from "i18next";
+import { set } from 'lodash';
 
 const language = [
   { value: '1', label: 'Tiếng Việt' },
@@ -55,6 +56,9 @@ const AccountInfor = () => {
   const [img, setImg] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
   const [loadingImg, setLoadingImg] = useState(true);
+  const [moneyChange, setMoneyChange] = useState(false); // check if money change
+
+  let moneyInt = 0;
 
   // const formattedMoney = money.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
   // const integerMoney = parseInt(formattedMoney.replace(/,/g, ''), 10);
@@ -98,8 +102,8 @@ const AccountInfor = () => {
   }
 
   function handleMoneyChange(event) {
-    const onlyNums = event.target.value.replace(/[^0-9]/g, '');
-    setMoney(onlyNums);
+    // const onlyNums = event.target.value.replace(/[^0-9]/g, '');
+    setMoney(event.target.value);
   }
 
   const showInfor = async () => {
@@ -156,9 +160,9 @@ const AccountInfor = () => {
     const docRef = doc(db, USER_COLLECTION, usr);
     const dob = birthday.format('DD/MM/YYYY');
 
-    console.log(typeof money);
-    const moneyInt = parseInt(money.replace(/[^0-9.-]+/g,""));
-    console.log(moneyInt);
+    if (typeof money === 'string') {
+      moneyInt = parseInt(money.replace(/[^0-9.-]+/g,""));
+    }
 
     await updateDoc(docRef, {
       name: name,
@@ -166,6 +170,8 @@ const AccountInfor = () => {
       gender: gender,
       money: moneyInt,
     });
+
+    // setMoneyChange(false);
 
     window.alert(t('accountInfo.capnhatthongtinthanhcong'));
   }
