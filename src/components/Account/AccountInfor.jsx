@@ -177,10 +177,6 @@ const AccountInfor = () => {
       money: moneyInt,
     });
 
-    console.log('resultUp', resultUp);
-    console.log('resultUp.money', resultUp.money);
-    console.log(typeof resultUp.money);
-
     // setMoneyChange(false);
 
     window.alert(t('accountInfo.capnhatthongtinthanhcong'));
