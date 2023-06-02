@@ -27,7 +27,7 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 
 import { BasicModal } from '../Notification/Notification';
-import './nav.css';
+import './Nav.css';
 import { useTranslation } from 'react-i18next';
 import { use } from 'i18next';
 
