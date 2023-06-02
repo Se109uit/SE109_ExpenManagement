@@ -119,9 +119,10 @@ const Nav = () => {
     //     const docRef = collection(db, WALLET_COLLECTION);
     //     const q = query(docRef, where(documentId(), "==", user.uid));
     //     const querySnapshot = await getDocs(q);
-    //     const formattedDate = format(datetime, "MM_yyyy");
+    //     // const formattedDate = format(datetime, "MM_yyyy");
+    //     console.log(querySnapshot);
 
-    //     if (querySnapshot.empty == true) {
+    //     if (querySnapshot.empty === true) {
     //         handleOpenI();
     //     } 
     //   }, [loginState]);

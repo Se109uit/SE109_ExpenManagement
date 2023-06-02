@@ -115,8 +115,6 @@ const AccountInfor = () => {
     else avatarUrl = avatarImg;
     getDoc(docRef).then(async (docSnap) => {
       if (docSnap.exists()) {
-        console.log("Document data:", docSnap.data());
-        console.log("Document data type:", typeof docSnap.data().money);
         setUserData(docSnap.data());
         setName(docSnap.data().name);
         const userAgent = navigator.userAgent;
@@ -132,7 +130,6 @@ const AccountInfor = () => {
         const aMoney = docSnap.data().money;
         setMoney(aMoney);
         setGender(docSnap.data().gender);
-        // console.log("Document data:", docSnap.data());
         setAvatar(docSnap.data().avatar);
       } else if (user !== null && docSnap.exists() === false) {
         try {
@@ -150,7 +147,6 @@ const AccountInfor = () => {
         }
       }
       else {
-        console.log("No such document!");
         window.alert(t('accountInfo.khongtimthaythongtincuaban'));
       }
     });
@@ -176,10 +172,6 @@ const AccountInfor = () => {
       gender: gender,
       money: moneyInt,
     });
-
-    console.log('resultUp', resultUp);
-    console.log('resultUp.money', resultUp.money);
-    console.log(typeof resultUp.money);
 
     // setMoneyChange(false);
 
