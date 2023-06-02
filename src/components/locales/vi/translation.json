@@ -107,7 +107,7 @@
        "nhaplaimatkhaumoi":"Nhập lại mật khẩu mới",
        "luu":"Lưu",
        "matkhaukhongkhop":"Mật khẩu không khớp",
-       "matkhaumoikhongduoctrungmatkhaucu":"Mật khẩu mới không được giống mật khẩu mới",
+       "matkhaumoikhongduoctrungmatkhaucu":"Mật khẩu mới không được giống mật khẩu cũ",
        "matkhauphaicoitnhat6kytu":"Mật khẩu phải có ít nhất 6 ký tự"
     }
 }
