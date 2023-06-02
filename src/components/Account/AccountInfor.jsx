@@ -62,6 +62,8 @@ const AccountInfor = () => {
   const formattedMoney = money.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
   const integerMoney = parseInt(formattedMoney.replace(/,/g, ''), 10);
 
+  let moneyInt = 0;
+
   let imageUrl = null;
 
   const handleFileChange = (event) => {
@@ -138,7 +140,7 @@ const AccountInfor = () => {
         }
       }
       else {
-        console.log("No such document!");
+        // console.log("No such document!");
         window.alert(t('accountInfo.khongtimthaythongtincuaban'));
       }
     });
@@ -249,7 +251,7 @@ const AccountInfor = () => {
         const querySnapshot = await getDocs(q);
         const data = [];
         querySnapshot.forEach((doc) => {
-            console.log(doc.id, " => ", doc.data());
+            // console.log(doc.id, " => ", doc.data());
             data.push({ id: doc.id, ...doc.data() });
         });
         data.sort((a, b) => b.date.toDate() - a.date.toDate()); // Sort by date
