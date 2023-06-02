@@ -10,10 +10,14 @@ import { useSelector, useDispatch } from 'react-redux';
 import { v4 } from 'uuid'
 
 import SpendingData from '../SpendingData/SpendingData'
-import './HomePage.css'
+import './home.css'
 import { options } from '../../utils/data';
 import { set } from 'date-fns';
 import { ca } from 'date-fns/locale';
+
+import incomE from '../../assets/Income.png'
+import total from '../../assets/Total.png'
+import expend from '../../assets/Expend.png'
 
 const Home = () => {
   const { t } = useTranslation()
@@ -89,8 +93,7 @@ const Home = () => {
           delMonth += spending.money;
         }
       }
-      console.log('bafa' ,delMonth);
-      setIncomeMonth(addMonth + moneyMonth);
+      setIncomeMonth(addMonth);
       setSpendMonth(delMonth);
     });
   }
@@ -108,26 +111,38 @@ useEffect(() => {
 }, [_addSpending, _editSpending, deleteSpending, date]);
 
   return (
-    <div className='mt-4'>
+
+    <div className='Home'>
       {/* top */}
-      <h3 className='my-2 pb-3'>{t('home.trangchu')}</h3>
-      <div className='spending d-flex justify-content-between' style={{ width: '95%' }}>
+      <div className='spending d-flex'>
         {/* Spending infor */}
-        <div className='spending-infor' style={{ paddingLeft: '1rem', width: '50%' }}>
-          <div className="card" style={{ paddingRight: '1rem'}}>
-            <div className="card-body">
-              <h4 className="card-title mb-2 px-4">{t('home.chitieuthang')}:</h4>
-              <div className='card-div'>
-                <h5 className="card-title pt-2">{t('home.thunhap')}: </h5>
-                <p className="card-text income">{incomeMonth}</p>
+        <div className='spending-infor'>
+          <div className="info">
+            <div className="spending-monthly">
+              <p className="fs-2 fw-bold">{t('home.chitieuthang')}:</p>
+
+              <div className='d-flex flex-row justify-content-between'>
+                <div className='iet-home d-flex  flex-row'>
+                  <img className='image-infor' src={incomE}/>
+                  <p className="title fs-4 fw-bold">{t('home.thunhap')}: </p>
+                </div>
+                <p className="value fs-4 fw-normal">{incomeMonth} VND</p>
               </div>
-              <div className='card-div'>
-                <h5 className="card-title pt-2">{t('home.chitieu')}: </h5>
-                <p className="card-text income">{spendMonth}</p>
+
+              <div className='d-flex flex-row justify-content-between'>
+                <div className='iet-home d-flex flex-row'>
+                  <img className='image-infor' src={expend}/>
+                  <p className="title fs-4 fw-bold">{t('home.chitieu')}: </p>
+                </div>
+                <p className="value fs-4 fw-normal">{spendMonth} VND</p>
               </div>
-              <div className='card-div'>
-                <h5 className="card-title pt-2">{t('home.tong')}: </h5>
-                <p className="card-text income" style={{fontWeight: 700}}>{incomeMonth + spendMonth}</p>
+
+              <div className='d-flex flex-row justify-content-between'>
+                <div className='iet-home d-flex flex-row'>
+                  <img className='image-infor' src={total}/>
+                  <p className="title fs-4 fw-bold">{t('home.tong')}: </p>
+                </div>
+                <p className="value fs-4 fw-normal">{incomeMonth + spendMonth} VND</p>
               </div>
             </div>
           </div>
@@ -138,19 +153,37 @@ useEffect(() => {
         </div>
       </div>
 
-      <div className='spending-infor mt-2' style={{ paddingLeft: '1rem' }}>
-          <div className="card" style={{ width: '90%', background: '#73C6B6' }}>
-            <div className="card-body d-flex justify-content-between">
-              <h4 className="card-infor mb-2 px-4">{t('home.chitieungay')}</h4>
-                <p className="card-text income">{t('home.thunhap')}: </p>
-                <p className="card-text income">{income}</p>
-                <p className="card-text income">{t('home.chitieu')}: </p>
-                <p className="card-text income">{spend}</p>
-                <p className="card-text income">{t('home.tong')}: </p>
-                <p className="card-text income" style={{fontWeight: 700, paddingRight: 20}}>{income + spend}</p>
+      <div className="daily-expend d-flex flex-row justify-content-between">
+          <p className="fs-5 fw-bold">{t('home.chitieungay')}</p>
+          <div className='d-flex flex-row justify-content-between'>
+            <div className='d-flex flex-row'>
+              <img src={incomE} className='image-day'/>
+              <p className="fs-5 fw-bold">{t('home.thunhap')}: </p>
             </div>
+            <p className="fs-5 fw-normal">{income}</p>
           </div>
-        </div>
+
+          <div className='d-flex flex-row justify-content-between'>
+            <div className='d-flex flex-row'>
+              <img src={expend} className='image-day'/>
+              <p className="fs-5 fw-bold">{t('home.chitieu')}: </p>
+            </div>
+            <p className="fs-5 fw-normal">{spend}</p>
+          </div>
+          
+          <div className='d-flex flex-row justify-content-between'>
+            <div className='d-flex flex-row'>
+              <img src={total} className='image-day'/>
+              <p className="fs-5 fw-bold">{t('home.tong')}: </p>
+            </div>
+            <p className="fs-5 fw-normal" style={{fontWeight: 700, paddingRight: 20}}>{income + spend}</p>
+          </div>
+          
+          
+          
+          
+          
+      </div>
 
         { spendingData.length === 0 ?
         
@@ -160,7 +193,7 @@ useEffect(() => {
 
         :
 
-      <div className='mt-2'>
+      <div className='home'>
           {Object.entries(spendingData).map(([date, spending]) => (
             <div key={date}>
                 <SpendingData key={spending.id} spending={spending} setDeleteSpending={setDeleteSpending}/>

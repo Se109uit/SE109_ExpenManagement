@@ -5,9 +5,9 @@
 }
 body{
     backdrop-filter: blur(10px);
-    font-family: 'Montserrat';
+    font-family: "Nunito", sans-serif;
     font-size:medium;
     /* background-image: url('src/assets/home-01.jpg'); */
     /* background: #4d5d58; */
-    background: #f6fefc;
+    background: #FFFF;
 }

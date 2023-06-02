@@ -10,6 +10,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import SpendingData from '../SpendingData/SpendingData'
 
 import { useTranslation } from 'react-i18next';
+import './History.css'
 
 
 const History = () => {
@@ -47,9 +48,9 @@ const History = () => {
     }, [_addSpending, deleteSpending]);
 
     return (
-        <div className='mt-4'>
+        <div className='history'>
             <div className='row justify-content-center'>
-                <h3 className='my-2'>{t('editSpending.lichsu')}</h3>
+                <p className='title fs-2 fw-bold'>{t('editSpending.lichsu')}</p>
                 <div className='mt-2'>
                     {Object.entries(spendingData).map(([date, spendings]) => (
                       <div key={date}>
